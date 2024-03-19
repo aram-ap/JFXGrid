@@ -9,6 +9,7 @@
 plugins {
     // Apply the java-library plugin for API and implementation separation.
     id 'java-library'
+    id 'maven-publish'
 }
 
 group 'org.aram-ap'
@@ -34,3 +35,16 @@ tasks.named('test') {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
 }
+
+// publishing {
+//     publications {
+//         myLib(MavenPublication) {
+//             from components.java
+//         }
+//     }
+//     repositories {
+//         mavent {
+//             url = "https://www.github.com/aram-ap/JFXGrid"
+//         }
+//     }
+// }
