@@ -8,6 +8,10 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * Utility class for processing matrices into images
+ * @author aram-ap
+ */
 public abstract class ImageGenerator {
     private static boolean isThreaded = false;
 
@@ -21,7 +25,7 @@ public abstract class ImageGenerator {
      * @param matrix Matrix to create image with
      * @param theme ColorTheme for parsing data to colors
      */
-    public static Future<IntBuffer> getBufferedArgbAsync(final double width, final double height, MatrixR032 matrix, Colorizer theme) {
+    public static Future<IntBuffer> getBufferedARGBFuture(final double width, final double height, MatrixR032 matrix, Colorizer theme) {
         return CompletableFuture.supplyAsync(() -> getBufferedARGB(width, height, matrix, theme));
     }
 

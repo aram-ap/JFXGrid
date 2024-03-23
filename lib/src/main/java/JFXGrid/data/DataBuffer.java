@@ -1,9 +1,12 @@
 package JFXGrid.data;
 
-import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.InvalidMarkException;
 
+/**
+ * A buffer for holding Dataset frames
+ * @author aram-ap
+ */
 public class DataBuffer{
     //A buffer's capacity is the number of elements it contains. The capacity of a buffer is never negative and never changes.
     private int capacity;

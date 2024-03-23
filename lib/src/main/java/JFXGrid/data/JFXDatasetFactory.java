@@ -1,7 +1,5 @@
 package JFXGrid.data;
 
-import JFXGrid.core.Axis;
-import JFXGrid.plugin.Plugin;
 import org.ojalgo.matrix.MatrixR032;
 
 import java.util.ArrayList;

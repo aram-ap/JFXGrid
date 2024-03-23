@@ -1,18 +1,7 @@
 package JFXGrid.data;
 
-import JFXGrid.core.Axis;
-import JFXGrid.plugin.Plugin;
 import com.sun.javafx.collections.UnmodifiableListSet;
-import javafx.beans.property.SimpleListProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableListValue;
-import javafx.beans.value.ObservableObjectValue;
-import javafx.beans.value.ObservableValue;
-import org.ojalgo.matrix.Matrix2D;
 import org.ojalgo.matrix.MatrixR032;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class JFXDataset implements Data {
