@@ -5,4 +5,4 @@ JFXGrid is a heatmap imaging library with focus on performance optimized real-ti
 ---
 
 ### How does it work?
-`ChartPane` is the default Node which contains X/Y axis, data label, mouse pointer tools, and the heatmap image itself.
+`JFXGrid` is the default Node which contains X/Y axis, data label, mouse pointer tools, and the heatmap image itself.
