@@ -15,14 +15,36 @@ import org.ojalgo.matrix.MatrixR032;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JFXDataset implements Data{
+public class JFXDataset implements Data {
     private int numFrames;
     private MatrixR032[] frameCache;
-    protected JFXDataset() { }
+    private int numRows;
+    private int numColumns;
+
+    protected JFXDataset() {
+        this.numRows = 0;
+        this.numColumns = 0;
+    }
 
     protected void addCache(MatrixR032[] cache) {
         this.frameCache = cache;
         this.numFrames = cache.length;
+    }
+
+    protected void setNumRows(int rows) {
+        this.numRows = rows;
+    }
+
+    protected void setNumColumns(int columns) {
+        this.numColumns = columns;
+    }
+
+    public int rowsDim() {
+        return numRows;
+    }
+
+    public int columnsDim() {
+        return numColumns;
     }
 
     public UnmodifiableListSet<MatrixR032> getUnmodifiableCache() {
