@@ -8,12 +8,24 @@
 
 plugins {
     // Apply the java-library plugin for API and implementation separation.
+    id 'java'
+    id 'application'
     id 'java-library'
+
+    id 'org.openjfx.javafxplugin' version '0.0.13'
     id 'maven-publish'
 }
 
-group 'aram-ap.jfxgrid'
+apply plugin: 'java'
+apply plugin: 'application'
+
+group 'io.github.aram-ap'
 version '0.0.1'
+
+javafx {
+    version = '21'
+    modules = ['javafx.controls', 'javafx.fxml']
+}
 
 repositories {
     // Use Maven Central for resolving dependencies.
@@ -23,6 +35,8 @@ repositories {
 dependencies {
     // Use JUnit Jupiter for testing.
     testImplementation 'org.junit.jupiter:junit-jupiter:5.7.2'
+    implementation 'org.ojalgo:ojalgo:53.0.0'
+
 }
 
 tasks.named('test') {
@@ -43,7 +57,7 @@ publishing {
     }
     publications {
         gpr(MavenPublication) {
-            groupId = 'aram-ap.jfxgrid'
+            groupId = 'io.github.aram-ap'
             artifactId = 'jfxgrid-core'
             version = '0.0.1'
 
