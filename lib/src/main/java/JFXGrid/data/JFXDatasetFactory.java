@@ -47,7 +47,7 @@ public class JFXDatasetFactory extends JFXDataset {
 
     public JFXDataset build() {
         JFXDataset dataset = new JFXDataset(getNumRows(), getNumColumns());
-        dataset.addCache(frames.toArray(new MatrixR032[0]));
+        dataset.setCurrentChunk(new DataChunk(frames.toArray(new MatrixR032[0]), 0));
         return dataset;
     }
 }

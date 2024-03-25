@@ -27,7 +27,7 @@ public class DataChunk {
      * Default constructor for DataChunk
      * @param capacity the pre-determined capacity of the chunk
      */
-    protected DataChunk(int capacity, int uid) {
+    public DataChunk(int capacity, int uid) {
         if(capacity < 0) {
             throw new IllegalArgumentException("Capacity cannot be less than 0!");
         }

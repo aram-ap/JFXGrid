@@ -6,7 +6,7 @@ import org.ojalgo.matrix.MatrixR032;
 import java.util.List;
 
 public class JFXDataset implements Data {
-    protected DataChunk currentChunk;
+    private DataChunk currentChunk;
     private int numFrames;
     private int numRows;
     private int numColumns;

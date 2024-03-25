@@ -5,6 +5,7 @@ import org.ojalgo.matrix.MatrixR032;
 public class JFXDataDeque extends JFXDataset{
     private int numFrames;
     private int numChunks;
+    private DataChunk currentChunk;
     private DataNode headNode;
     private DataNode tailNode;
     private DataNode currentNode;
