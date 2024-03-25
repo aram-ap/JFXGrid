@@ -3,13 +3,14 @@ package JFXGrid.data;
 import org.ojalgo.matrix.MatrixR032;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
-public class JFXDatasetFactory extends JFXDataset{
-    private ArrayList<MatrixR032> frames;
+public class JFXDatasetFactory extends JFXDatasetQueue {
+    private ArrayList<MatrixR032> frames = new ArrayList<>();
 
-    public JFXDatasetFactory() {
-        frames = new ArrayList<>();
+    public JFXDatasetFactory(int rows, int cols) {
+        super(rows, cols);
     }
 
     public JFXDatasetFactory add(MatrixR032 matrix) {
@@ -35,24 +36,18 @@ public class JFXDatasetFactory extends JFXDataset{
         return this;
     }
 
-    public JFXDatasetFactory addAll(double[][][] matrices) {
-        if(matrices == null || matrices.length == 0) {
+    public JFXDatasetFactory addAll(Collection<MatrixR032> matrices) {
+        if(matrices == null) {
             return this;
         }
 
-        for(double[][] d : matrices) {
-            frames.add(MatrixR032.FACTORY.rows(d));
-        }
-
+        frames.addAll(matrices);
         return this;
     }
 
-    public JFXDataset build() {
-        JFXDataset dataset = new JFXDataset();
+    public JFXDatasetQueue build() {
+        JFXDatasetQueue dataset = new JFXDatasetQueue(getNumRows(), getNumColumns());
         dataset.addCache(frames.toArray(new MatrixR032[0]));
-        dataset.setNumColumns(frames.get(0).getColDim());
-        dataset.setNumRows(frames.get(0).getRowDim());
-        frames = null;
         return dataset;
     }
 }
