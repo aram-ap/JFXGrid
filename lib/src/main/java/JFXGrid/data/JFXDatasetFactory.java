@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class JFXDatasetFactory extends JFXDatasetQueue {
+public class JFXDatasetFactory extends JFXDataset {
     private ArrayList<MatrixR032> frames = new ArrayList<>();
 
     public JFXDatasetFactory(int rows, int cols) {
@@ -45,8 +45,8 @@ public class JFXDatasetFactory extends JFXDatasetQueue {
         return this;
     }
 
-    public JFXDatasetQueue build() {
-        JFXDatasetQueue dataset = new JFXDatasetQueue(getNumRows(), getNumColumns());
+    public JFXDataset build() {
+        JFXDataset dataset = new JFXDataset(getNumRows(), getNumColumns());
         dataset.addCache(frames.toArray(new MatrixR032[0]));
         return dataset;
     }

@@ -7,7 +7,7 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * Creates DataChunks and manages adding/removing frames
+ * Creates Data Chunks, adding and subtracting frames to those chunks
  */
 public class DataChunkFactory extends DataChunk {
     private ArrayList<MatrixR032> frames;

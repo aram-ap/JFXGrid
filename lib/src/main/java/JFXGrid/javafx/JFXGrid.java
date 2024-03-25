@@ -2,7 +2,7 @@ package JFXGrid.javafx;
 
 import JFXGrid.core.Axis;
 import JFXGrid.core.GridStyler;
-import JFXGrid.data.JFXDatasetQueue;
+import JFXGrid.data.Data;
 import JFXGrid.plugin.Plugin;
 import JFXGrid.util.ResizableCanvas;
 import javafx.scene.image.WritableImage;
@@ -20,7 +20,7 @@ public class JFXGrid extends Pane {
     private final ResizableCanvas canvas;
     private final ArrayList<Axis> axes;
     private final ArrayList<Plugin> plugins;
-    private JFXDatasetQueue dataset;
+    private Data dataset;
     private GridStyler gridStyler;
 
 

@@ -1,5 +1,7 @@
 package JFXGrid.data;
 
+import org.ojalgo.matrix.MatrixR032;
+
 /**
  * The DataNode is an encapsulating object for DataChunk to allow DataStructures like Deques and Binary Trees
  */
@@ -19,8 +21,16 @@ public class DataNode implements Data {
     /**
      * @return Returns the attached DataChunk
      */
-    public DataChunk get() {
+    public DataChunk getChunk() {
         return val;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public MatrixR032 get() {
+        return val.getCurr();
     }
 
     public DataNode getNext() {
