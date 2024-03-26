@@ -4,6 +4,18 @@ JFXGrid is a heatmap imaging library with focus on performance optimized real-ti
 
 ---
 
+### Why?
+While developing an application for processing and visualizing LiDAR sensor information, I came into an issue where the current JavaFX Charting libraries available don't have the high speed heatmap charting library needed in my case. My major points of issue with the available libraries (likely issues of my lack of understanding) came to this:
+- Libraries like [ChartFX](https://github.com/fair-acc/chart-fx) and its heatmaps offer what I neededed in a mostly high-speed case, but didn't meet my requirements functionally.
+- Issues rendering with speeds > 30fps (it is designed for 25fps so totally within spec).
+- Issues visually, such as refusing to display pixels as squares (this was so frustrating I decided to make this).
+- After utilizing [OjAlgo](http://ojalgo.org/), a linear math and matrix operations library, its speed and memory optimizations with matrices made it incredibly appealing, so I implemented it into this library with success.
+
+#### Note:
+[ChartFX](https://github.com/fair-acc/chart-fx/) is an amazing library with lots of functionality and performance, and I would recommend it over this for anything else in most other circumstances.
+
+--- 
+
 ### How does it work?
 - `JFXGrid` is the default Node which contains X/Y axis, data label, mouse pointer tools, and the heatmap image itself.
 - Both the JFXGrid and Axis contain `Renderer` classes, which handle all drawing and visual updates.
