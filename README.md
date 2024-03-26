@@ -20,7 +20,7 @@ While developing an application for processing and visualizing LiDAR sensor info
 ---
 
 ### Installing: 
-#### Gradle:
+#### Gradle (non-functional, still trying to figure out how to publish a maven central package):
 In your build.gradle, add this:
 ```
 dependencies {
