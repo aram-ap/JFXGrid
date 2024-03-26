@@ -2,6 +2,9 @@ package JFXGrid.data;
 
 import org.ojalgo.matrix.MatrixR032;
 
+/**
+ * The JFXDataDeque is a dataset implementation which intends to allow chunking of data and reduced memory utilization.
+ */
 public class JFXDataDeque extends JFXDataset{
     private int numFrames;
     private int numChunks;
@@ -41,6 +44,9 @@ public class JFXDataDeque extends JFXDataset{
             node.setPrev(tempPointer);
             tempPointer.getNext().setPrev(node);
             tempPointer.setNext(node);
+
+            numFrames += chunk.size();
+            numChunks++;
         }
     }
 
@@ -176,5 +182,34 @@ public class JFXDataDeque extends JFXDataset{
         headNode = null;
         tailNode = null;
         System.gc();
+    }
+
+    @Override
+    public MatrixR032 stepForward() {
+        if(currentNode == null) {
+            return null;
+        }
+
+        if(currentNode.getChunk().hasNext()) {
+        } else if (currentNode.getChunk().hasNext() && currentNode.getNext() != null) {
+            currentNode = currentNode.getNext();
+        }
+        return currentNode.stepForward();
+    }
+
+    @Override
+    public MatrixR032 stepBack() {
+        if(currentNode == null) {
+            return null;
+        }
+
+        var val = currentNode.stepBack();
+        if(val == null) {
+            if(currentNode.getPrev() != null) {
+                currentNode = currentNode.getPrev();
+            }
+        }
+
+        return val;
     }
 }

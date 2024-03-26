@@ -7,4 +7,11 @@ package JFXGrid.plugin;
  * @author aram-ap
  */
 public class Averaging implements Plugin{
+    /**
+     *
+     */
+    @Override
+    public void update() {
+
+    }
 }

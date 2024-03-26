@@ -5,4 +5,11 @@ package JFXGrid.plugin;
  * @author aram-ap
  */
 public class Exporter implements Plugin{
+    /**
+     *
+     */
+    @Override
+    public void update() {
+
+    }
 }

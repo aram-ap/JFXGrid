@@ -6,4 +6,11 @@ package JFXGrid.plugin;
  * @author aram-ap
  */
 public class GridPlayer implements Plugin{
+    /**
+     *
+     */
+    @Override
+    public void update() {
+
+    }
 }

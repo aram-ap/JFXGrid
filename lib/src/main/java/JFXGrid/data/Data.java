@@ -34,4 +34,8 @@ public interface Data {
      * Removes pointers to data held within and calls system to garbage collect
      */
     public void clearData();
+
+    public MatrixR032 stepForward();
+
+    public MatrixR032 stepBack();
 }

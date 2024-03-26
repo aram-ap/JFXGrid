@@ -5,4 +5,6 @@ package JFXGrid.plugin;
  * @author aram-ap
  */
 public interface Plugin {
+
+    public void update();
 }
