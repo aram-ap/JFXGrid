@@ -2,10 +2,6 @@
 ## A Fast and Customizable Heatmap Charting Library For JavaFX 💥🚀
 JFXGrid is a heatmap imaging library with focus on performance optimized real-time data visualization of Matrices at over 60 Hz update rates. This library was made as a solution to the [ChartFx](https://github.com/fair-acc/chart-fx) default heatmap implementation which I found unsuitable for displaying data at video-playback speeds (> 60 FPS). 
 
-Note: 
-- Some general structures, such as the ability to add custom plugins and having separate datasets are inspired by ChartFX. However, most of the other implementations are self-build.
-- This is currently in development while I port the code over from the application I originally made.
-
 ---
 
 ### Why?
@@ -16,7 +12,9 @@ While developing an application for processing and visualizing LiDAR sensor info
 - After utilizing [OjAlgo](http://ojalgo.org/), a linear math and matrix operations library, its speed and memory optimizations with matrices made it incredibly appealing, so I implemented it into this library with success.
 
 #### Note:
-[ChartFX](https://github.com/fair-acc/chart-fx/) is an amazing library with lots of functionality and performance, and I would recommend it over this in most other circumstances.
+- [ChartFX](https://github.com/fair-acc/chart-fx/) is an amazing library with lots of functionality and performance, and I would recommend it over this in most other circumstances.
+- Some general structures, such as the ability to add custom plugins and having separate datasets are inspired by ChartFX. However, most of the other implementations are self-build.
+- This is currently in development while I port the code over from the application I originally made.
 
 --- 
 
