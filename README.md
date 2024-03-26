@@ -30,10 +30,10 @@ While developing an application for processing and visualizing LiDAR sensor info
 - `Plugin` objects are plug-in utilities that enable other functionality such as exporting data, zooming in and out, getting mouse cursor location and associalted values, averaging multiple frames together, and playing the frames in video playback
 
 ### Code Examples (still IN-DEV, so these are mostly non functional (for now)):
-Basics (32 x 32 grid): 
+The basics (32 x 32 grid): 
 ```
   Pane root = new Pane();
-  JFXGrid grid = new JFXGrid(32, 32);
+  JFXGrid grid = new JFXGrid(32, 32); //The central JFXGrid javafx node
   root.getChildren().add(grid);
 ```
 Adding data (based on previous example):

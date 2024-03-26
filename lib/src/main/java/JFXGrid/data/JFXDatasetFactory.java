@@ -53,6 +53,7 @@ public class JFXDatasetFactory extends JFXDataset {
         if(matrices == null) {
             return this;
         }
+
         frames.addAll(List.of(matrices));
         return this;
     }
