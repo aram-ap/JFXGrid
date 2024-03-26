@@ -1,4 +1,4 @@
-# JFXGrid
+# JFXGrid (In-dev)
 ## A Fast and Customizable Heatmap Display For JavaFX 💥🚀
 JFXGrid is a heatmap imaging library with focus on performance optimized real-time data visualization of Matrices at over 60 Hz update rates. This library was made as a solution to the ChartFx default heatmap implementation which I found unsuitable for displaying data at video-playback speeds (> 60 FPS). 
 
@@ -15,3 +15,24 @@ JFXGrid is a heatmap imaging library with focus on performance optimized real-ti
 - `ImageGenerator` is a utility class that takes a dataset and colorizer and turns it into a bitmap image.
 - `Plugin` objects are plug-in utilities that enable other functionality such as exporting data, zooming in and out, getting mouse cursor location and associalted values, averaging multiple frames together, and playing the frames in video playback
 
+### Code Examples (still IN-DEV, so these are mostly non functional (for now):
+Basics (32 x 32 grid): 
+```
+  Pane root = new Pane();
+  JFXGrid grid = new JFXGrid(32, 32);
+  root.getChildren().add(grid);
+```
+Adding data (based on previous example):
+```
+  //We add the 0 as a unique identifier primarily used in conjunction with many other datasets for sorting purposes
+  MatrixR032 testMatrix = MatrixR032.FACTORY.makeFilled(32, 32, RANDOM);
+  DataChunk chunk = new DataChunk();
+  chunk.add(testMatrix);
+  JFXDataset data = new JFXDatasetFactory(0).add(chunk);
+```
+
+Stylizer - turning the grid black and white (based on previous examples):
+```
+  Stylizer style = grid.getStylizer();
+  style.setStyle(Style.MONOCHROME);
+```
