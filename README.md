@@ -24,7 +24,7 @@ While developing an application for processing and visualizing LiDAR sensor info
 In your build.gradle, add this:
 ```
 dependencies {
-  implementation 'io.github.aram-ap:jfxgrid:(current version here)'
+  implementation 'io.github.aram-ap:jfxgrid:0.0.1'
 }
 ```
 --- 
