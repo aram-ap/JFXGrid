@@ -9,7 +9,7 @@ While developing an application for processing and visualizing LiDAR sensor info
 - Libraries like [ChartFX](https://github.com/fair-acc/chart-fx) are beautiful with many features. However, its heatmap implementation didn't offer what I needed for my use case.
 - Issues rendering with speeds > 30fps (it is designed for 25fps so totally within spec).
 - Issues visually, such as refusing to display pixels as squares (this was so frustrating I decided to make this).
-- After utilizing [OjAlgo](http://ojalgo.org/), a linear math and matrix operations library, its speed and memory optimizations with matrices made it incredibly appealing, so I implemented it into this library with success.
+- After utilizing [OjAlgo](https://www.ojalgo.org), a linear math and matrix operations library, its speed and memory optimizations with matrices made it incredibly appealing, so I implemented it into this library with success.
 
 #### Note:
 - [ChartFX](https://github.com/fair-acc/chart-fx/) is an amazing library with lots of functionality and performance, and I would recommend it over this in most other circumstances.
