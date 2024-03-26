@@ -24,15 +24,17 @@ Basics (32 x 32 grid):
 ```
 Adding data (based on previous example):
 ```
-  //We add the 0 as a unique identifier primarily used in conjunction with many other datasets for sorting purposes
+  //This library relies on the high speed performance of Oj-Algo, but has simple double[][] functionality as well.
   MatrixR032 testMatrix = MatrixR032.FACTORY.makeFilled(32, 32, RANDOM);
   DataChunk chunk = new DataChunk();
   chunk.add(testMatrix);
+
+  //We add the 0 as a unique identifier primarily used in conjunction with many other datasets for sorting purposes
   JFXDataset data = new JFXDatasetFactory(0).add(chunk);
 ```
 
 Stylizer - turning the grid black and white (based on previous examples):
 ```
-  Stylizer style = grid.getStylizer();
+  GridStylizer style = grid.getStylizer();
   style.setStyle(Style.MONOCHROME);
 ```
