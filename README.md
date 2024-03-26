@@ -17,6 +17,16 @@ While developing an application for processing and visualizing LiDAR sensor info
 - This is currently in development while I port the code over from the application I originally made.
 - Going through this code, you're going to find areas where I haven't commented, likely some bugs, and some messy areas. I'm continuously growing this, so if you have any suggestions or have any questions, feel free to contact me or add a pull request!
 
+---
+
+### Installing: 
+#### Gradle:
+In your build.gradle, add this:
+```
+dependencies {
+  implementation 'io.github.aram-ap:jfxgrid:(current version here)'
+}
+```
 --- 
 
 ### How does it work?
