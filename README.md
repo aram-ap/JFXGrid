@@ -29,7 +29,8 @@ Adding data (based on previous example):
   DataChunk chunk = new DataChunk();
   chunk.add(testMatrix);
 
-  //We add the 0 as a unique identifier primarily used in conjunction with many other datasets for sorting purposes
+  //We add the 0 as the dataset placeholder for its unique id.
+  //This is primarily used when utilizing the JFXDataDeque with many other datasets for sorting purposes.
   JFXDataset data = new JFXDatasetFactory(0).add(chunk);
 ```
 
