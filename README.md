@@ -21,7 +21,7 @@ While developing an application for processing and visualizing LiDAR sensor info
 ### How does it work?
 - `JFXGrid` is the default Node which contains X/Y axis, data label, mouse pointer tools, and the heatmap image itself.
 - Both the JFXGrid and Axis contain `Renderer` classes, which handle all drawing and visual updates.
-- `Colorizer` is the class responsible for colored themes and turning data values into color. 
+- `Colorizer` is the class responsible for colored themes and turning data values into color. This class also handles normalizing and tone curves.
 - `DataChunk` is the custom data group which contains a collection of data frames, and a pointer for going through the chunk in a timeline.
 - `JFXDataset` is the encapsulating dataset which holds a DataChunk, and all the resources available to play the captured data in real time.
 - `JFXDataDeque` is a type of dataset used for dynamic chunk loading. Its primary use is to reduce memory usage, enable binary data saving/parsing, and eventually asynchronous playback. 
