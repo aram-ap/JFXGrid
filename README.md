@@ -7,8 +7,8 @@ This is currently in development while I port the code over from the application
 ---
 
 ### Why?
-While developing an application for processing and visualizing LiDAR sensor information, I came into an issue where the current JavaFX Charting libraries available don't have the high speed heatmap charting library needed in my case. My major points of issue with the available libraries (likely issues of my lack of understanding) came to this:
-- Libraries like [ChartFX](https://github.com/fair-acc/chart-fx) and its heatmap implementation didn't offer what I neededed for my use case.
+While developing an application for processing and visualizing LiDAR sensor information, I came into an issue where the current JavaFX Charting libraries available simply didn't have the performance target and other major requirements that I needed. My major points of issue with the available libraries (likely issues of my lack of understanding) came to this:
+- Libraries like [ChartFX](https://github.com/fair-acc/chart-fx) are beautiful with many features. However, its heatmap implementation didn't offer what I needed for my use case.
 - Issues rendering with speeds > 30fps (it is designed for 25fps so totally within spec).
 - Issues visually, such as refusing to display pixels as squares (this was so frustrating I decided to make this).
 - After utilizing [OjAlgo](http://ojalgo.org/), a linear math and matrix operations library, its speed and memory optimizations with matrices made it incredibly appealing, so I implemented it into this library with success.
