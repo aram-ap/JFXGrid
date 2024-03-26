@@ -29,7 +29,7 @@ While developing an application for processing and visualizing LiDAR sensor info
 - `ImageGenerator` is a utility class that takes a dataset and colorizer and turns it into a bitmap image.
 - `Plugin` objects are plug-in utilities that enable other functionality such as exporting data, zooming in and out, getting mouse cursor location and associalted values, averaging multiple frames together, and playing the frames in video playback
 
-### Code Examples (still IN-DEV, so these are mostly non functional (for now):
+### Code Examples (still IN-DEV, so these are mostly non functional (for now)):
 Basics (32 x 32 grid): 
 ```
   Pane root = new Pane();
