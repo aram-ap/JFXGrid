@@ -22,4 +22,28 @@
 package JFXGrid.core;
 
 public class GridStyler {
+    public enum Style {
+        Default,
+        DefaultReverse,
+        Jet,
+        JetReverse,
+        Monochrome,
+        MonochromeReverse,
+        DuoTone,
+        DuoToneReverse
+    }
+
+    private Style style;
+
+    public GridStyler() {
+
+    }
+
+    public void setStyle(Style style) {
+        this.style = style;
+    }
+
+    public Style getStyle() {
+        return style;
+    }
 }

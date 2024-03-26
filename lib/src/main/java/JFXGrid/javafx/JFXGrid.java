@@ -26,6 +26,7 @@ import JFXGrid.core.GridStyler;
 import JFXGrid.data.JFXDataset;
 import JFXGrid.plugin.Plugin;
 import JFXGrid.util.ResizableCanvas;
+import com.sun.javafx.collections.UnmodifiableListSet;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.Pane;
 
@@ -36,7 +37,7 @@ import java.util.Optional;
  * The JFXGrid is the javafx-compatible chart/imaging object, designed for high-performance
  * heatmap image viewing, primarily for video-playback purposes of raw sensor data output.
  */
-public class JFXGrid extends Pane {
+public class JFXGrid extends GridFormatPane {
     private final ResizableCanvas canvas;
     private final ArrayList<Axis> axes = new ArrayList<>();
     private final ArrayList<Plugin> plugins = new ArrayList<>();
@@ -44,9 +45,10 @@ public class JFXGrid extends Pane {
     private JFXDataset dataset;
     private GridStyler gridStyler;
 
-
     public JFXGrid() {
-        super();
+        //Calls the GridFormatPane class and initializes it with this as its center node
+        init(this);
+
         getStyleClass().add("grid-chart");
         gridStyler = new GridStyler();
         canvas = new ResizableCanvas();
@@ -66,22 +68,33 @@ public class JFXGrid extends Pane {
         plugins.forEach(Plugin::update);
     }
 
-    public ArrayList<Plugin> getPlugins() {
-        return plugins;
+    public UnmodifiableListSet<Plugin> getPlugins() {
+        return new UnmodifiableListSet<>(plugins);
     }
 
-    public ArrayList<Axis> getAxes() {
-        return axes;
+    public UnmodifiableListSet<Axis> getAxes() {
+        return new UnmodifiableListSet<>(axes);
     }
 
-    @Override
-    public void setHeight(double v) {
-        super.setHeight(v);
+    public void addPlugin(Plugin plugin) {
+        if(plugin == null)
+            return;
+
+        plugin.setParent(this);
+        plugins.add(plugin);
+
+        update();
     }
 
-    @Override
-    public void setWidth(double v) {
-        super.setWidth(v);
+    public void addAxis(Axis axis) {
+        if(axis == null) {
+            return;
+        }
+
+        axis.setParent(this);
+        axes.add(axis);
+
+        update();
     }
 
     public ResizableCanvas getCanvas() {
@@ -94,5 +107,14 @@ public class JFXGrid extends Pane {
 
     public void setImageOptional(Optional<WritableImage> imageOptional) {
         this.imageOptional = imageOptional;
+        update();
+    }
+
+    public GridStyler getGridStyler() {
+        return gridStyler;
+    }
+
+    public void setGridStyler(GridStyler gridStyler) {
+        this.gridStyler = gridStyler;
     }
 }

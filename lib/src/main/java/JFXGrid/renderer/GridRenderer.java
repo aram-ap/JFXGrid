@@ -68,9 +68,6 @@ public class GridRenderer implements Renderer {
         getCanvas().getGraphicsContext2D().drawImage(image, 0, 0, getCanvas().getWidth(), getCanvas().getHeight());
     }
 
-    protected void drawGradient() {
-    }
-
     protected void drawBackground() {
         var gc = getCanvas().getGraphicsContext2D();
         gc.fillRect(0, 0, getCanvas().getWidth(), getCanvas().getHeight());
@@ -82,6 +79,5 @@ public class GridRenderer implements Renderer {
         drawImage();
         drawHorLines();
         drawVerLines();
-        drawGradient();
     }
 }

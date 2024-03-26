@@ -21,11 +21,23 @@
 //SOFTWARE.
 package JFXGrid.plugin;
 
+import JFXGrid.javafx.JFXGrid;
+
 /**
  * Plugins are useful tools to be utilized by the JFXGrid to add extra functionality.
  * @author aram-ap
  */
 public interface Plugin {
 
+    /**
+     * This is called at each update cycle
+     */
     public void update();
+
+    /**
+     * The parent object is necessary when attaching a plugin to a JFXGrid, this is automatically called
+     * when adding a plugin into a JFXGrid object
+     * @param grid Grid to attach plugin into
+     */
+    public void setParent(JFXGrid grid);
 }

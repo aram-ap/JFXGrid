@@ -23,6 +23,7 @@ package JFXGrid.core;
 
 import JFXGrid.renderer.AxisRenderer;
 import JFXGrid.util.ResizableCanvas;
+import JFXGrid.javafx.JFXGrid;
 import javafx.css.Styleable;
 import javafx.scene.layout.BorderPane;
 
@@ -38,7 +39,8 @@ public class Axis extends BorderPane implements Styleable {
         Left,
         Right,
         Up,
-        Down
+        Down,
+        Center
     }
 
     private Align labelAlignment = Align.Left;
@@ -50,6 +52,7 @@ public class Axis extends BorderPane implements Styleable {
     private double tickLabelDistance = 20;
     private boolean isSwitched = false;
     private final AxisRenderer renderer;
+    private JFXGrid parent;
     private ResizableCanvas canvas;
 
     public Axis(Align alignment) {
@@ -60,6 +63,14 @@ public class Axis extends BorderPane implements Styleable {
         canvas = new ResizableCanvas();
         canvas.getStyleClass().add("axis-canvas");
         setCenter(canvas);
+    }
+
+    public void setParent(JFXGrid grid) {
+        if(grid == null) {
+            return;
+        }
+
+        this.parent = grid;
     }
 
     public ResizableCanvas getCanvas() {
