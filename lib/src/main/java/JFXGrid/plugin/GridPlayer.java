@@ -22,7 +22,7 @@
 package JFXGrid.plugin;
 
 import JFXGrid.events.JFXClock;
-import JFXGrid.javafx.JFXGrid;
+import JFXGrid.JFXGrid;
 
 import java.util.HashMap;
 import java.util.Map;

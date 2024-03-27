@@ -1,7 +1,7 @@
 package JFXGrid.core;
 
 import JFXGrid.events.JFXProcessManager;
-import JFXGrid.javafx.JFXGrid;
+import JFXGrid.JFXGrid;
 import JFXGrid.util.ImageGenerator;
 import javafx.scene.image.PixelBuffer;
 import javafx.scene.image.PixelFormat;

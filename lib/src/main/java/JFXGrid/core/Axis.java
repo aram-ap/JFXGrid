@@ -23,7 +23,7 @@ package JFXGrid.core;
 
 import JFXGrid.renderer.AxisRenderer;
 import JFXGrid.util.ResizableCanvas;
-import JFXGrid.javafx.JFXGrid;
+import JFXGrid.JFXGrid;
 import javafx.css.Styleable;
 import javafx.scene.layout.BorderPane;
 

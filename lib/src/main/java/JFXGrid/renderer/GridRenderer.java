@@ -21,7 +21,7 @@
 //SOFTWARE.
 package JFXGrid.renderer;
 
-import JFXGrid.javafx.JFXGrid;
+import JFXGrid.JFXGrid;
 import JFXGrid.util.ResizableCanvas;
 
 

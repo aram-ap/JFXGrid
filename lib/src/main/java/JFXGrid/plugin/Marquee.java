@@ -1,6 +1,6 @@
 package JFXGrid.plugin;
 
-import JFXGrid.javafx.JFXGrid;
+import JFXGrid.JFXGrid;
 
 import java.util.Map;
 

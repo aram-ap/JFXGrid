@@ -19,11 +19,12 @@
 //LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE.
-package JFXGrid.javafx;
+package JFXGrid;
 
 import JFXGrid.core.Axis;
 import JFXGrid.core.GridStyler;
 import JFXGrid.data.JFXDataset;
+import JFXGrid.javafx.GridFormatPane;
 import JFXGrid.plugin.Plugin;
 import JFXGrid.util.ResizableCanvas;
 import com.sun.javafx.collections.UnmodifiableListSet;
@@ -153,5 +154,9 @@ public class JFXGrid extends GridFormatPane {
 
     public GridStyler getGridStyler() {
         return gridStyler;
+    }
+
+    public Optional<WritableImage> getImageOptional() {
+        return Optional.empty();
     }
 }

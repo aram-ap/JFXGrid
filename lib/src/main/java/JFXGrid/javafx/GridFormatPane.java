@@ -1,9 +1,9 @@
 package JFXGrid.javafx;
 
+import JFXGrid.JFXGrid;
 import JFXGrid.core.Axis;
 import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 
 public abstract class GridFormatPane extends GridPane {
     protected JFXGrid grid;

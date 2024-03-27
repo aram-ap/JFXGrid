@@ -22,9 +22,8 @@
 package JFXGrid.events;
 
 import java.util.ArrayList;
-import java.util.Timer;
 
-import JFXGrid.javafx.JFXGrid;
+import JFXGrid.JFXGrid;
 
 /**
  * This class manages updates. It includes features like setting an FPS Cap, getting delta time in MS and Nano,

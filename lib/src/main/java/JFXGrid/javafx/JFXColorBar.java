@@ -21,6 +21,7 @@
 //SOFTWARE.
 package JFXGrid.javafx;
 
+import JFXGrid.JFXGrid;
 import JFXGrid.core.Axis;
 import JFXGrid.core.Style;
 import javafx.scene.paint.LinearGradient;
