@@ -31,15 +31,29 @@ dependencies {
 --- 
 
 ### How does it work?
-- `JFXGrid` is the default Node which contains X/Y axis, data label, mouse pointer tools, and the heatmap image itself.
-- Both the JFXGrid and Axis contain `Renderer` classes, which handle all drawing and visual updates.
-- `Colorizer` is the class responsible for colored themes and turning data values into color. This class also handles normalizing and tone curves.
-- `DataChunk` is the custom data group which contains a collection of data frames, and a pointer for going through the chunk in a timeline.
-- `JFXDataset` is the encapsulating dataset which holds a DataChunk, and all the resources available to play the captured data in real time.
-- `JFXDataDeque` is a type of dataset used for dynamic chunk loading. Its primary use is to reduce memory usage, enable binary data saving/parsing, and eventually asynchronous playback. 
-- `JFXDatasetFactory` creates the dataset and imports data into the dataset. 
-- `ImageGenerator` is a utility class that takes a dataset and colorizer and turns it into a bitmap image.
-- `Plugin` objects are plug-in utilities that enable other functionality such as exporting data, zooming in and out, getting mouse cursor location and associalted values, averaging multiple frames together, and playing the frames in video playback
+- **Primary:**
+  - `JFXGrid` is the default Node which contains X/Y axis, data label, mouse pointer tools, and the heatmap image itself.
+  - `Plugin` objects are plug-in utilities that enable other functionality such as exporting data, zooming in and out, getting mouse cursor location and associated values, averaging multiple frames together, and playing the frames in video playback.
+  - `Renderer` handles drawing onto displayed elements. It is split up two two primary renderers: AxisRenderer and GridRenderer.
+  - `Style` is where we bring in the specific color gradients used in visualizations.
+  - `JFXDatasetFactory` creates the dataset and imports data into the dataset.
+  - `JFXDataset` is the encapsulating dataset which holds a DataChunk, and all the resources available to play the captured data in real time.
+- **Other Javafx Nodes:**
+  - `Axis` the node containing the canvas used for displaying axis lines.
+  - `JFXColorBar` the node containing both an axis and linear gradient for showcasing values.
+- **Background (typically not touched by the user):** 
+  - `DataChunk` is the custom data group which contains a collection of data frames, and a pointer for going through the chunk in a timeline.
+  - `JFXDataDeque` is a type of dataset used for dynamic chunk loading. Its primary use is to reduce memory usage, enable binary data saving/parsing, and eventually asynchronous playback.
+  - `ImageGenerator` is a utility class that takes a dataset and colorizer and turns it into a bitmap image.
+  - `JFXClock` is utilized in plugins allowing for timed updates. It includes functionalities such as obtaining delta time in ms and ns and capping frames per second.
+  - `JFXProcessManager` is the background process manager which manages keeping processes synchronized, prioritization of tasks, and starting background processes.
+- **Plugins:**
+  - `GridPlayer` is the primary plugin that allows for playing frames in video-format. It handles frame iteration, timing, pausing, and playing.
+  - `Zoomer` allows instantaneous resizing of the grid.
+  - `Exporter` handles file output and screenshots
+  - `Marquee` is a tool used for zooming into specific points and disabling specific elements
+  - `MouseInput` is a plugin built into many plugins that allow mouse inputs to cause actions
+  - `Averaging` is a image processing tool which takes multiple frames and averages them into a single frame. Best used when you're dealing with sparse matrices.
 
 ### Code Examples (still IN-DEV, so these are mostly non functional (for now)):
 The basics (32 x 32 grid): 

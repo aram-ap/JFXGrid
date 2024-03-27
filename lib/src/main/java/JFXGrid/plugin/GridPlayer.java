@@ -36,6 +36,7 @@ public class GridPlayer implements Plugin{
     private JFXGrid grid;
     private long framenum;
     private final Map<String, String> properties = new HashMap<>();
+    private boolean isPlaying = false;
 
     public void GridPlayer() { }
 
@@ -66,6 +67,9 @@ public class GridPlayer implements Plugin{
         var dataset = grid.getDataset();
         if(dataset == null) {
             return;
+        }
+        if(isPlaying) {
+
         }
         dataset.stepForward();
         framenum = dataset.getFrameNum();
