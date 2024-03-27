@@ -19,30 +19,27 @@
 //LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE.
-package JFXGrid.core;
+package JFXGrid.events;
 
-public class GridStyler {
-    private Style style;
-    private final Colorizer colorizer;
+import java.util.PriorityQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
-    public GridStyler() {
-        this(Style.DEFAULT);
+public class JFXProcessManager {
+    private static final ExecutorService imageThread;
+    private static PriorityQueue<Runnable> processQueue;
+
+    static {
+        imageThread = Executors.newSingleThreadExecutor();
+        processQueue = new PriorityQueue<>();
     }
 
-    public GridStyler(Style style) {
-        this.style = style;
-        this.colorizer = new Colorizer();
+    public static final void addTask(Runnable runnable, int priority) {
+        processQueue.add(runnable);
+        imageThread.execute(runnable);
     }
 
-    public void setStyle(Style style) {
-        this.style = style;
-    }
+    public static void processNext() throws Exception {
 
-    public Style getStyle() {
-        return style;
-    }
-
-    public Colorizer getColorizer() {
-        return colorizer;
     }
 }

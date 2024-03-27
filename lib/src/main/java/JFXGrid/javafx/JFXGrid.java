@@ -80,8 +80,23 @@ public class JFXGrid extends GridFormatPane {
         if(plugin == null)
             return;
 
-        plugin.setParent(this);
+        plugin.init(this);
         plugins.add(plugin);
+        update();
+    }
+
+    public void addPlugins(Plugin... plugins) {
+        if(plugins == null) {
+            return;
+        }
+
+        for(var plug : plugins) {
+            if(plug == null)
+                continue;
+
+            plug.init(this);
+            this.plugins.add(plug);
+        }
 
         update();
     }

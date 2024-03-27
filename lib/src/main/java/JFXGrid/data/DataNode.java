@@ -109,4 +109,12 @@ public class DataNode implements Data {
 
         return val.stepBack();
     }
+
+    /**
+     * @return
+     */
+    @Override
+    public long getFrameNum() {
+        return val.getIndex();
+    }
 }

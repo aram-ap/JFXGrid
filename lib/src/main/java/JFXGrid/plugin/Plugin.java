@@ -23,6 +23,8 @@ package JFXGrid.plugin;
 
 import JFXGrid.javafx.JFXGrid;
 
+import java.util.Map;
+
 /**
  * Plugins are useful tools to be utilized by the JFXGrid to add extra functionality.
  * @author aram-ap
@@ -30,14 +32,26 @@ import JFXGrid.javafx.JFXGrid;
 public interface Plugin {
 
     /**
+     * This initializes all plugin internals and adds the plugin's grid parent object.
+     * The parent object is necessary when attaching a plugin to a JFXGrid, this is automatically called
+     * when adding a plugin into a JFXGrid object
+     * @param grid Grid to attach plugin into
+     */
+    public void init(JFXGrid grid);
+
+    /**
      * This is called at each update cycle
      */
     public void update();
 
     /**
-     * The parent object is necessary when attaching a plugin to a JFXGrid, this is automatically called
-     * when adding a plugin into a JFXGrid object
-     * @param grid Grid to attach plugin into
+     * Properties will be unique to each plugin, its up to each plugin to add its own specific properties.
+     * @return Returns null if there is no properties map associated.
      */
-    public void setParent(JFXGrid grid);
+    public Map<String, String> getProperties();
+
+    /**
+     * Updates any property values that need to be updated throughout the application's lifespan.
+     */
+    public void updateProperties();
 }

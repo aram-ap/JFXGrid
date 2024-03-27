@@ -33,7 +33,7 @@ import java.util.List;
  */
 public class DataChunk {
     private MatrixR032[] frames;
-    private int current = -1;
+    private int currentFrame = -1;
     private int capacity;
     private int numItems;
 
@@ -90,33 +90,33 @@ public class DataChunk {
      * @return the frame at the current position
      */
     public MatrixR032 getCurr() {
-        if(current < 0) {
-            current = 0;
+        if(currentFrame < 0) {
+            currentFrame = 0;
         }
 
-        return frames[current];
+        return frames[currentFrame];
     }
 
     /**
      * @return iterates the current position by one. No action if current position is at the end;
      */
     public MatrixR032 stepForward() {
-        if(current == capacity - 1) {
+        if(currentFrame == capacity - 1) {
             return null;
         }
 
-        return frames[++current];
+        return frames[++currentFrame];
     }
 
     /**
      * @return iterates the current position back by one. No action if current position is 0
      */
     public MatrixR032 stepBack() {
-        if(current <= 0) {
+        if(currentFrame <= 0) {
             return null;
         }
 
-        return frames[--current];
+        return frames[--currentFrame];
     }
 
     /**
@@ -130,14 +130,14 @@ public class DataChunk {
      * @return returns true if the current position is not at the end
      */
     public boolean hasNext() {
-        return current == capacity-1;
+        return currentFrame == capacity-1;
     }
 
     /**
      * @return the current index of the chunk
      */
     public int getIndex() {
-        return current;
+        return currentFrame;
     }
 
     /**

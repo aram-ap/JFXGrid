@@ -26,7 +26,7 @@ import org.ojalgo.matrix.MatrixR032;
 /**
  * The JFXDataDeque is a dataset implementation which intends to allow chunking of data and reduced memory utilization.
  */
-public class JFXDataDeque extends JFXDataset{
+public class JFXDataDeque extends JFXDataset implements Data{
     private int numFrames;
     private int numChunks;
     private DataChunk currentChunk;
@@ -232,5 +232,10 @@ public class JFXDataDeque extends JFXDataset{
         }
 
         return val;
+    }
+
+    @Override
+    public long getFrameNum() {
+        return currentChunk.uid + currentChunk.getIndex();
     }
 }

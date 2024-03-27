@@ -152,4 +152,12 @@ public class JFXDataset implements Data {
 
         return currentChunk.stepBack();
     }
+
+    /**
+     * @return
+     */
+    @Override
+    public long getFrameNum() {
+        return currentChunk.getIndex();
+    }
 }

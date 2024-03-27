@@ -59,4 +59,6 @@ public interface Data {
     public MatrixR032 stepForward();
 
     public MatrixR032 stepBack();
+
+    public long getFrameNum();
 }

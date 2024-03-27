@@ -11,6 +11,7 @@ import java.util.ArrayList;
  */
 public class Colorizer {
     private int[] aRGBColors;
+    private int numColorGradations = 255 * 255 * 255;
     private final ArrayList<Stop> stops;
     private double brightness = 1.0;
 
@@ -25,7 +26,7 @@ public class Colorizer {
      *
      * @return Color object relative to the {@code value} parameter
      */
-    public Color getColorFromValue(double value) {
+    public final Color getColorFromValue(double value) {
         if(value > 1) return stops.get(stops.size()-1).getColor();
         else if (value < 0) return stops.get(0).getColor();
 
@@ -35,6 +36,7 @@ public class Colorizer {
             if (stops.get(i).getOffset() <= value) {
                 return interpolateFromTwoColors(stops.get(i + 1).getColor(),
                         stops.get(i).getColor(),
+                        brightness,
                         (value - stops.get(i).getOffset()) / (stops.get(i + 1).getOffset() - stops.get(i).getOffset()));
             }
         }
@@ -50,7 +52,7 @@ public class Colorizer {
      * @param value     the value between {@code 0} and {@code 1}
      * @return the mapped color based on the input parameter
      */
-    public Color interpolateFromTwoColors(Color highColor, Color lowColor, double value) {
+    public static Color interpolateFromTwoColors(Color highColor, Color lowColor, double brightness, double value) {
         if (value > 1.0 || value < 0.0)
             throw new IllegalArgumentException("Value must be between 0 and 1, got " + value + " instead!");
 
@@ -73,7 +75,7 @@ public class Colorizer {
      *
      * @return ARGB color values
      */
-    public int[] processARGBVals(int gradValues) {
+    public final int[] processARGBVals(int gradValues) {
         var aRGBColors = new int[gradValues];
         double refVal = 0;
         for (int colorIndex = 0; colorIndex < gradValues; colorIndex++) {
@@ -95,8 +97,39 @@ public class Colorizer {
      * @param val Value between 0-1
      * @return aRGB color value
      */
-    public int getNearestARGBColor(final double val) {
+    public final int getNearestARGBColor(final double val) {
         if (aRGBColors == null || aRGBColors.length == 0 || val > 1 || val < 0) return 0;
         return aRGBColors[(int) ((aRGBColors.length - 1) * val)];
+    }
+
+    public final void setStyleColors(Style style) {
+        if(style == null) {
+            return;
+        }
+
+        stops.clear();
+        stops.addAll(style.getStops());
+        aRGBColors = processARGBVals(numColorGradations);
+    }
+
+    /**
+     * @return Number of unique colors in a specific gradient and style
+     */
+    public final int getNumColorGradations() {
+        return numColorGradations;
+    }
+
+    /**
+     * Num Color Gradations is the number of color shades in a specific Style
+     * Default is 16.7M colors == 255 * 255 * 255
+     * @param numColorGradations Number of unique colors to set
+     */
+    public final void setNumColorGradations(int numColorGradations) {
+        if(numColorGradations < 0) {
+            throw new IllegalArgumentException("Number of color gradations cannot be < 0!");
+        }
+
+        this.numColorGradations = numColorGradations;
+        this.aRGBColors = processARGBVals(numColorGradations);
     }
 }

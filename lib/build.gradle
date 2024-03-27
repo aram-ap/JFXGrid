@@ -36,7 +36,7 @@ dependencies {
     // Use JUnit Jupiter for testing.
     testImplementation 'org.junit.jupiter:junit-jupiter:5.7.2'
     implementation 'org.ojalgo:ojalgo:53.0.0'
-
+    implementation 'org.slf4j:slf4j-api:2.0.12'
 }
 
 tasks.named('test') {
