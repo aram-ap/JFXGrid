@@ -1,7 +1,13 @@
 # JFXGrid (In-dev)
 ## A Fast and Customizable Heatmap Charting Library For JavaFX 💥🚀
-JFXGrid is a heatmap imaging library with focus on performance optimized real-time data visualization of Matrices at over 60 Hz update rates. This library was made as a solution to the [ChartFx](https://github.com/fair-acc/chart-fx) default heatmap implementation which I found unsuitable for displaying data at video-playback speeds (> 60 FPS). 
+JFXGrid is a heatmap imaging library with focus on performance optimized real-time data visualization of Matrices at over 
+60 Hz update rates. This library was made as a solution to the [ChartFx](https://github.com/fair-acc/chart-fx) default heatmap implementation which I found
+unsuitable for displaying data at video-playback speeds (> 60 FPS). 
 
+>**READ:** <br>
+>This plugin is very much in the alpha stages of development, while I've been building up the framework of this library,
+many features have not been implemented yet
+or are just very premature.
 ---
 
 ### Why?
@@ -12,16 +18,16 @@ While developing an application for processing and visualizing LiDAR sensor info
 - After utilizing [OjAlgo](https://www.ojalgo.org), one of the fastest linear algebra/matrix operations library available on java, its speed and memory optimizations with matrices made it incredibly appealing, so I implemented it into this library with success.
   - A caveat to this: for modularity purposes, this library is still completely functional with regular 2D double arrays.
 
-#### Note:
-- [ChartFX](https://github.com/fair-acc/chart-fx/) is an amazing library with lots of functionality and performance, and I would recommend it over this in most other circumstances.
-- There are some similarities with this library and ChartFX. I took inspiration for general structures and design patterns like separate data classes, data factories, and renderers. However, nearly all the code within this library is self-written.
-- This is currently in development while I port the code over from the application I originally made.
-- Going through this code, you're going to find areas where I haven't commented, likely some bugs, and some messy areas. I'm continuously growing this, so if you have any suggestions or have any questions, feel free to contact me or add a pull request!
+>#### Note:
+>- [ChartFX](https://github.com/fair-acc/chart-fx/) is an amazing library with lots of functionality and performance, and I would recommend it over this in most other circumstances.
+>- There are some similarities with this library and ChartFX. I took inspiration for general structures and design patterns like separate data classes, data factories, and renderers. However, nearly all the code within this library is self-written.
+>- This is currently in development while I port the code over from the application I originally made.
+>- Going through this code, you're going to find areas where I haven't commented, likely some bugs, and some messy areas. I'm continuously growing this, so if you have any suggestions or have any questions, feel free to contact me or add a pull request!
 
 ---
 
 ### Installing: 
-#### Gradle (non-functional, still trying to figure out how to publish a maven central package):
+#### Gradle (won't work yet, still trying to figure out how to publish a maven central package):
 In your build.gradle, add this:
 ```
 dependencies {
