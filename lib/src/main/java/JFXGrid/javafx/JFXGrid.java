@@ -36,24 +36,46 @@ import java.util.Optional;
 /**
  * The JFXGrid is the javafx-compatible chart/imaging object, designed for high-performance
  * heatmap image viewing, primarily for video-playback purposes of raw sensor data output.
+ *
+ * @author aram-ap
  */
 public class JFXGrid extends GridFormatPane {
+    //The canvas for which the grid will be displayed on
     private final ResizableCanvas canvas;
+    //The set of axes, will not have any added unless you specifically add axes
     private final ArrayList<Axis> axes = new ArrayList<>();
+    //The set of plugins
     private final ArrayList<Plugin> plugins = new ArrayList<>();
-    private Optional<WritableImage> imageOptional = Optional.empty();
+    //Responsible for specific style configurations like colors, default line sizes, chart sizes, tick marks, etc...
+    private final GridStyler gridStyler;
+    //The current dataset displayed on the grid
     private JFXDataset dataset;
-    private GridStyler gridStyler;
 
+    /**
+     * Default constructor for JFXGrid class.
+     * Adds the "jfx-grid" css style class.
+     */
     public JFXGrid() {
         //Calls the GridFormatPane class and initializes it with this as its center node
         init(this);
-
-        getStyleClass().add("grid-chart");
+        getStyleClass().add("jfx-grid");
         gridStyler = new GridStyler();
         canvas = new ResizableCanvas();
     }
 
+    /**
+     * The primary update call method
+     * Updates the grid, and calls the update functions in axes and plugins
+     */
+    public void update() {
+        axes.forEach(Axis::update);
+        plugins.forEach(Plugin::update);
+    }
+
+    /**
+     * Sets the specific dataset used in this grid
+     * @param newDataset The dataset, created by JFXDatasetFactory, to add to this grid
+     */
     public void setDataset(JFXDataset newDataset) {
         this.dataset = dataset;
         update();
@@ -63,19 +85,24 @@ public class JFXGrid extends GridFormatPane {
         return dataset;
     }
 
-    public void update() {
-        axes.forEach(Axis::update);
-        plugins.forEach(Plugin::update);
-    }
-
+    /**
+     * @return Unmodifiable list of plugins
+     */
     public UnmodifiableListSet<Plugin> getPlugins() {
         return new UnmodifiableListSet<>(plugins);
     }
 
+    /**
+     * @return Unmodifiable list of axes
+     */
     public UnmodifiableListSet<Axis> getAxes() {
         return new UnmodifiableListSet<>(axes);
     }
 
+    /**
+     * Adds a plugin and initializes it
+     * @param plugin The plugin to add
+     */
     public void addPlugin(Plugin plugin) {
         if(plugin == null)
             return;
@@ -85,6 +112,10 @@ public class JFXGrid extends GridFormatPane {
         update();
     }
 
+    /**
+     * Adds a collection of plugins and initializes them.
+     * @param plugins Set of plugins to add
+     */
     public void addPlugins(Plugin... plugins) {
         if(plugins == null) {
             return;
@@ -101,6 +132,10 @@ public class JFXGrid extends GridFormatPane {
         update();
     }
 
+    /**
+     * Adds an axis and initializes it. It WILL NOT add the axis if an axis of its type already exists.
+     * @param axis
+     */
     public void addAxis(Axis axis) {
         if(axis == null) {
             return;
@@ -116,20 +151,7 @@ public class JFXGrid extends GridFormatPane {
         return canvas;
     }
 
-    public Optional<WritableImage> getImageOptional() {
-        return imageOptional;
-    }
-
-    public void setImageOptional(Optional<WritableImage> imageOptional) {
-        this.imageOptional = imageOptional;
-        update();
-    }
-
     public GridStyler getGridStyler() {
         return gridStyler;
-    }
-
-    public void setGridStyler(GridStyler gridStyler) {
-        this.gridStyler = gridStyler;
     }
 }

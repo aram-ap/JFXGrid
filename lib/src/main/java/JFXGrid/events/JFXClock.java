@@ -26,6 +26,12 @@ import java.util.Timer;
 
 import JFXGrid.javafx.JFXGrid;
 
+/**
+ * This class manages updates. It includes features like setting an FPS Cap, getting delta time in MS and Nano,
+ * and will automatically update every JFX Grid given to it.
+ *
+ * @author aram-ap
+ */
 public class JFXClock {
     private static boolean useFpsCap = true;
     private static boolean isRunning = false;

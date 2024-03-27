@@ -27,6 +27,11 @@ import JFXGrid.javafx.JFXGrid;
 import javafx.css.Styleable;
 import javafx.scene.layout.BorderPane;
 
+/**
+ * The specific Axis class added to a JFXGrid. Contains alignment properties, max/min values, and other stylized properties.
+ *
+ * @author aram-ap
+ */
 public class Axis extends BorderPane implements Styleable {
     public enum Type {
         X_AXIS,
@@ -69,7 +74,6 @@ public class Axis extends BorderPane implements Styleable {
         if(grid == null) {
             return;
         }
-
         this.parent = grid;
     }
 

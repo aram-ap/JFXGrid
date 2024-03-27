@@ -25,6 +25,10 @@ import javafx.beans.property.SimpleStringProperty;
 import org.ojalgo.matrix.Matrix2D;
 import org.ojalgo.matrix.MatrixR032;
 
+/**
+ * The default Data interface. Contains the essentials like dataset names, getting the current MatrixR032 matrix, size, and iterating through frames.
+ * @author aram-ap
+ */
 public interface Data {
     final SimpleStringProperty datasetName = new SimpleStringProperty("Data");
 

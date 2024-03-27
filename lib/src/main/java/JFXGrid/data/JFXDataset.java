@@ -26,6 +26,11 @@ import org.ojalgo.matrix.MatrixR032;
 
 import java.util.List;
 
+/**
+ * The default Dataset implementation for JFXGrid. Once created, this data cannot change and is supposed to be for better memory management/utilization.
+ *
+ * @author aram-ap
+ */
 public class JFXDataset implements Data {
     private DataChunk currentChunk;
     private int numFrames;
@@ -46,7 +51,7 @@ public class JFXDataset implements Data {
      * Sets the chunk of data
      * @param dataChunk chunk of data
      */
-    public void setCurrentChunk(DataChunk dataChunk) {
+    public final void setCurrentChunk(DataChunk dataChunk) {
         currentChunk = dataChunk;
         numFrames = dataChunk.size();
     }
@@ -54,7 +59,7 @@ public class JFXDataset implements Data {
     /**
      * @return The number of frames contained in the dataset
      */
-    public int getNumFrames() {
+    public final int getNumFrames() {
         return numFrames;
     }
 
@@ -63,7 +68,7 @@ public class JFXDataset implements Data {
      * Sets the number of rows
      * @param rows
      */
-    public void setNumRows(int rows) {
+    public final void setNumRows(int rows) {
         if(rows < 0) {
             throw new IllegalArgumentException("Rows cannot be less than 0!");
         }
@@ -74,18 +79,18 @@ public class JFXDataset implements Data {
      * Sets the number of columns
      * @param columns
      */
-    public void setNumColumns(int columns) {
+    public final void setNumColumns(int columns) {
         if(columns < 0) {
             throw new IllegalArgumentException("Columns cannot be less than 0!");
         }
         this.numColumns = columns;
     }
 
-    public int getNumRows() {
+    public final int getNumRows() {
         return numRows;
     }
 
-    public int getNumColumns() {
+    public final int getNumColumns() {
         return numColumns;
     }
 
@@ -116,7 +121,7 @@ public class JFXDataset implements Data {
      * Returns the number of items in the chunk
      * @return
      */
-    public int size() {
+    public final int size() {
         return numFrames;
     }
 

@@ -25,10 +25,22 @@ import org.ojalgo.matrix.MatrixR032;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Deque;
 import java.util.List;
 
+/**
+ * The default dataset builder class for JFXGrid. It manages inputting data into the chunks and allows datasets to be immutable.
+ * @author aram-ap
+ */
 public class JFXDatasetFactory extends JFXDataset {
-    private ArrayList<MatrixR032> frames = new ArrayList<>();
+    public enum DataType {
+        Single_Chunk,
+        Batch_Chunking
+    }
+
+    private DataType type = DataType.Single_Chunk;
+    private final ArrayList<MatrixR032> frames = new ArrayList<>();
+    private final ArrayList<DataChunk> chunks = new ArrayList<>();
 
     public JFXDatasetFactory(int rows, int cols) {
         super(rows, cols);
@@ -67,9 +79,35 @@ public class JFXDatasetFactory extends JFXDataset {
         return this;
     }
 
+    /**
+     * Creates the JFXDataset. Defaults to the regular JFXDataset class unless called by the
+     * @return
+     */
     public JFXDataset build() {
-        JFXDataset dataset = new JFXDataset(getNumRows(), getNumColumns());
-        dataset.setCurrentChunk(new DataChunk(frames.toArray(new MatrixR032[0]), 0));
+        JFXDataset dataset;
+        if(chunks.isEmpty()) {
+            chunks.add(new DataChunk(frames.toArray(new MatrixR032[0]), 0));
+        }
+
+        if(type == DataType.Single_Chunk) {
+            dataset = new JFXDataset(getNumRows(), getNumColumns());
+            dataset.setCurrentChunk(chunks.get(0));
+        } else {
+            dataset = new JFXDataDeque(getNumRows(), getNumColumns());
+            JFXDataDeque deque = (JFXDataDeque) dataset;
+            chunks.forEach(deque::insertLast);
+        }
+
         return dataset;
+    }
+
+    /**
+     * Sets the type of returned Dataset type. Will default to JFXDataset 'Single_Chunk', but can be modified to 'Batch_Chunking' for the JFXDataDeque type
+     * @param type type of datatype to set
+     * @return
+     */
+    public JFXDatasetFactory setDataType(DataType type) {
+        this.type = type;
+        return this;
     }
 }
