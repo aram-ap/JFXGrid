@@ -40,7 +40,7 @@ dependencies {
 - **Primary:**
   - `JFXGrid` is the default Node which contains X/Y axis, data label, mouse pointer tools, and the heatmap image itself.
   - `Plugin` objects are plug-in utilities that enable other functionality such as exporting data, zooming in and out, getting mouse cursor location and associated values, averaging multiple frames together, and playing the frames in video playback.
-  - `Renderer` handles drawing onto displayed elements. It is split up two two primary renderers: AxisRenderer and GridRenderer.
+  - `Renderer` handles drawing onto displayed elements. It is split up two primary renderers: AxisRenderer and GridRenderer.
   - `Style` is where we bring in the specific color gradients used in visualizations.
   - `JFXDatasetFactory` creates the dataset and imports data into the dataset.
   - `JFXDataset` is the encapsulating dataset which holds a DataChunk, and all the resources available to play the captured data in real time.
@@ -59,9 +59,9 @@ dependencies {
   - `Exporter` handles file output and screenshots
   - `Marquee` is a tool used for zooming into specific points and disabling specific elements
   - `MouseInput` is a plugin built into many plugins that allow mouse inputs to cause actions
-  - `Averaging` is a image processing tool which takes multiple frames and averages them into a single frame. Best used when you're dealing with sparse matrices.
+  - `Averaging` is an image processing tool which takes multiple frames and averages them into a single frame. Best used when you're dealing with sparse matrices.
 
-### Code Examples (still IN-DEV, so these are mostly non functional (for now)):
+### Code Examples (still IN-DEV, so these are mostly non-functional (for now)):
 The basics (32 x 32 grid): 
 ```
   Pane root = new Pane();
