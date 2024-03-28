@@ -4,6 +4,11 @@ JFXGrid is a heatmap imaging library with focus on performance optimized real-ti
 60 Hz update rates. This library was made as a solution to the [ChartFx](https://github.com/fair-acc/chart-fx) default heatmap implementation which I found
 unsuitable for displaying data at video-playback speeds (> 60 FPS). 
 
+<figure>
+  <img src="docs/photos/JFXGrid0-0-1.jpeg" alt="JFXGrid example" width=1200/>
+</figure>
+
+
 >**READ:** <br>
 >This plugin is very much in the alpha stages of development, while I've been building up the framework of this library,
 many features have not been implemented yet
