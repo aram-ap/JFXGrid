@@ -21,7 +21,7 @@ While developing an application for processing and visualizing LiDAR sensor info
 - Issues rendering with speeds > 30fps (it is designed for 25fps so totally within spec).
 - Issues visually, such as refusing to display pixels as squares (this was so frustrating I decided to make this).
 - After utilizing [OjAlgo](https://www.ojalgo.org), one of the fastest linear algebra/matrix operations library available on java, its speed and memory optimizations with matrices made it incredibly appealing, so I implemented it into this library with success.
-  - A caveat to this: for modularity purposes, this library is still completely functional with regular 2D double arrays.
+  - A caveat to this: 2D Double arrays only have partial support in this, will be gaining more in the future.
 
 >#### Note:
 >- [ChartFX](https://github.com/fair-acc/chart-fx/) is an amazing library with lots of functionality and performance, and I would recommend it over this in most other circumstances.
