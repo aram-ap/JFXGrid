@@ -5,6 +5,11 @@ import JFXGrid.core.Axis;
 import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 
+/**
+ * This class is utilized by the JFXGrid, it arranges the grid and axis accordingly.
+ *
+ * @author aram-ap
+ */
 public abstract class GridFormatPane extends GridPane {
     protected JFXGrid grid;
 

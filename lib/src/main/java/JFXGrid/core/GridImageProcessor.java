@@ -12,6 +12,11 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+/**
+ * Contains the code for obtaining a new heatmap image asynchronously
+ *
+ * @author aram-ap
+ */
 public class GridImageProcessor {
     private static final ExecutorService imageThread = Executors.newFixedThreadPool(1);
     private WritableImage image;
@@ -24,10 +29,17 @@ public class GridImageProcessor {
         this.height = height;
     }
 
+    /**
+     * @return the last processed image
+     */
     public WritableImage getImage() {
         return image;
     }
 
+    /**
+     * Asynchronously generates a new image int buffer and pushes it for processing into a WritableImage
+     * Uses the JFXProcessManager add task function
+     */
     public void updateImage() {
         final Future<IntBuffer> futureBuffer = ImageGenerator.getBufferedARGBFuture(
                 width, height, grid.getDataset().get(), grid.getGridStyler().getColorizer());
@@ -52,6 +64,4 @@ public class GridImageProcessor {
             e.printStackTrace();
         }
     }
-
-
 }
