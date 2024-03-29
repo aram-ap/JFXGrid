@@ -26,6 +26,7 @@ import JFXGrid.core.GridStyler;
 import JFXGrid.data.JFXDataset;
 import JFXGrid.javafx.GridFormatPane;
 import JFXGrid.plugin.Plugin;
+import JFXGrid.renderer.GridRenderer;
 import JFXGrid.util.ResizableCanvas;
 import com.sun.javafx.collections.UnmodifiableListSet;
 import javafx.scene.image.WritableImage;
@@ -47,6 +48,8 @@ public class JFXGrid extends GridFormatPane {
     private final ArrayList<Axis> axes = new ArrayList<>();
     //The set of plugins
     private final ArrayList<Plugin> plugins = new ArrayList<>();
+    //Contains all the code for drawing the grid itself
+    private final GridRenderer gridRenderer;
     //Responsible for specific style configurations like colors, default line sizes, chart sizes, tick marks, etc...
     private final GridStyler gridStyler;
     //The current dataset displayed on the grid
@@ -59,9 +62,11 @@ public class JFXGrid extends GridFormatPane {
     public JFXGrid() {
         //Calls the GridFormatPane class and initializes it with this as its center node
         init(this);
+
         getStyleClass().add("jfx-grid");
         gridStyler = new GridStyler();
         canvas = new ResizableCanvas();
+        gridRenderer = new GridRenderer(this);
     }
 
     /**

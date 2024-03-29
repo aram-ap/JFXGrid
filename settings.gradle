@@ -9,3 +9,4 @@
 
 rootProject.name = 'JFXGrid'
 include('lib')
+include('samples')

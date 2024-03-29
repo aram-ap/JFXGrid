@@ -58,7 +58,7 @@ publishing {
     publications {
         gpr(MavenPublication) {
             groupId = 'io.github.aram-ap'
-            artifactId = 'jfxgrid-core'
+            artifactId = 'jfxgrid'
             version = '0.0.1'
 
             from(components.java)
