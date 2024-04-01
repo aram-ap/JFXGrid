@@ -49,14 +49,15 @@ dependencies {
   - `Style` is where we bring in the specific color gradients used in visualizations.
   - `JFXDatasetFactory` creates the dataset and imports data into the dataset.
   - `JFXDataset` is the encapsulating dataset which holds a DataChunk, and all the resources available to play the captured data in real time.
+  - `JFXDataDeque` is the child class of the JFXDataSet. Its purpose is to reduce memory utilization, allow for dynamic chunk loading/reloading Chunking to/from the local filesystem, and all other features of the default JFXDataSet class.
 - **Other Javafx Nodes:**
   - `Axis` the node containing the canvas used for displaying axis lines.
   - `JFXColorBar` the node containing both an axis and linear gradient for showcasing values.
 - **Background (typically not touched by the user):** 
   - `DataChunk` is the custom data group which contains a collection of data frames, and a pointer for going through the chunk in a timeline.
-  - `JFXDataDeque` is a type of dataset used for dynamic chunk loading. Its primary use is to reduce memory usage, enable binary data saving/parsing, and eventually asynchronous playback.
   - `ImageGenerator` is a utility class that takes a dataset and colorizer and turns it into a bitmap image.
   - `JFXClock` is utilized in plugins allowing for timed updates. It includes functionalities such as obtaining delta time in ms and ns and capping frames per second.
+  - `TickListener` is an interface utilized by the JFXHeatmap and plugins for timing purposes. It keeps separate timer thread which calls at each frame cycle. It also contains a fixed update call that maintains constant timing which is especially helpful for data playback at a specific framerate.
   - `JFXProcessManager` is the background process manager which manages keeping processes synchronized, prioritization of tasks, and starting background processes.
 - **Plugins:**
   - `GridPlayer` is the primary plugin that allows for playing frames in video-format. It handles frame iteration, timing, pausing, and playing.
