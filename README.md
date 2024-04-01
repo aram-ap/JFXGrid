@@ -58,7 +58,7 @@ dependencies {
   - `ImageGenerator` is a utility class that takes a dataset and colorizer and turns it into a bitmap image.
   - `JFXClock` is utilized in plugins allowing for timed updates. It includes functionalities such as obtaining delta time in ms and ns and capping frames per second.
   - `TickListener` is an interface utilized by the JFXHeatmap and plugins for timing purposes. It keeps separate timer thread which calls at each frame cycle. It also contains a fixed update call that maintains constant timing which is especially helpful for data playback at a specific framerate.
-  - `JFXProcessManager` is the background process manager which manages keeping processes synchronized, prioritization of tasks, and starting background processes.
+  - `JFXProcessManager` is the background process manager which synchronizes all background worker thread runnables used in JFXGrid.
 - **Plugins:**
   - `GridPlayer` is the primary plugin that allows for playing frames in video-format. It handles frame iteration, timing, pausing, and playing.
   - `Zoomer` allows instantaneous resizing of the grid.
