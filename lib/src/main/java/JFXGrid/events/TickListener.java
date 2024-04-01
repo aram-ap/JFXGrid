@@ -7,7 +7,6 @@ import java.util.ArrayList;
  */
 public interface TickListener {
     ArrayList<TickListener> listeners = new ArrayList<>();
-    JFXClock clock = new JFXClock();
 
     /**
      * Adds a tick listener to the list of listeners.
@@ -20,7 +19,7 @@ public interface TickListener {
     /**
      * Sends a tick to all tick listeners.
      */
-    static void tick() {
+    static void tick(JFXClock clock) {
         listeners.forEach((listener) -> listener.update(clock));
     }
 

@@ -32,6 +32,8 @@ import JFXGrid.core.JFXHeatmap;
  * @author aram-ap
  */
 public class JFXClock {
+    private static JFXClock INSTANCE = new JFXClock();
+
     //This keeps the fps contained to a maximum value. It's best practice to keep this capped as uncapped use will max out CPU usage.
     //Additionally, your monitor can only display so many frames per second (usually between 60-120 hz), so any higher won't do anything visually.
     private static boolean useFpsCap = true;
@@ -148,7 +150,7 @@ public class JFXClock {
         deltaTimeMS = ((double) currentNano - lastTimeNano)/1000000d;
         lastTimeNano = currentNano;
 
-        TickListener.tick();
+        TickListener.tick(INSTANCE);
         JFXProcessManager.processNext();
     }
 
