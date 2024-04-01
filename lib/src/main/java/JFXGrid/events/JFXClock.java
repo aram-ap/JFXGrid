@@ -132,7 +132,7 @@ public class JFXClock {
     private static void tick() throws Exception {
         var currentNano = System.nanoTime();
 
-        deltaTimeMS = ((double) currentNano - lastTimeNano)/1000000d;
+        deltaTimeMS = ((double) currentNano - lastTimeNano)/1_000_000d;
         lastTimeNano = currentNano;
 
         TickListener.tick(INSTANCE);

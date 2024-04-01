@@ -24,9 +24,9 @@ package JFXGrid.core;
 import JFXGrid.data.JFXDataset;
 import JFXGrid.events.JFXClock;
 import JFXGrid.events.TickListener;
-import JFXGrid.javafx.GridFormatPane;
 import JFXGrid.plugin.Plugin;
 import JFXGrid.renderer.GridRenderer;
+import JFXGrid.util.GridStyler;
 import JFXGrid.util.ResizableCanvas;
 import javafx.scene.image.WritableImage;
 

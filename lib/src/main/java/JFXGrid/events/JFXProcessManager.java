@@ -28,7 +28,12 @@ import java.util.List;
 import java.util.PriorityQueue;
 import java.util.concurrent.*;
 
-public class JFXProcessManager implements TickListener{
+/**
+ * The JFXProcessManager handles adding all JFXGrid-esc background worker calls for processing. Ensures all added tasks
+ * run in correct order. This also limits the effects background processes may have on the JavaFX thread, keeping the
+ * program running smoothly.
+ */
+public class JFXProcessManager implements TickListener {
     private static final ExecutorService workerThread;
     private static PriorityQueue<Runnable> processQueue;
     private static final JFXProcessManager processManager = new JFXProcessManager();

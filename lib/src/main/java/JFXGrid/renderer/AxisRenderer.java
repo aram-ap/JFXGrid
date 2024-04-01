@@ -22,8 +22,7 @@
 package JFXGrid.renderer;
 
 import JFXGrid.core.Axis;
-import JFXGrid.core.Colorizer;
-import JFXGrid.renderer.Renderer;
+import JFXGrid.util.Colorizer;
 import javafx.geometry.VPos;
 import javafx.scene.text.TextAlignment;
 

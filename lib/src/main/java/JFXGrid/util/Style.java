@@ -1,4 +1,4 @@
-package JFXGrid.core;
+package JFXGrid.util;
 
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Stop;

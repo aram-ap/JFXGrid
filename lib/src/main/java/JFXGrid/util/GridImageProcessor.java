@@ -1,5 +1,6 @@
-package JFXGrid.core;
+package JFXGrid.util;
 
+import JFXGrid.core.JFXHeatmap;
 import JFXGrid.events.JFXProcessManager;
 import JFXGrid.util.ImageGenerator;
 import javafx.scene.image.PixelBuffer;

@@ -3,9 +3,11 @@ package JFXGrid.events;
 import java.util.ArrayList;
 
 /**
- *  Interface for all objects that utilize the JFXClock tick mechanism
+ *  Interface for all objects that utilize the JFXClock tick mechanism.
+ *  <br> NOTE: calling init(this) is required for all Tick Listeners that want updates
  */
 public interface TickListener {
+    //Collection of all listeners initialized and listening to the TickListener.
     ArrayList<TickListener> listeners = new ArrayList<>();
 
     /**
@@ -23,7 +25,7 @@ public interface TickListener {
     }
 
     /**
-     * Sends a tick to all tick listeners.
+     * Sends a tick to all tick listeners. Called at every frame.
      */
     static void tick(JFXClock clock) {
         listeners.forEach((listener) -> listener.update(clock));

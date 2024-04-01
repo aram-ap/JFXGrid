@@ -1,4 +1,4 @@
-package JFXGrid.javafx;
+package JFXGrid.core;
 
 import JFXGrid.core.JFXHeatmap;
 import JFXGrid.core.Axis;

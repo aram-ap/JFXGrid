@@ -21,7 +21,6 @@
 //SOFTWARE.
 package JFXGrid.util;
 
-import JFXGrid.core.Colorizer;
 import org.ojalgo.matrix.MatrixR032;
 
 import java.nio.IntBuffer;
