@@ -29,7 +29,7 @@ import JFXGrid.core.JFXHeatmap;
  * This class manages updates. It includes features like setting an FPS Cap, getting delta time in MS and Nano,
  * and will automatically update every JFX Grid given to it.
  *
- * @author aram-ap
+ * @author Aram Aprahamian
  */
 public class JFXClock {
     private static JFXClock INSTANCE = new JFXClock();

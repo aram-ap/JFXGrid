@@ -28,6 +28,8 @@ import java.util.Collection;
 /**
  * A data chunk is a collection of MatrixR032 frames with a set size that can be stepped
  * through
+ *
+ * @author Aram Aprahamian
  */
 public class DataChunk {
     //The collection of frames held in the chunk

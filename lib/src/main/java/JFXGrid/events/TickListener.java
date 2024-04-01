@@ -5,6 +5,8 @@ import java.util.ArrayList;
 /**
  *  Interface for all objects that utilize the JFXClock tick mechanism.
  *  <br> NOTE: calling init(this) is required for all Tick Listeners that want updates
+ *
+ * @author Aram Aprahamian
  */
 public interface TickListener {
     //Collection of all listeners initialized and listening to the TickListener.

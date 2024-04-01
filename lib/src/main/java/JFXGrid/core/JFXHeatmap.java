@@ -37,7 +37,7 @@ import java.util.Optional;
  * The JFXHeatmap is the javafx-compatible chart/imaging object, designed for high-performance
  * heatmap image viewing, primarily for video-playback purposes of raw sensor data output.
  *
- * @author aram-ap
+ * @author Aram Aprahamian (Github: @aram-ap)
  */
 public class JFXHeatmap extends GridFormatPane implements TickListener {
     //The canvas for which the grid will be displayed on
