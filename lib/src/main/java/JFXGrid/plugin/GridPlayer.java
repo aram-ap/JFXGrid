@@ -23,6 +23,7 @@ package JFXGrid.plugin;
 
 import JFXGrid.events.JFXClock;
 import JFXGrid.core.JFXHeatmap;
+import JFXGrid.events.TickListener;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -55,29 +56,10 @@ public class GridPlayer implements Plugin{
     @Override
     public void init(JFXHeatmap grid) {
         this.grid = grid;
-        JFXClock.add(grid);
+
+        TickListener.init(this);
         properties.put("plugin", GridPlayer.class.getName());
         updateProperties();
-    }
-
-    /**
-     *
-     */
-    @Override
-    public void update() {
-        if(grid == null) {
-            return;
-        }
-
-        var dataset = grid.getDataset();
-        if(dataset == null) {
-            return;
-        }
-        if(isPlaying) {
-
-        }
-        dataset.stepForward();
-        framenum = dataset.getFrameNum();
     }
 
     /**
@@ -169,5 +151,27 @@ public class GridPlayer implements Plugin{
             return;
 
         units = timeUnit;
+    }
+
+    /**
+     * Called at each update cycle.
+     *
+     * @param clock the JFXClock calling the tick
+     */
+    @Override
+    public void update(JFXClock clock) {
+        if(grid == null) {
+            return;
+        }
+
+        var dataset = grid.getDataset();
+        if(dataset == null) {
+            return;
+        }
+        if(isPlaying) {
+
+        }
+        dataset.stepForward();
+        framenum = dataset.getFrameNum();
     }
 }

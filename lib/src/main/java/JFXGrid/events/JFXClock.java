@@ -32,40 +32,55 @@ import JFXGrid.core.JFXHeatmap;
  * @author aram-ap
  */
 public class JFXClock {
+    //This keeps the fps contained to a maximum value. It's best practice to keep this capped as uncapped use will max out CPU usage.
+    //Additionally, your monitor can only display so many frames per second (usually between 60-120 hz), so any higher won't do anything visually.
     private static boolean useFpsCap = true;
-    private static boolean isRunning = false;
-    private static double deltaTimeMS = 0d;
-    private static long lastTimeNano = System.nanoTime();
+
+    //The fps cap if useFpsCap is enabled
     private static int fpsCap = 100;
-    private static final ArrayList<JFXHeatmap> gridsToClock = new ArrayList<>();
 
-    public static void add(JFXHeatmap grid) {
-        if(grid == null) {
-            return;
-        }
+    //This just activates/deactivates the clock ticking mechanism.
+    private static boolean isRunning = false;
 
-        gridsToClock.add(grid);
-    }
+    //This tracks the amount of time passed between each frame. Its important when trying to keep to a specific playback rate.
+    private static double deltaTimeMS = System.currentTimeMillis();
 
+    //A more precise version of deltaTimeMS, using nanoseconds instead of milliseconds
+    private static long lastTimeNano = System.nanoTime();
+
+    /**
+     * Starts up the clock ticking mechanism
+     */
     public static void start() {
         if(!isRunning)  {
             isRunning = true;
         }
 
-        initClock();
+        run();
     }
+
+    /**
+     * Changes whether or not the clock is running
+     * @param run true to enable clock ticks
+     */
     public static void setRunning(boolean run) {
         if(isRunning != run) {
             isRunning = run;
-            initClock();
+            run();
         }
     }
 
+    /**
+     * @return true if the clock is ticking
+     */
     public static boolean isRunning() {
         return isRunning;
     }
 
-    private static boolean initClock() {
+    /**
+     * Initializes the clock ticking mechanism
+     */
+    private static void run() {
         while(isRunning) {
             try {
                 tick();
@@ -80,47 +95,73 @@ public class JFXClock {
                 }
             } catch (Exception e) {
                 e.printStackTrace();
+                return;
             }
         }
-        return true;
     }
 
+    /**
+     * Gets the current frame rate based on the time between each frame.
+     * @return
+     */
     public static float getFps() {
         return (float) (1000/deltaTimeMS);
     }
 
+    /**
+     * @return The current fps cap
+     */
     public static int getFpsCap() {
         return fpsCap;
     }
 
+    /**
+     * @return True if the fps is capped to a certain value
+     */
     public static boolean fpsIsCapped() {
         return useFpsCap;
     }
 
+    /**
+     * @param isCapped Sets whether or not the fps value is capped.
+     */
     public static void setFpsIsCapped(boolean isCapped) {
         useFpsCap = isCapped;
     }
 
+    /**
+     * @param fpsCap Sets the value of the fps cap.
+     */
     public static void setFpsCap(int fpsCap) {
         if(fpsCap >= 0) {
             JFXClock.fpsCap = fpsCap;
         }
     }
 
-    public static void tick() throws Exception {
+    /**
+     * The tick implementation which handles updating each heatmap and plugin.
+     * @throws Exception
+     */
+    private static void tick() throws Exception {
         var currentNano = System.nanoTime();
 
         deltaTimeMS = ((double) currentNano - lastTimeNano)/1000000d;
         lastTimeNano = currentNano;
-        gridsToClock.forEach(JFXHeatmap::update);
 
+        TickListener.tick();
         JFXProcessManager.processNext();
     }
 
+    /**
+     * @return time in milliseconds between each frame
+     */
     public static double getDeltaTimeMS() {
         return deltaTimeMS;
     }
 
+    /**
+     * @return time in nanoseconds between each frame
+     */
     public static double getPreciseDeltaTime() {
         return System.nanoTime()-lastTimeNano;
     }

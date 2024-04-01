@@ -22,6 +22,7 @@
 package JFXGrid.plugin;
 
 import JFXGrid.core.JFXHeatmap;
+import JFXGrid.events.TickListener;
 
 import java.util.Map;
 
@@ -29,7 +30,7 @@ import java.util.Map;
  * Plugins are useful tools to be utilized by the JFXHeatmap to add extra functionality.
  * @author aram-ap
  */
-public interface Plugin {
+public interface Plugin extends TickListener {
 
     /**
      * This initializes all plugin internals and adds the plugin's grid parent object.
@@ -38,11 +39,6 @@ public interface Plugin {
      * @param grid Grid to attach plugin into
      */
     public void init(JFXHeatmap grid);
-
-    /**
-     * This is called at each update cycle
-     */
-    public void update();
 
     /**
      * Properties will be unique to each plugin, its up to each plugin to add its own specific properties.

@@ -22,6 +22,8 @@
 package JFXGrid.plugin;
 
 import JFXGrid.core.JFXHeatmap;
+import JFXGrid.events.JFXClock;
+import JFXGrid.events.TickListener;
 
 import java.util.Map;
 
@@ -39,15 +41,7 @@ public class Exporter implements Plugin{
      */
     @Override
     public void init(JFXHeatmap grid) {
-
-    }
-
-    /**
-     * This is called at each update cycle
-     */
-    @Override
-    public void update() {
-
+        TickListener.init(this);
     }
 
     /**
@@ -65,6 +59,16 @@ public class Exporter implements Plugin{
      */
     @Override
     public void updateProperties() {
+
+    }
+
+    /**
+     * Called at each update cycle.
+     *
+     * @param clock the JFXClock calling the tick
+     */
+    @Override
+    public void update(JFXClock clock) {
 
     }
 }

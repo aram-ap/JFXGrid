@@ -24,6 +24,8 @@ package JFXGrid.core;
 import JFXGrid.core.Axis;
 import JFXGrid.core.GridStyler;
 import JFXGrid.data.JFXDataset;
+import JFXGrid.events.JFXClock;
+import JFXGrid.events.TickListener;
 import JFXGrid.javafx.GridFormatPane;
 import JFXGrid.plugin.Plugin;
 import JFXGrid.renderer.GridRenderer;
@@ -39,15 +41,19 @@ import java.util.Optional;
  *
  * @author aram-ap
  */
-public class JFXHeatmap extends GridFormatPane {
+public class JFXHeatmap extends GridFormatPane implements TickListener {
     //The canvas for which the grid will be displayed on
     private final ResizableCanvas canvas;
+
     //The set of axes, will not have any added unless you specifically add axes
     private final ArrayList<Axis> axes = new ArrayList<>();
+
     //The set of plugins
     private final ArrayList<Plugin> plugins = new ArrayList<>();
+
     //Contains all the code for drawing the grid itself
     private final GridRenderer gridRenderer;
+
     //Responsible for specific style configurations like colors, default line sizes, chart sizes, tick marks, etc...
     private final GridStyler gridStyler;
     //The current dataset displayed on the grid
@@ -61,19 +67,12 @@ public class JFXHeatmap extends GridFormatPane {
         //Calls the GridFormatPane class and initializes it with this as its center node
         init(this);
 
+        TickListener.init(this);
+
         getStyleClass().add("jfx-grid");
         gridStyler = new GridStyler();
         canvas = new ResizableCanvas();
         gridRenderer = new GridRenderer(this);
-    }
-
-    /**
-     * The primary update call method
-     * Updates the grid, and calls the update functions in axes and plugins
-     */
-    public void update() {
-        axes.forEach(Axis::update);
-        plugins.forEach(Plugin::update);
     }
 
     /**
@@ -82,7 +81,6 @@ public class JFXHeatmap extends GridFormatPane {
      */
     public void setDataset(JFXDataset newDataset) {
         this.dataset = dataset;
-        update();
     }
 
     public JFXDataset getDataset() {
@@ -113,7 +111,6 @@ public class JFXHeatmap extends GridFormatPane {
 
         plugin.init(this);
         plugins.add(plugin);
-        update();
     }
 
     /**
@@ -132,8 +129,6 @@ public class JFXHeatmap extends GridFormatPane {
             plug.init(this);
             this.plugins.add(plug);
         }
-
-        update();
     }
 
     /**
@@ -147,8 +142,6 @@ public class JFXHeatmap extends GridFormatPane {
 
         axis.setParent(this);
         axes.add(axis);
-
-        update();
     }
 
     public ResizableCanvas getCanvas() {
@@ -161,5 +154,15 @@ public class JFXHeatmap extends GridFormatPane {
 
     public Optional<WritableImage> getImageOptional() {
         return Optional.empty();
+    }
+
+    /**
+     * Called at each update cycle.
+     *
+     * @param clock the JFXClock calling the tick
+     */
+    @Override
+    public void update(JFXClock clock) {
+
     }
 }

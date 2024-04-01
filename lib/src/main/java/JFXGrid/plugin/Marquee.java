@@ -1,6 +1,8 @@
 package JFXGrid.plugin;
 
 import JFXGrid.core.JFXHeatmap;
+import JFXGrid.events.JFXClock;
+import JFXGrid.events.TickListener;
 
 import java.util.Map;
 
@@ -18,17 +20,8 @@ public class Marquee implements Plugin{
      */
     @Override
     public void init(JFXHeatmap grid) {
-
+        TickListener.init(this);
     }
-
-    /**
-     * This is called at each update cycle
-     */
-    @Override
-    public void update() {
-
-    }
-
 
     /**
      * Properties will be unique to each plugin, its up to each plugin to add its own specific properties.
@@ -45,6 +38,16 @@ public class Marquee implements Plugin{
      */
     @Override
     public void updateProperties() {
+
+    }
+
+    /**
+     * Called at each update cycle.
+     *
+     * @param clock the JFXClock calling the tick
+     */
+    @Override
+    public void update(JFXClock clock) {
 
     }
 }
