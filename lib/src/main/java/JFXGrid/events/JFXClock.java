@@ -23,7 +23,7 @@ package JFXGrid.events;
 
 import java.util.ArrayList;
 
-import JFXGrid.JFXGrid;
+import JFXGrid.core.JFXHeatmap;
 
 /**
  * This class manages updates. It includes features like setting an FPS Cap, getting delta time in MS and Nano,
@@ -37,9 +37,9 @@ public class JFXClock {
     private static double deltaTimeMS = 0d;
     private static long lastTimeNano = System.nanoTime();
     private static int fpsCap = 100;
-    private static final ArrayList<JFXGrid> gridsToClock = new ArrayList<>();
+    private static final ArrayList<JFXHeatmap> gridsToClock = new ArrayList<>();
 
-    public static void add(JFXGrid grid) {
+    public static void add(JFXHeatmap grid) {
         if(grid == null) {
             return;
         }
@@ -112,7 +112,7 @@ public class JFXClock {
 
         deltaTimeMS = ((double) currentNano - lastTimeNano)/1000000d;
         lastTimeNano = currentNano;
-        gridsToClock.forEach(JFXGrid::update);
+        gridsToClock.forEach(JFXHeatmap::update);
 
         JFXProcessManager.processNext();
     }

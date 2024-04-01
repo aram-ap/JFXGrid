@@ -21,13 +21,10 @@
 //SOFTWARE.
 package JFXGrid.data;
 
-import com.sun.javafx.collections.UnmodifiableListSet;
 import org.ojalgo.matrix.MatrixR032;
 
-import java.util.List;
-
 /**
- * The default Dataset implementation for JFXGrid. Once created, this data cannot change and is supposed to be for better memory management/utilization.
+ * The default Dataset implementation for JFXHeatmap. Once created, this data cannot change and is supposed to be for better memory management/utilization.
  *
  * @author aram-ap
  */
@@ -98,11 +95,11 @@ public class JFXDataset implements Data {
      * Returns a list of MatrixR032
      * @return
      */
-    public UnmodifiableListSet<MatrixR032> getUnmodifiableCache() {
+    public MatrixR032[] getCache() {
         if(currentChunk == null) {
-            return new UnmodifiableListSet<>(List.of(new MatrixR032[0]));
+            return new MatrixR032[0];
         }
-        return currentChunk.toUnmodifiableList();
+        return currentChunk.toList();
     }
 
     /**
@@ -114,7 +111,7 @@ public class JFXDataset implements Data {
         if(currentChunk == null) {
             return null;
         }
-        return currentChunk.getCurr();
+        return currentChunk.getCurrentFrame();
     }
 
     /**

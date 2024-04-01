@@ -1,7 +1,6 @@
 package JFXGrid.core;
 
 import JFXGrid.events.JFXProcessManager;
-import JFXGrid.JFXGrid;
 import JFXGrid.util.ImageGenerator;
 import javafx.scene.image.PixelBuffer;
 import javafx.scene.image.PixelFormat;
@@ -20,10 +19,10 @@ import java.util.concurrent.Future;
 public class GridImageProcessor {
     private static final ExecutorService imageThread = Executors.newFixedThreadPool(1);
     private WritableImage image;
-    private JFXGrid grid;
+    private JFXHeatmap grid;
     private double width, height;
 
-    public GridImageProcessor(JFXGrid grid, int width, int height) {
+    public GridImageProcessor(JFXHeatmap grid, int width, int height) {
         this.grid = grid;
         this.width = width;
         this.height = height;

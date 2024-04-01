@@ -51,7 +51,7 @@ public class DataNode implements Data {
      * @return
      */
     public MatrixR032 get() {
-        return val.getCurr();
+        return val.getCurrentFrame();
     }
 
     public DataNode getNext() {

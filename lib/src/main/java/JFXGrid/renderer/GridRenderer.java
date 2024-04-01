@@ -21,14 +21,14 @@
 //SOFTWARE.
 package JFXGrid.renderer;
 
-import JFXGrid.JFXGrid;
+import JFXGrid.core.JFXHeatmap;
 import JFXGrid.util.ResizableCanvas;
 
 
 public class GridRenderer implements Renderer {
-    private final JFXGrid jfxGrid;
+    private final JFXHeatmap jfxGrid;
 
-    public GridRenderer(final JFXGrid jfxGrid) {
+    public GridRenderer(final JFXHeatmap jfxGrid) {
         this.jfxGrid = jfxGrid;
     }
 

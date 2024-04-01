@@ -24,27 +24,66 @@ package JFXGrid.data;
 import org.ojalgo.matrix.MatrixR032;
 
 /**
- * The JFXDataDeque is a dataset implementation which intends to allow chunking of data and reduced memory utilization.
+ * <h3>JFXDataDeque</h3>
+ * <hr>
+ * <p>
+ *     &emsp The JFXDataDeque is the child class of the JFXDataSet. Its purpose is to reduce memory utilization, allow for dynamic chunk loading/reloading
+ *     Chunking to/from the local filesystem, and all other features of the default JFXDataSet class.
+ *     When should you use this? <br>
+ * </p>
+ * <b>Use this if any of these apply:</b> <br>
+ * <ul>
+ *     <li>Your program utilizes <b>large datasets</b> that would otherwise collect and grow too large in memory.</li>
+ *     <li>Your program <b>asynchronously reads data</b> such as reading from a network socket or when reading sensor data live</li>
+ *     <li>You want datasets processed and saved onto your filesystem</li>
+ * </ul>
  *
- * @author aram-ap
+ * <h3>More notes on this class:</h3>
+ * <hr>
+ * <p>
+ *     &emsp This class work through loading chunks in a at-need basis. There's a reference to the middle / 'current' chunk.
+ *     Having this middle chunk as the 'current' chunk, with a couple chunks in front + behind gives a little more
+ *     leeway for more jumps in frame number. <br>
+ *     &emsp As a chunk has been moved through, this object will attempt to load the next chunk and append it to the end of
+ *     the list before it moves the current chunk pointer to the next. Of course, if there are no more chunks left
+ *     to load, it'll just move to the next reference and keep playing until the last frame. <br>
+ *     &emsp Each time a chunk is loaded, it is placed into the queue according to its UID. This UID 'can' be changed,
+ *     but it should usually be used as the number indicating the frame # of the first matrix in the chunk. <br>
+ *     &emsp On default, chunk process calls are put into a separate worker thread, but if needed, can be put on the
+ *     default JavaFX thread. <br>
+ * </p>
+ * @author @aram-ap
  */
 public class JFXDataDeque extends JFXDataset implements Data{
-    private int numFrames;
-    private int numChunks;
-    private DataChunk currentChunk;
-    private DataNode headNode;
-    private DataNode tailNode;
-    private DataNode currentNode;
+    private int numFrames; //The maximum frame number of the very last chunk
+    private int numChunks; //A number indicating the total length of the chunk queue
+    private DataChunk currentChunk; //A reference to the current (usually middle) chunk of the list.
+    private DataNode headNode; //The very front of the queue.
+    private DataNode tailNode; //The very end of the queue.
+    private DataNode currentNode; //The encapsulating node of the current data chunk. Just contains references to the data chunk, next node, and previous node
 
+    /**
+     * The default constructor for the JFXDataDeque. Made private as to require the use of the JFXDatasetFactory when
+     * creating the Deque objects
+     * @param rows number of rows of each matrix
+     * @param columns number of columns of each matrix
+     */
     protected JFXDataDeque(int rows, int columns) {
         super(rows, columns);
     }
 
+    /**
+     * @return the current length of loaded chunks
+     */
     public int getNumChunks() {
         return numChunks;
     }
 
-    public void insert(DataChunk chunk) {
+    /**
+     * Inserts a new data chunk into the queue. Sets the chunk node in the correct order of priority
+     * @param chunk
+     */
+    protected void insert(DataChunk chunk) {
         if(chunk == null)
             return;
 
@@ -73,7 +112,11 @@ public class JFXDataDeque extends JFXDataset implements Data{
         }
     }
 
-    public void insertLast(DataChunk chunk) {
+    /**
+     * Inserts the chunk as the last node. Primarily is used when loading up the node with the highest UID / frame number
+     * @param chunk
+     */
+    protected void insertLast(DataChunk chunk) {
         if(chunk == null) return;
 
         var node = new DataNode(chunk);
@@ -92,7 +135,12 @@ public class JFXDataDeque extends JFXDataset implements Data{
         numChunks++;
         numFrames += chunk.size();
     }
-    public void insertFirst(DataChunk chunk) {
+
+    /**
+     * Inserts the chunk as the first node. Primarily is used when loading up the node with the lowest UID / frame number.
+     * @param chunk
+     */
+    protected void insertFirst(DataChunk chunk) {
         if(chunk == null) return;
 
         var node = new DataNode(chunk);
@@ -111,7 +159,12 @@ public class JFXDataDeque extends JFXDataset implements Data{
         numFrames += chunk.size();
     }
 
-    public DataChunk deleteFirst() {
+    /**
+     * This removes the first chunk node. Usually occurs when newer chunks have been loaded / when the current chunk
+     * moves too far away from the first chunk as a form of memory management.
+     * @return the chunk removed from the queue
+     */
+    protected DataChunk deleteFirst() {
         if(headNode == null) {
             return null;
         }
@@ -133,7 +186,12 @@ public class JFXDataDeque extends JFXDataset implements Data{
         return node.getChunk();
     }
 
-    public DataChunk deleteLast() {
+    /**
+     * Removes the last chunk in the queue. Usually occurs when the current chunk node is moved back 1+, such as going
+     * to the first frame of a multi-chunk queue.
+     * @return the last chunk that was removed from the queue.
+     */
+    protected DataChunk deleteLast() {
         if(tailNode == null) {
             return null;
         }
@@ -153,27 +211,50 @@ public class JFXDataDeque extends JFXDataset implements Data{
         return node.getChunk();
     }
 
-    public MatrixR032 stepFrame() {
-        if(currentChunk == null) {
+    /**
+     * Steps to the next node
+     * @return the next node's data chunk
+     */
+    public DataChunk stepNodeForward() {
+        if(currentNode == null) {
             return null;
         }
 
-        if(currentChunk.hasNext()) {
-            return currentChunk.stepForward();
-        } else if (currentNode != tailNode) {
+        if(currentNode.getNext() != null) {
             currentNode = currentNode.getNext();
-            currentNode.setPrev(null);
             currentChunk = currentNode.getChunk();
         }
 
-        return currentChunk.getCurr();
+        return currentNode.getChunk();
     }
 
     /**
-     * Moves the current node pointer to the indicated frameNum
-     * @param frameNum
+     * Steps to the previous node node
+     * @return the previous node's data chunk
+     */
+    public DataChunk stepNodeBackward() {
+        if(currentNode == null) {
+            return null;
+        }
+
+        if(currentNode.getPrev() != null) {
+            currentNode = currentNode.getPrev();
+            currentChunk = currentNode.getChunk();
+        }
+
+        return currentNode.getChunk();
+    }
+
+    /**
+     * Moves the current node pointer to the indicated frameNum. Will automatically switch chunk nodes while traversing
+     * frames.
+     * @param frameNum the frame number being moved to.
+     * @throws IllegalArgumentException for entered frame numbers less than 0
      */
     public void moveTo(int frameNum) {
+        if(frameNum < 0) {
+            throw new IllegalArgumentException("Frame number cannot be less than 0!");
+        }
         var temp = headNode;
         var chunkFound = false;
         for(int i = 0; i < numChunks; i++) {
@@ -189,16 +270,19 @@ public class JFXDataDeque extends JFXDataset implements Data{
     }
 
     /**
-     * @return
+     * @return the current node's current frame.
      */
     @Override
     public MatrixR032 get() {
         if(headNode == null) {
             return null;
         }
-        return currentNode.getChunk().getCurr();
+        return currentNode.getChunk().getCurrentFrame();
     }
 
+    /**
+     * Removes all chunk node references before calling the garbage collector.
+     */
     @Override
     public void clearData() {
         currentChunk = null;
@@ -207,35 +291,51 @@ public class JFXDataDeque extends JFXDataset implements Data{
         System.gc();
     }
 
+    /**
+     * Moves the current frame number up by one. If there's no more frames in the current chunk, it'll try to move onto the next chunk before loading its first frame.
+     * It won't step if its at its last frame already.
+     * @return the next frame
+     */
     @Override
     public MatrixR032 stepForward() {
-        if(currentNode == null) {
+        if(currentChunk == null) {
             return null;
         }
 
-        if(currentNode.getChunk().hasNext()) {
-        } else if (currentNode.getChunk().hasNext() && currentNode.getNext() != null) {
-            currentNode = currentNode.getNext();
+        if(currentChunk.hasNext()) {
+            return currentChunk.stepForward();
+        } else if (currentNode != tailNode) {
+            stepNodeForward();
+            currentChunk.setFrameFront();
         }
-        return currentNode.stepForward();
+
+        return currentChunk.getCurrentFrame();
     }
 
+    /**
+     * Moves the current frame number back by one. If the chunk's frame pointer is already 0, then it'll try to step to
+     * the previous chunk
+     * @return the previous frame
+     */
     @Override
     public MatrixR032 stepBack() {
         if(currentNode == null) {
             return null;
         }
 
-        var val = currentNode.stepBack();
-        if(val == null) {
-            if(currentNode.getPrev() != null) {
-                currentNode = currentNode.getPrev();
-            }
+        if(currentChunk.hasPrev()) {
+            return currentChunk.stepBack();
+        } else if (currentNode != headNode) {
+            stepNodeBackward();
+            currentChunk.setFrameLast();
         }
-
-        return val;
+        return currentChunk.getCurrentFrame();
     }
 
+    /**
+     * Gets the current frame number. This is inclusive of the current chunk's UID / frame start value.
+     * @return
+     */
     @Override
     public long getFrameNum() {
         return currentChunk.uid + currentChunk.getIndex();

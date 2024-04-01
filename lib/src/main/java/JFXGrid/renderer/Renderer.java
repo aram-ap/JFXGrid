@@ -1,10 +1,7 @@
 package JFXGrid.renderer;
 
-import JFXGrid.JFXGrid;
-import JFXGrid.core.Axis;
+import JFXGrid.core.JFXHeatmap;
 import javafx.scene.image.WritableImage;
-
-import java.util.ArrayList;
 
 /**
  * Default interface for all renderers
@@ -17,7 +14,7 @@ public interface Renderer {
      * @param grid the grid to be displayed
      * @return a final view including all axis and grid laid out
      */
-    default WritableImage joinAll(JFXGrid grid) {
+    default WritableImage joinAll(JFXHeatmap grid) {
         return null;
     }
 }

@@ -1,21 +1,21 @@
 package JFXGrid.javafx;
 
-import JFXGrid.JFXGrid;
+import JFXGrid.core.JFXHeatmap;
 import JFXGrid.core.Axis;
 import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 
 /**
- * This class is utilized by the JFXGrid, it arranges the grid and axis accordingly.
+ * This class is utilized by the JFXHeatmap, it arranges the grid and axis accordingly.
  *
  * @author aram-ap
  */
 public abstract class GridFormatPane extends GridPane {
-    protected JFXGrid grid;
+    protected JFXHeatmap grid;
 
     protected GridFormatPane() {  }
 
-    protected void init(JFXGrid grid) {
+    protected void init(JFXHeatmap grid) {
         if(grid == null)
             return;
         this.grid = grid;
@@ -67,8 +67,6 @@ public abstract class GridFormatPane extends GridPane {
             default -> { }
         }
 
-        if(!contains(xPos, yPos)) {
-            add(node, xPos, yPos);
-        }
+        add(node, xPos, yPos);
     }
 }

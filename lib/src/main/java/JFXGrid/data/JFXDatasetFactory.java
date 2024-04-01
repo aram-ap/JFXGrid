@@ -29,7 +29,7 @@ import java.util.Deque;
 import java.util.List;
 
 /**
- * The default dataset builder class for JFXGrid. It manages inputting data into the chunks and allows datasets to be immutable.
+ * The default dataset builder class for JFXHeatmap. It manages inputting data into the chunks and allows datasets to be immutable.
  * @author aram-ap
  */
 public class JFXDatasetFactory extends JFXDataset {

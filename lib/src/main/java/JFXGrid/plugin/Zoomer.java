@@ -21,7 +21,7 @@
 //SOFTWARE.
 package JFXGrid.plugin;
 
-import JFXGrid.JFXGrid;
+import JFXGrid.core.JFXHeatmap;
 
 import java.util.Map;
 
@@ -33,13 +33,13 @@ public class Zoomer implements Plugin{
 
     /**
      * This initializes all plugin internals and adds the plugin's grid parent object.
-     * The parent object is necessary when attaching a plugin to a JFXGrid, this is automatically called
-     * when adding a plugin into a JFXGrid object
+     * The parent object is necessary when attaching a plugin to a JFXHeatmap, this is automatically called
+     * when adding a plugin into a JFXHeatmap object
      *
      * @param grid Grid to attach plugin into
      */
     @Override
-    public void init(JFXGrid grid) {
+    public void init(JFXHeatmap grid) {
 
     }
 

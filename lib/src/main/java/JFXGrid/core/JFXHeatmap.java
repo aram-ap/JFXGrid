@@ -19,7 +19,7 @@
 //LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE.
-package JFXGrid;
+package JFXGrid.core;
 
 import JFXGrid.core.Axis;
 import JFXGrid.core.GridStyler;
@@ -28,20 +28,18 @@ import JFXGrid.javafx.GridFormatPane;
 import JFXGrid.plugin.Plugin;
 import JFXGrid.renderer.GridRenderer;
 import JFXGrid.util.ResizableCanvas;
-import com.sun.javafx.collections.UnmodifiableListSet;
 import javafx.scene.image.WritableImage;
-import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
 import java.util.Optional;
 
 /**
- * The JFXGrid is the javafx-compatible chart/imaging object, designed for high-performance
+ * The JFXHeatmap is the javafx-compatible chart/imaging object, designed for high-performance
  * heatmap image viewing, primarily for video-playback purposes of raw sensor data output.
  *
  * @author aram-ap
  */
-public class JFXGrid extends GridFormatPane {
+public class JFXHeatmap extends GridFormatPane {
     //The canvas for which the grid will be displayed on
     private final ResizableCanvas canvas;
     //The set of axes, will not have any added unless you specifically add axes
@@ -56,10 +54,10 @@ public class JFXGrid extends GridFormatPane {
     private JFXDataset dataset;
 
     /**
-     * Default constructor for JFXGrid class.
+     * Default constructor for JFXHeatmap class.
      * Adds the "jfx-grid" css style class.
      */
-    public JFXGrid() {
+    public JFXHeatmap() {
         //Calls the GridFormatPane class and initializes it with this as its center node
         init(this);
 
@@ -92,17 +90,17 @@ public class JFXGrid extends GridFormatPane {
     }
 
     /**
-     * @return Unmodifiable list of plugins
+     * @return list of plugins
      */
-    public UnmodifiableListSet<Plugin> getPlugins() {
-        return new UnmodifiableListSet<>(plugins);
+    public ArrayList<Plugin> getPlugins() {
+        return plugins;
     }
 
     /**
-     * @return Unmodifiable list of axes
+     * @return list of axes
      */
-    public UnmodifiableListSet<Axis> getAxes() {
-        return new UnmodifiableListSet<>(axes);
+    public ArrayList<Axis> getAxes() {
+        return axes;
     }
 
     /**

@@ -29,6 +29,7 @@ javafx {
 
 repositories {
     // Use Maven Central for resolving dependencies.
+    mavenLocal();
     mavenCentral()
 }
 
@@ -39,6 +40,10 @@ dependencies {
     implementation 'org.slf4j:slf4j-api:2.0.12'
 }
 
+application {
+    mainModule = 'JFXGrid'
+    mainClass = 'JFXGrid.core.JFXHeatmap'
+}
 tasks.named('test') {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()

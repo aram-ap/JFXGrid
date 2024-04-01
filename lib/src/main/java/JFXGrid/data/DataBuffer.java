@@ -113,7 +113,7 @@ public class DataBuffer {
      *
      * <p> After a sequence of channel-read or <i>put</i> operations, invoke
      * this method to prepare for a sequence of channel-write or relative
-     * <i>getCurr</i> operations.  For example:
+     * <i>getCurrentFrame</i> operations.  For example:
      *
      * <blockquote><pre>
      * buf.put(magic);    // Prepend header
@@ -135,14 +135,14 @@ public class DataBuffer {
      * Rewinds this buffer.  The position is set to zero and the mark is
      * discarded.
      *
-     * <p> Invoke this method before a sequence of channel-write or <i>getCurr</i>
+     * <p> Invoke this method before a sequence of channel-write or <i>getCurrentFrame</i>
      * operations, assuming that the limit has already been set
      * appropriately.  For example:
      *
      * <blockquote><pre>
      * out.write(buf);    // Write remaining data
      * buf.rewind();      // Rewind buffer
-     * buf.getCurr(array);    // Copy data into array</pre></blockquote>
+     * buf.getCurrentFrame(array);    // Copy data into array</pre></blockquote>
      *
      * @return This buffer
      */

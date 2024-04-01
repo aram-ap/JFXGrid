@@ -21,18 +21,18 @@
 //SOFTWARE.
 package JFXGrid.javafx;
 
-import JFXGrid.JFXGrid;
+import JFXGrid.core.JFXHeatmap;
 import JFXGrid.core.Axis;
 import JFXGrid.core.Style;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.shape.Rectangle;
 
 public class JFXColorBar extends Axis {
-    private JFXGrid grid;
+    private JFXHeatmap grid;
     private LinearGradient gradient;
     private Rectangle gradientBar;
     private Style style;
-    public JFXColorBar(JFXGrid grid, Align align) {
+    public JFXColorBar(JFXHeatmap grid, Align align) {
         super(align);
         this.grid = grid;
     }

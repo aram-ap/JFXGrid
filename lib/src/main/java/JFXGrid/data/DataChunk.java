@@ -21,11 +21,9 @@
 //SOFTWARE.
 package JFXGrid.data;
 
-import com.sun.javafx.collections.UnmodifiableListSet;
 import org.ojalgo.matrix.MatrixR032;
 
 import java.util.Collection;
-import java.util.List;
 
 /**
  * A data chunk is a collection of MatrixR032 frames with a set size that can be stepped
@@ -89,7 +87,7 @@ public class DataChunk {
     /**
      * @return the frame at the current position
      */
-    public MatrixR032 getCurr() {
+    public MatrixR032 getCurrentFrame() {
         if(currentFrame < 0) {
             currentFrame = 0;
         }
@@ -106,6 +104,31 @@ public class DataChunk {
         }
 
         return frames[++currentFrame];
+    }
+
+    /**
+     * Sets the current frame # to 0
+     * @return the first frame of the chunk
+     */
+    public MatrixR032 setFrameFront() {
+        currentFrame = 0;
+        if(frames == null) {
+            return null;
+        }
+
+        return frames[currentFrame];
+    }
+
+    /**
+     * Sets the current frame # to the last frame
+     * @return the last frame of the chunk
+     */
+    public MatrixR032 setFrameLast() {
+        if(frames == null) {
+            return null;
+        }
+        currentFrame = frames.length - 1;
+        return frames[currentFrame];
     }
 
     /**
@@ -127,10 +150,17 @@ public class DataChunk {
     }
 
     /**
-     * @return returns true if the current position is not at the end
+     * @return returns true if the current frame # is not at the end
      */
     public boolean hasNext() {
-        return currentFrame == capacity-1;
+        return currentFrame != capacity-1;
+    }
+
+    /**
+     * @return true if the current frame # is not 0
+     */
+    public boolean hasPrev() {
+        return currentFrame != 0;
     }
 
     /**
@@ -148,9 +178,9 @@ public class DataChunk {
     }
 
     /**
-     * @return The unmodifiable list of frames in this chunk
+     * @return The list of frames in this chunk
      */
-    public UnmodifiableListSet<MatrixR032> toUnmodifiableList() {
-        return new UnmodifiableListSet<>(List.of(frames).subList(0, numItems));
+    public MatrixR032[] toList() {
+        return frames;
     }
 }

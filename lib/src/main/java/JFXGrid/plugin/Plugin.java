@@ -21,23 +21,23 @@
 //SOFTWARE.
 package JFXGrid.plugin;
 
-import JFXGrid.JFXGrid;
+import JFXGrid.core.JFXHeatmap;
 
 import java.util.Map;
 
 /**
- * Plugins are useful tools to be utilized by the JFXGrid to add extra functionality.
+ * Plugins are useful tools to be utilized by the JFXHeatmap to add extra functionality.
  * @author aram-ap
  */
 public interface Plugin {
 
     /**
      * This initializes all plugin internals and adds the plugin's grid parent object.
-     * The parent object is necessary when attaching a plugin to a JFXGrid, this is automatically called
-     * when adding a plugin into a JFXGrid object
+     * The parent object is necessary when attaching a plugin to a JFXHeatmap, this is automatically called
+     * when adding a plugin into a JFXHeatmap object
      * @param grid Grid to attach plugin into
      */
-    public void init(JFXGrid grid);
+    public void init(JFXHeatmap grid);
 
     /**
      * This is called at each update cycle

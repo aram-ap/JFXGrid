@@ -22,7 +22,7 @@
 package JFXGrid.plugin;
 
 import JFXGrid.events.JFXClock;
-import JFXGrid.JFXGrid;
+import JFXGrid.core.JFXHeatmap;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,22 +33,27 @@ import java.util.Map;
  * @author aram-ap
  */
 public class GridPlayer implements Plugin{
-    private JFXGrid grid;
-    private long framenum;
     private final Map<String, String> properties = new HashMap<>();
+    private JFXHeatmap grid;
+    private final JFXClock clock = new JFXClock();
     private boolean isPlaying = false;
+    private long framenum;
+    private long maxFrameNum;
+    private double frameRateHZ;
+    private double playbackSpeed = 1;
+    private String units = "";
 
     public void GridPlayer() { }
 
     /**
      * This initializes all plugin internals and adds the plugin's grid parent object.
-     * The parent object is necessary when attaching a plugin to a JFXGrid, this is automatically called
-     * when adding a plugin into a JFXGrid object
+     * The parent object is necessary when attaching a plugin to a JFXHeatmap, this is automatically called
+     * when adding a plugin into a JFXHeatmap object
      *
      * @param grid Grid to attach plugin into
      */
     @Override
-    public void init(JFXGrid grid) {
+    public void init(JFXHeatmap grid) {
         this.grid = grid;
         JFXClock.add(grid);
         properties.put("plugin", GridPlayer.class.getName());
@@ -94,4 +99,75 @@ public class GridPlayer implements Plugin{
         properties.put("frame", String.valueOf(framenum));
     }
 
+    /**
+     * Sets the current frame number
+     * @param num the frame number to go to
+     * @throws IllegalArgumentException if given an input < 0
+     */
+    public void setFrameNum(long num) {
+        if(num < 0) {
+            throw new IllegalArgumentException("Cannot set frame numbers less than 0!");
+        } else if (num > maxFrameNum) {
+            framenum = maxFrameNum;
+        }
+
+    }
+
+    /**
+     * Iterates through frames according to playback speed.
+     */
+    public void play() {
+
+    }
+
+    /**
+     * Sets playback speed to 0
+     */
+    public void pause() {
+
+    }
+
+    /**
+     * Increases frame number by one
+     */
+    public void increment() {
+
+    }
+
+    /**
+     * Decreases frame number by one
+     */
+    public void decrement() {
+
+    }
+
+    /**
+     * Sets the playback speed in relation to the given frame rate (e.g. 1.5 -> 150% the speed, 0.5 -> 50% speed, -1 -> backwards)
+     * @param speed framerate multiplier
+     */
+    public void setPlaybackSpeed(double speed) {
+        this.playbackSpeed = speed;
+    }
+
+    /**
+     * Used when dealing with framerates with data that was shot with a specific/unconventional framerate that you want to be played back with
+     * its original speed (e.g. 250MHz, 1Hz, 0.05Hz, ...)
+     *
+     * NOTE: For speeds above a computer display's rated framerate (usually around 60 Hz), frames WILL be skipped.
+     * @param hz how many frames played each second. Set to a value <= 0 for playback proportional to computer processing time.
+     */
+    public void setFrameRateHz(double hz) {
+        this.frameRateHZ = hz;
+    }
+
+    /**
+     * Each frame's time value (e.g. S -> seconds, Ms -> Milliseconds, (insert here))
+     * @param timeUnit
+     */
+    public void setFrameUnit(String timeUnit) {
+        if(timeUnit == null)
+            return;
+
+        units = timeUnit;
+    }
 }
