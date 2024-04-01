@@ -21,30 +21,51 @@
 //SOFTWARE.
 package JFXGrid.events;
 
+import javafx.application.Platform;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.concurrent.*;
 
 public class JFXProcessManager implements TickListener{
-    private static final ExecutorService imageThread;
+    private static final ExecutorService workerThread;
     private static PriorityQueue<Runnable> processQueue;
     private static final JFXProcessManager processManager = new JFXProcessManager();
 
 
     static {
-        imageThread = Executors.newSingleThreadExecutor();
+        workerThread = Executors.newSingleThreadExecutor();
         processQueue = new PriorityQueue<>();
         TickListener.init(processManager);
     }
 
-    public static final void addTask(Runnable runnable, int priority) {
+    /**
+     * Adds a runnable task onto the worker thread queue
+     * @param runnable
+     */
+    public static void addTask(Runnable runnable) {
         processQueue.add(runnable);
-        imageThread.execute(runnable);
     }
 
-    public static void processNext() throws Exception {
+    /**
+     * Adds a task onto the JavaFX thread. Use this for everything related to JavaFX nodes.
+     * @param runnable
+     */
+    public static void addFXTask(Runnable runnable) {
+        Platform.runLater(runnable);
+    }
 
+    /**
+     * Processes the next runnable in the queue
+     * @throws Exception
+     */
+    public static void processNext() throws Exception {
+        if(processQueue.isEmpty()) {
+            return;
+        }
+
+        workerThread.execute(processQueue.poll());
     }
 
     /**
@@ -54,6 +75,10 @@ public class JFXProcessManager implements TickListener{
      */
     @Override
     public void update(JFXClock clock) {
-
+        try {
+            processNext();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -30,7 +30,10 @@ import java.util.Collection;
  * through
  */
 public class DataChunk {
+    //The collection of frames held in the chunk
     private MatrixR032[] frames;
+
+    //The internal frame pointer that keeps track of the current matrix being shown
     private int currentFrame = -1;
     private int capacity;
     private int numItems;

@@ -30,7 +30,7 @@ import org.ojalgo.matrix.MatrixR032;
  * @author aram-ap
  */
 public interface Data {
-    final SimpleStringProperty datasetName = new SimpleStringProperty("Data");
+    SimpleStringProperty datasetName = new SimpleStringProperty("Data");
 
     default SimpleStringProperty getDatasetName() {
         return datasetName;

@@ -9,6 +9,12 @@ public interface TickListener {
     ArrayList<TickListener> listeners = new ArrayList<>();
 
     /**
+     * Called at a fixed rate, capped the fps given to the clock. Left empty to keep it optional.
+     * @param clock
+     */
+    default void updateFixed(JFXClock clock) { }
+
+    /**
      * Adds a tick listener to the list of listeners.
      * @param listener
      */
@@ -21,6 +27,13 @@ public interface TickListener {
      */
     static void tick(JFXClock clock) {
         listeners.forEach((listener) -> listener.update(clock));
+    }
+
+    /**
+     * Sends a fixed time update to all listeners.
+     */
+    static void tickFixed(JFXClock clock) {
+        listeners.forEach((listener -> listener.updateFixed(clock)));
     }
 
     /**

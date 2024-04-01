@@ -17,7 +17,6 @@ import java.util.concurrent.Future;
  * @author aram-ap
  */
 public class GridImageProcessor {
-    private static final ExecutorService imageThread = Executors.newFixedThreadPool(1);
     private WritableImage image;
     private JFXHeatmap grid;
     private double width, height;
@@ -58,7 +57,7 @@ public class GridImageProcessor {
                     this.image = image;
                 }
             };
-            JFXProcessManager.addTask(imageCall, 2);
+            JFXProcessManager.addTask(imageCall);
         } catch (Exception e) {
             e.printStackTrace();
         }

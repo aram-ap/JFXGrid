@@ -5,6 +5,9 @@ import javafx.scene.paint.Stop;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+/**
+ * Style is an enum containing the various color sets used for displaying the grids with their data.
+ */
 public enum Style {
     DEFAULT (
             1d,
@@ -99,5 +102,4 @@ public enum Style {
     public static Stop stopOf(double offset, Color color) {
         return new Stop(offset, color);
     }
-
 }

@@ -34,11 +34,7 @@ import JFXGrid.core.JFXHeatmap;
 public class JFXClock {
     private static JFXClock INSTANCE = new JFXClock();
 
-    //This keeps the fps contained to a maximum value. It's best practice to keep this capped as uncapped use will max out CPU usage.
-    //Additionally, your monitor can only display so many frames per second (usually between 60-120 hz), so any higher won't do anything visually.
-    private static boolean useFpsCap = true;
-
-    //The fps cap if useFpsCap is enabled
+    //The fps cap which is used by the fixedUpdate() call for specific timing purposes
     private static int fpsCap = 100;
 
     //This just activates/deactivates the clock ticking mechanism.
@@ -49,6 +45,9 @@ public class JFXClock {
 
     //A more precise version of deltaTimeMS, using nanoseconds instead of milliseconds
     private static long lastTimeNano = System.nanoTime();
+
+    //This is used to keep fixed update calls working at the correct time
+    private static double lastFixedTimeMS = System.currentTimeMillis();
 
     /**
      * Starts up the clock ticking mechanism
@@ -93,20 +92,6 @@ public class JFXClock {
      */
     public static int getFpsCap() {
         return fpsCap;
-    }
-
-    /**
-     * @return True if the fps is capped to a certain value
-     */
-    public static boolean fpsIsCapped() {
-        return useFpsCap;
-    }
-
-    /**
-     * @param isCapped Sets whether or not the fps value is capped.
-     */
-    public static void setFpsIsCapped(boolean isCapped) {
-        useFpsCap = isCapped;
     }
 
     /**
@@ -155,6 +140,15 @@ public class JFXClock {
     }
 
     /**
+     * Fixed-time tick calls, called at a rate according to the fps cap
+     * @throws Exception
+     */
+    private static void tickFixed() throws Exception {
+        TickListener.tickFixed(INSTANCE);
+        lastFixedTimeMS = System.currentTimeMillis();
+    }
+
+    /**
      * Initializes the clock ticking mechanism
      */
     private static void run() {
@@ -163,8 +157,10 @@ public class JFXClock {
         Runnable clockRunnable = () -> {
             while(isRunning) {
                 try {
-                    if(useFpsCap && minTimeBetweenFramesMS < deltaTimeMS) {
-                        tick();
+                    tick();
+
+                    if(minTimeBetweenFramesMS < (System.currentTimeMillis() - lastFixedTimeMS)) {
+                        tickFixed();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -176,4 +172,6 @@ public class JFXClock {
         Thread clockBackgroundThread = new Thread(clockRunnable);
         clockBackgroundThread.run();
     }
+
+
 }
