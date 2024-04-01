@@ -21,17 +21,21 @@
 //SOFTWARE.
 package JFXGrid.events;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.PriorityQueue;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 
-public class JFXProcessManager {
+public class JFXProcessManager implements TickListener{
     private static final ExecutorService imageThread;
     private static PriorityQueue<Runnable> processQueue;
+    private static final JFXProcessManager processManager = new JFXProcessManager();
+
 
     static {
         imageThread = Executors.newSingleThreadExecutor();
         processQueue = new PriorityQueue<>();
+        TickListener.init(processManager);
     }
 
     public static final void addTask(Runnable runnable, int priority) {
@@ -40,6 +44,16 @@ public class JFXProcessManager {
     }
 
     public static void processNext() throws Exception {
+
+    }
+
+    /**
+     * Called at each update cycle.
+     *
+     * @param clock the JFXClock calling the tick
+     */
+    @Override
+    public void update(JFXClock clock) {
 
     }
 }

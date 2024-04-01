@@ -68,8 +68,9 @@ public class JFXClock {
     public static void setRunning(boolean run) {
         if(isRunning != run) {
             isRunning = run;
-            run();
         }
+
+        run();
     }
 
     /**
@@ -77,29 +78,6 @@ public class JFXClock {
      */
     public static boolean isRunning() {
         return isRunning;
-    }
-
-    /**
-     * Initializes the clock ticking mechanism
-     */
-    private static void run() {
-        while(isRunning) {
-            try {
-                tick();
-
-                if(useFpsCap) {
-                    long minTimeBetweenFramesMS = (long)1000/fpsCap;
-                    long sleepDuration = (long) (minTimeBetweenFramesMS - deltaTimeMS);
-
-                    if(sleepDuration > 0) {
-                        Thread.sleep(minTimeBetweenFramesMS);
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                return;
-            }
-        }
     }
 
     /**
@@ -141,6 +119,28 @@ public class JFXClock {
     }
 
     /**
+     * @return time in milliseconds between each frame
+     */
+    public static double getDeltaTimeMS() {
+        return deltaTimeMS;
+    }
+
+    /**
+     * @return time in nanoseconds between each frame
+     */
+    public static double getPreciseDeltaTime() {
+        return System.nanoTime()-lastTimeNano;
+    }
+
+
+    /**
+     * @return current system time in milliseconds
+     */
+    public static double currTimeMS() {
+        return System.currentTimeMillis();
+    }
+
+    /**
      * The tick implementation which handles updating each heatmap and plugin.
      * @throws Exception
      */
@@ -155,16 +155,25 @@ public class JFXClock {
     }
 
     /**
-     * @return time in milliseconds between each frame
+     * Initializes the clock ticking mechanism
      */
-    public static double getDeltaTimeMS() {
-        return deltaTimeMS;
-    }
+    private static void run() {
+        long minTimeBetweenFramesMS = (long)1000/fpsCap;
 
-    /**
-     * @return time in nanoseconds between each frame
-     */
-    public static double getPreciseDeltaTime() {
-        return System.nanoTime()-lastTimeNano;
+        Runnable clockRunnable = () -> {
+            while(isRunning) {
+                try {
+                    if(useFpsCap && minTimeBetweenFramesMS < deltaTimeMS) {
+                        tick();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return;
+                }
+            }
+        };
+
+        Thread clockBackgroundThread = new Thread(clockRunnable);
+        clockBackgroundThread.run();
     }
 }

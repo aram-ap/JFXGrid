@@ -21,8 +21,6 @@
 //SOFTWARE.
 package JFXGrid.core;
 
-import JFXGrid.core.Axis;
-import JFXGrid.core.GridStyler;
 import JFXGrid.data.JFXDataset;
 import JFXGrid.events.JFXClock;
 import JFXGrid.events.TickListener;
