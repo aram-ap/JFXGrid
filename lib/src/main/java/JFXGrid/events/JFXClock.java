@@ -138,9 +138,14 @@ public class JFXClock {
         return System.currentTimeMillis();
     }
 
+    /**
+     * Attaches a runnable to this clock's fixed tick.
+      * @param runnable
+     */
     public void addFixedTickListener(Runnable runnable) {
         externalRunnables.add(runnable);
     }
+
     /**
      * The tick implementation which handles updating each heatmap and plugin.
      * @throws Exception
