@@ -16,7 +16,8 @@ public class Colorizer {
     private double brightness = 1.0;
 
     public Colorizer() {
-        stops = new ArrayList<>() ;
+        stops = new ArrayList<>(Style.DEFAULT.getStops());
+        processARGBVals(256 * 256 * 256);
     }
 
     /**
@@ -75,8 +76,8 @@ public class Colorizer {
      *
      * @return ARGB color values
      */
-    public final int[] processARGBVals(int gradValues) {
-        var aRGBColors = new int[gradValues];
+    public final void processARGBVals(int gradValues) {
+        aRGBColors = new int[gradValues];
         double refVal = 0;
         for (int colorIndex = 0; colorIndex < gradValues; colorIndex++) {
             Color fxColor = getColorFromValue(refVal);
@@ -90,7 +91,6 @@ public class Colorizer {
 
             refVal += 1.0 / gradValues;
         }
-        return aRGBColors;
     }
 
     /**
@@ -109,7 +109,7 @@ public class Colorizer {
 
         stops.clear();
         stops.addAll(style.getStops());
-        aRGBColors = processARGBVals(numColorGradations);
+        processARGBVals(numColorGradations);
     }
 
     /**
@@ -130,6 +130,6 @@ public class Colorizer {
         }
 
         this.numColorGradations = numColorGradations;
-        this.aRGBColors = processARGBVals(numColorGradations);
+        processARGBVals(numColorGradations);
     }
 }

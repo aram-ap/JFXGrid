@@ -4,6 +4,7 @@ import JFXGrid.core.JFXHeatmap;
 import JFXGrid.core.Axis;
 import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 
 /**
  * This class is utilized by the JFXHeatmap, it arranges the grid and axis accordingly.
@@ -17,7 +18,6 @@ public abstract class GridFormatPane extends GridPane {
     protected void init(JFXHeatmap grid) {
         if(grid == null)
             return;
-        arrange();
     }
 
     public void addNode(Node node, Axis.Align alignment) {
@@ -48,6 +48,8 @@ public abstract class GridFormatPane extends GridPane {
             case Center -> {
                 xPos = 1;
                 yPos = 1;
+                GridPane.setFillHeight(node, true);
+                GridPane.setFillWidth(node, true);
             }
             default -> { }
         }

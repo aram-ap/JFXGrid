@@ -4,7 +4,9 @@
 package TestApp;
 import JFXGrid.core.Axis;
 import JFXGrid.core.JFXHeatmap;
+import JFXGrid.data.JFXDatasetFactory;
 import JFXGrid.events.JFXClock;
+import JFXGrid.plugin.GridPlayer;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
@@ -12,6 +14,9 @@ import javafx.scene.Scene;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import org.apache.commons.lang3.ArrayUtils;
+import org.ojalgo.matrix.MatrixR032;
+import org.ojalgo.random.Uniform;
 
 public class App extends Application {
 
@@ -24,31 +29,32 @@ public class App extends Application {
     public void start(Stage stage) throws Exception {
 
         var heatmap = new JFXHeatmap();
-        Parent root = new Pane(heatmap);
-        AnchorPane.setTopAnchor(heatmap, 10d);
-        AnchorPane.setBottomAnchor(heatmap, 10d);
-        AnchorPane.setLeftAnchor(heatmap, 10d);
-        AnchorPane.setRightAnchor(heatmap, 10d);
-        heatmap.setMinHeight(300);
+        var player = new GridPlayer();
+
+        heatmap.addPlugin(player);
+        heatmap.getGridStyler().setShowLines(false);
         heatmap.setPrefHeight(300);
-        heatmap.setMinWidth(300);
         heatmap.setPrefWidth(300);
 
-        heatmap.setBackground(new Background(new BackgroundFill(Color.SLATEBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
+        JFXClock.get().addFixedTickListener(() -> {
+            var dataFactory = new JFXDatasetFactory(128, 128).add(MatrixR032.FACTORY.makeFilled(128, 128, Uniform.standard()));
+            heatmap.setDataset(dataFactory.build());
+            player.increment();
+        });
 
         JFXClock.get().start();
         JFXClock.get().setFpsCap(100);
-//        heatmap.addAxis(new Axis(Axis.Align.Left));
-//        heatmap.addAxis(new Axis(Axis.Align.Left));
 
-
-
-
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(heatmap);
 
         stage.setScene(scene);
         stage.setWidth(600);
         stage.setHeight(400);
         stage.show();
+    }
+
+    @Override
+    public void stop() throws Exception {
+        JFXClock.get().setRunning(false);
     }
 }

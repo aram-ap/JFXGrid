@@ -24,6 +24,7 @@ package JFXGrid.util;
 public class GridStyler {
     private Style style;
     private final Colorizer colorizer;
+    private boolean showLines = true;
 
     public GridStyler() {
         this(Style.DEFAULT);
@@ -32,6 +33,16 @@ public class GridStyler {
     public GridStyler(Style style) {
         this.style = style;
         this.colorizer = new Colorizer();
+        colorizer.processARGBVals(256 * 256 * 256);
+
+    }
+
+    public boolean showLinesEnabled() {
+        return showLines;
+    }
+
+    public void setShowLines(boolean show) {
+        this.showLines = show;
     }
 
     public void setStyle(Style style) {

@@ -19,6 +19,7 @@ apply plugin: 'java'
 apply plugin: 'application'
 
 
+applicationDefaultJvmArgs = ["--enable-preview", "-Xmx3G", "-Xms1G", "-Dprism.vsync=false"]
 repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()
@@ -35,6 +36,7 @@ dependencies {
     implementation 'org.ojalgo:ojalgo:53.0.0'
     testImplementation 'org.ojalgo:ojalgo:53.0.0'
     implementation 'org.slf4j:slf4j-api:2.0.12'
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
 
 }
 

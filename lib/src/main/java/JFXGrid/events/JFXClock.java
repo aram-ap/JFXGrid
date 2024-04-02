@@ -49,8 +49,8 @@ public class JFXClock {
 
     //This is used to keep fixed render calls working at the correct time
     private double lastFixedTimeMS = System.currentTimeMillis();
-
     private boolean clockThreadActive = false;
+    private ArrayList<Runnable> externalRunnables = new ArrayList<>();
 
     public static synchronized JFXClock get() {
         if (INSTANCE == null) {
@@ -108,7 +108,7 @@ public class JFXClock {
     }
 
     /**
-     * @param fpsCap Sets the value of the fps cap.
+     * @param fps Sets the value of the fps cap.
      */
     public void setFpsCap(int fps) {
         if(fps >= 0) {
@@ -138,6 +138,9 @@ public class JFXClock {
         return System.currentTimeMillis();
     }
 
+    public void addFixedTickListener(Runnable runnable) {
+        externalRunnables.add(runnable);
+    }
     /**
      * The tick implementation which handles updating each heatmap and plugin.
      * @throws Exception
@@ -157,8 +160,10 @@ public class JFXClock {
      */
     private void tickFixed() throws Exception {
         TickListener.tickFixed(INSTANCE);
+        externalRunnables.forEach(Runnable::run);
         lastFixedTimeMS = System.currentTimeMillis();
     }
+
 
     /**
      * Initializes the clock ticking mechanism
@@ -189,4 +194,6 @@ public class JFXClock {
         clockBackgroundThread.start();
         clockThreadActive = true;
     }
+
+
 }

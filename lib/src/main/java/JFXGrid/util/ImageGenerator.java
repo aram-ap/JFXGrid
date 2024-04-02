@@ -21,6 +21,7 @@
 //SOFTWARE.
 package JFXGrid.util;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.ojalgo.matrix.MatrixR032;
 
 import java.nio.IntBuffer;
@@ -33,7 +34,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @author aram-ap
  */
 public abstract class ImageGenerator {
-    private static boolean isThreaded = false;
 
     public static IntBuffer initImageGeneratorThread(final double width, final double height, MatrixR032 matrix, Colorizer colorizer) {
         return null;
@@ -60,20 +60,15 @@ public abstract class ImageGenerator {
         final IntBuffer buffer = IntBuffer.allocate((int) (width * height));
         final int[] pixels = buffer.array();
 
-        AtomicBoolean processIsComplete = new AtomicBoolean(false);
-        if(isThreaded) {
-            return initImageGeneratorThread(width, height, matrix, theme);
-        } else {
-            final double numRows = matrix.getRowDim();
-            final double numCols = matrix.getColDim();
-            for(int y = 0; y < height; y++) {
-                int pointY = (int)(y / height * numRows);
+        final double numRows = matrix.getRowDim();
+        final double numCols = matrix.getColDim();
+        for(int y = 0; y < height; y++) {
+            int pointY = (int)(y / height * numRows);
 
-                for(int x = 0; x < width; x++) {
-                    int pointX = (int)(x / width * numCols);
-                    double val = matrix.get(pointY, pointX);
-                    pixels[(int) ((x % width) + (y * width))] = theme.getNearestARGBColor(val);
-                }
+            for(int x = 0; x < width; x++) {
+                int pointX = (int)(x / width * numCols);
+                double val = matrix.get(pointY, pointX);
+                pixels[(int) ((x % width) + (y * width))] = theme.getNearestARGBColor(val);
             }
         }
 

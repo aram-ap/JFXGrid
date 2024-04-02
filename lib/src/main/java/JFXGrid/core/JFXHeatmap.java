@@ -27,12 +27,18 @@ import JFXGrid.events.TickListener;
 import JFXGrid.plugin.Plugin;
 import JFXGrid.renderer.GridRenderer;
 import JFXGrid.util.GridStyler;
+import JFXGrid.util.ImageGenerator;
 import JFXGrid.util.ResizableCanvas;
+import javafx.application.Application;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.Pane;
 
+import java.lang.ref.Cleaner;
+import java.lang.ref.PhantomReference;
+import java.lang.ref.Reference;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -42,7 +48,7 @@ import java.util.Optional;
  *
  * @author Aram Aprahamian (Github: @aram-ap)
  */
-public class JFXHeatmap extends Pane implements TickListener {
+public class JFXHeatmap extends GridFormatPane implements TickListener {
     //The canvas for which the grid will be displayed on
     private final ResizableCanvas canvas;
 
@@ -78,6 +84,8 @@ public class JFXHeatmap extends Pane implements TickListener {
         canvas = new ResizableCanvas();
         gridRenderer = new GridRenderer(this);
         gridRenderer.render();
+
+        arrange();
     }
 
     /**
@@ -85,7 +93,7 @@ public class JFXHeatmap extends Pane implements TickListener {
      * @param newDataset The dataset, created by JFXDatasetFactory, to add to this grid
      */
     public void setDataset(JFXDataset newDataset) {
-        this.dataset = dataset;
+        this.dataset = newDataset;
     }
 
     public JFXDataset getDataset() {
@@ -116,6 +124,7 @@ public class JFXHeatmap extends Pane implements TickListener {
 
         plugin.init(this);
         plugins.add(plugin);
+        setDirty();
     }
 
     /**
@@ -147,6 +156,7 @@ public class JFXHeatmap extends Pane implements TickListener {
 
         axis.setParent(this);
         axes.add(axis);
+        setDirty();
     }
 
     public ResizableCanvas getCanvas() {
@@ -158,12 +168,28 @@ public class JFXHeatmap extends Pane implements TickListener {
     }
 
     public Optional<WritableImage> getImageOptional() {
+
         return Optional.empty();
     }
 
     public void setKeepAspect(boolean aspect) {
         this.keepAspect = true;
+        setDirty();
     }
+
+    public boolean getKeepAspect() {
+        return keepAspect;
+    }
+
+    private void arrange() {
+        addNode(canvas, Axis.Align.Center);
+        setDirty();
+    }
+
+    private void setDirty() {
+        gridRenderer.setDirty(true);
+    }
+
     /**
      * Called at each render cycle.
      *
@@ -171,18 +197,18 @@ public class JFXHeatmap extends Pane implements TickListener {
      */
     @Override
     public void update(JFXClock clock) {
+        gridRenderer.render();
     }
 
     @Override
     public void updateFixed(JFXClock clock) {
         checkForResize();
-        gridRenderer.setDirty(true);
-        gridRenderer.render();
     }
 
     private void checkForResize() {
         var newWidth = this.getWidth();
         var newHeight = this.getHeight();
+
         if(this.getWidth() != canvas.getWidth() || this.getHeight() != canvas.getHeight()) {
             if(keepAspect) {
                 var size = Math.min(newWidth, newHeight);
@@ -190,6 +216,7 @@ public class JFXHeatmap extends Pane implements TickListener {
             } else {
                 canvas.resize(newWidth, newHeight);
             }
+            setDirty();
         }
     }
 }

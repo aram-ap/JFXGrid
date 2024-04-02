@@ -113,14 +113,22 @@ public class GridPlayer implements Plugin{
      * Increases frame number by one
      */
     public void increment() {
+        if(grid == null || grid.getDataset() == null) {
+            return;
+        }
 
+        grid.getDataset().stepForward();
     }
 
     /**
      * Decreases frame number by one
      */
     public void decrement() {
+        if(grid == null || grid.getDataset() == null) {
+            return;
+        }
 
+        grid.getDataset().stepBack();
     }
 
     /**

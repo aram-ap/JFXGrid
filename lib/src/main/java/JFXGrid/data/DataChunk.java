@@ -105,7 +105,7 @@ public class DataChunk {
      */
     public MatrixR032 stepForward() {
         if(currentFrame == capacity - 1) {
-            return null;
+            return frames[currentFrame];
         }
 
         return frames[++currentFrame];

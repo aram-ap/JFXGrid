@@ -26,11 +26,18 @@ import JFXGrid.data.JFXDataset;
 import JFXGrid.data.JFXDatasetFactory;
 import JFXGrid.events.JFXProcessManager;
 import JFXGrid.plugin.Plugin;
+import JFXGrid.util.Colorizer;
 import JFXGrid.util.ImageGenerator;
 import JFXGrid.util.ResizableCanvas;
 import javafx.application.Platform;
+import javafx.scene.image.PixelBuffer;
+import javafx.scene.image.PixelFormat;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
+import org.apache.commons.lang3.ArrayUtils;
+import org.ojalgo.matrix.MatrixR032;
+
+import java.nio.IntBuffer;
 
 
 /**
@@ -57,17 +64,19 @@ public class GridRenderer implements Renderer {
      * Draws horizontal grid lines
      */
     protected void drawHorLines() {
+        int rows;
         var dataset = jfxGrid.getDataset();
         if(dataset == null) {
-            dataset = new JFXDatasetFactory(32, 32).build();
+            rows = 1;
+        } else {
+            rows = dataset.get().getRowDim();
         }
 
         var canvas = getCanvas();
         var gc = canvas.getGraphicsContext2D();
-        var rows = dataset.getNumRows();
-        gc.setStroke(Color.BLACK);
         gc.setFill(Color.BLACK);
         gc.setLineWidth(1);
+        gc.setStroke(Color.WHITESMOKE);
 
         for (int i = 0; i <= rows; i++) {
             double yVal = (canvas.getHeight() / (double) rows) * i;
@@ -79,20 +88,22 @@ public class GridRenderer implements Renderer {
      * Draws vertical grid lines
      */
     protected void drawVerLines() {
+        int cols;
         var dataset = jfxGrid.getDataset();
         if(dataset == null) {
-            dataset = new JFXDatasetFactory(32, 32).build();
+            cols = 1;
+        } else {
+            cols = dataset.get().getColDim();
         }
 
         var canvas = getCanvas();
         var gc = canvas.getGraphicsContext2D();
-        var columns = dataset.getNumColumns();
-        gc.setStroke(Color.BLACK);
         gc.setFill(Color.BLACK);
         gc.setLineWidth(1);
+        gc.setStroke(Color.WHITESMOKE);
 
-        for (int i = 0; i <= columns; i++) {
-            double xVal = (canvas.getWidth() / (double) columns) * i;
+        for (int i = 0; i <= cols; i++) {
+            double xVal = (canvas.getWidth() / (double) cols) * i;
             gc.strokeLine(xVal, 0, xVal, canvas.getHeight());
         }
     }
@@ -105,11 +116,8 @@ public class GridRenderer implements Renderer {
             return;
         }
 
-        if (jfxGrid.getImageOptional().isEmpty()) return;
-        JFXProcessManager.addFXTask(() -> {
-            getCanvas().getGraphicsContext2D().setImageSmoothing(false);
-            getCanvas().getGraphicsContext2D().drawImage(image, 0, 0, getCanvas().getWidth(), getCanvas().getHeight());
-        });
+        getCanvas().getGraphicsContext2D().setImageSmoothing(false);
+        getCanvas().getGraphicsContext2D().drawImage(image, 0, 0, getCanvas().getWidth(), getCanvas().getHeight());
     }
 
     /**
@@ -139,16 +147,34 @@ public class GridRenderer implements Renderer {
      */
     @Override
     public void render() {
-        if(isDirty) {
-            JFXProcessManager.addFXTask(() -> {
-                drawBackground();
-                if(jfxGrid.getImageOptional().isPresent()) {
-                    WritableImage finalImage = jfxGrid.getImageOptional().get();
-                    drawImage(finalImage);
+        Runnable renderRun = () -> {
+            drawBackground();
+            if(jfxGrid.getImageOptional().isPresent()) {
+                WritableImage finalImage = jfxGrid.getImageOptional().get();
+                drawImage(finalImage);
+            } else {
+                MatrixR032 matrix;
+                if(jfxGrid.getDataset() == null) {
+                    matrix = MatrixR032.FACTORY.make(32, 32);
+                } else {
+                    matrix = jfxGrid.getDataset().get();
                 }
+                IntBuffer buf = ImageGenerator.getBufferedARGB(matrix.getColDim(), matrix.getRowDim(), matrix, jfxGrid.getGridStyler().getColorizer());
+                PixelBuffer<IntBuffer> pixelBuffer = new PixelBuffer<>(
+                        (int) matrix.getColDim(), (int) matrix.getRowDim(), buf, PixelFormat.getIntArgbPreInstance()
+                );
+                final WritableImage image = new WritableImage(pixelBuffer);
+                drawImage(image);
+            }
+
+            if(jfxGrid.getGridStyler().showLinesEnabled()) {
                 drawHorLines();
                 drawVerLines();
-            });
+            }
+        };
+
+        if(isDirty) {
+            JFXProcessManager.addFXTask(renderRun);
             isDirty = false;
         }
     }

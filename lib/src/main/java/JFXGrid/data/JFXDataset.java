@@ -111,6 +111,7 @@ public class JFXDataset implements Data {
         if(currentChunk == null) {
             return null;
         }
+
         return currentChunk.getCurrentFrame();
     }
 
