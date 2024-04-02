@@ -43,7 +43,7 @@ dependencies {
 
 ### How does it work?
 - **Primary:**
-  - `JFXGrid` is the default Node which contains X/Y axis, data label, mouse pointer tools, and the heatmap image itself.
+  - `JFXHeatmap` is the default Node which contains X/Y axis, data label, mouse pointer tools, and the heatmap image itself.
   - `Plugin` objects are plug-in utilities that enable other functionality such as exporting data, zooming in and out, getting mouse cursor location and associated values, averaging multiple frames together, and playing the frames in video playback.
   - `Renderer` handles drawing onto displayed elements. It is split up two primary renderers: AxisRenderer and GridRenderer.
   - `Style` is where we bring in the specific color gradients used in visualizations.
