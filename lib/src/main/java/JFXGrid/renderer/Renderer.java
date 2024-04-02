@@ -24,4 +24,9 @@ public interface Renderer {
      * @param dirty
      */
     void setDirty(boolean dirty);
+
+    /**
+     * Forces a re-render of all visual components.
+     */
+    void render();
 }

@@ -210,7 +210,8 @@ public class AxisRenderer implements Renderer{
         gc.strokeLine(x1, y1, x2, y2);
     }
 
-    protected void render() {
+    @Override
+    public void render() {
         drawLine();
         drawTickMarks();
     }

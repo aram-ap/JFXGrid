@@ -22,12 +22,15 @@
 package JFXGrid.renderer;
 
 import JFXGrid.core.JFXHeatmap;
+import JFXGrid.data.JFXDataset;
+import JFXGrid.data.JFXDatasetFactory;
 import JFXGrid.events.JFXProcessManager;
 import JFXGrid.plugin.Plugin;
 import JFXGrid.util.ImageGenerator;
 import JFXGrid.util.ResizableCanvas;
 import javafx.application.Platform;
 import javafx.scene.image.WritableImage;
+import javafx.scene.paint.Color;
 
 
 /**
@@ -54,10 +57,17 @@ public class GridRenderer implements Renderer {
      * Draws horizontal grid lines
      */
     protected void drawHorLines() {
+        var dataset = jfxGrid.getDataset();
+        if(dataset == null) {
+            dataset = new JFXDatasetFactory(32, 32).build();
+        }
+
         var canvas = getCanvas();
         var gc = canvas.getGraphicsContext2D();
-        var dataset = jfxGrid.getDataset();
         var rows = dataset.getNumRows();
+        gc.setStroke(Color.BLACK);
+        gc.setFill(Color.BLACK);
+        gc.setLineWidth(1);
 
         for (int i = 0; i <= rows; i++) {
             double yVal = (canvas.getHeight() / (double) rows) * i;
@@ -69,11 +79,17 @@ public class GridRenderer implements Renderer {
      * Draws vertical grid lines
      */
     protected void drawVerLines() {
+        var dataset = jfxGrid.getDataset();
+        if(dataset == null) {
+            dataset = new JFXDatasetFactory(32, 32).build();
+        }
+
         var canvas = getCanvas();
         var gc = canvas.getGraphicsContext2D();
-
-        var dataset = jfxGrid.getDataset();
         var columns = dataset.getNumColumns();
+        gc.setStroke(Color.BLACK);
+        gc.setFill(Color.BLACK);
+        gc.setLineWidth(1);
 
         for (int i = 0; i <= columns; i++) {
             double xVal = (canvas.getWidth() / (double) columns) * i;
@@ -101,6 +117,9 @@ public class GridRenderer implements Renderer {
      */
     protected void drawBackground() {
         var gc = getCanvas().getGraphicsContext2D();
+        gc.setStroke(Color.BLACK);
+        gc.setFill(Color.BLACK);
+        gc.setLineWidth(1);
         gc.fillRect(0, 0, getCanvas().getWidth(), getCanvas().getHeight());
         gc.strokeRect(0, 0, getCanvas().getWidth(), getCanvas().getHeight());
     }
@@ -118,12 +137,15 @@ public class GridRenderer implements Renderer {
     /**
      * Forces a re-render of all visual components.
      */
+    @Override
     public void render() {
         if(isDirty) {
             JFXProcessManager.addFXTask(() -> {
-                WritableImage finalImage = jfxGrid.getImageOptional().get();
                 drawBackground();
-                drawImage(finalImage);
+                if(jfxGrid.getImageOptional().isPresent()) {
+                    WritableImage finalImage = jfxGrid.getImageOptional().get();
+                    drawImage(finalImage);
+                }
                 drawHorLines();
                 drawVerLines();
             });

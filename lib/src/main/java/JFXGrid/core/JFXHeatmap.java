@@ -31,7 +31,7 @@ import JFXGrid.util.ResizableCanvas;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.image.WritableImage;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -42,7 +42,7 @@ import java.util.Optional;
  *
  * @author Aram Aprahamian (Github: @aram-ap)
  */
-public class JFXHeatmap extends GridFormatPane implements TickListener {
+public class JFXHeatmap extends Pane implements TickListener {
     //The canvas for which the grid will be displayed on
     private final ResizableCanvas canvas;
 
@@ -60,6 +60,8 @@ public class JFXHeatmap extends GridFormatPane implements TickListener {
     //The current dataset displayed on the grid
     private JFXDataset dataset;
 
+    private boolean keepAspect = true;
+
     private BooleanProperty isDirty = new SimpleBooleanProperty();
 
     /**
@@ -68,14 +70,14 @@ public class JFXHeatmap extends GridFormatPane implements TickListener {
      */
     public JFXHeatmap() {
         //Calls the GridFormatPane class and initializes it with this as its center node
-        init(this);
-
+//        init(this);
         TickListener.init(this);
 
         getStyleClass().add("jfx-grid");
         gridStyler = new GridStyler();
         canvas = new ResizableCanvas();
         gridRenderer = new GridRenderer(this);
+        gridRenderer.render();
     }
 
     /**
@@ -159,6 +161,9 @@ public class JFXHeatmap extends GridFormatPane implements TickListener {
         return Optional.empty();
     }
 
+    public void setKeepAspect(boolean aspect) {
+        this.keepAspect = true;
+    }
     /**
      * Called at each render cycle.
      *
@@ -166,7 +171,25 @@ public class JFXHeatmap extends GridFormatPane implements TickListener {
      */
     @Override
     public void update(JFXClock clock) {
+    }
 
+    @Override
+    public void updateFixed(JFXClock clock) {
+        checkForResize();
+        gridRenderer.setDirty(true);
         gridRenderer.render();
+    }
+
+    private void checkForResize() {
+        var newWidth = this.getWidth();
+        var newHeight = this.getHeight();
+        if(this.getWidth() != canvas.getWidth() || this.getHeight() != canvas.getHeight()) {
+            if(keepAspect) {
+                var size = Math.min(newWidth, newHeight);
+                canvas.resize(size, size);
+            } else {
+                canvas.resize(newWidth, newHeight);
+            }
+        }
     }
 }

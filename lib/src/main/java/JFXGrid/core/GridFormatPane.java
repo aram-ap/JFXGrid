@@ -11,28 +11,13 @@ import javafx.scene.layout.GridPane;
  * @author aram-ap
  */
 public abstract class GridFormatPane extends GridPane {
-    protected JFXHeatmap grid;
 
     protected GridFormatPane() {  }
 
     protected void init(JFXHeatmap grid) {
         if(grid == null)
             return;
-        this.grid = grid;
         arrange();
-    }
-
-    private void arrange() {
-        if(grid == null) {
-            return;
-        }
-
-        var axes = grid.getAxes();
-        for(var a : axes) {
-            var orientation = a.getLabelAlignment();
-            addNode(a, orientation);
-        }
-        addNode(grid, Axis.Align.Center);
     }
 
     public void addNode(Node node, Axis.Align alignment) {
@@ -67,6 +52,8 @@ public abstract class GridFormatPane extends GridPane {
             default -> { }
         }
 
-        add(node, xPos, yPos);
+        if(!contains(xPos, yPos)) {
+            add(node, xPos, yPos);
+        }
     }
 }
