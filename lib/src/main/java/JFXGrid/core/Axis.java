@@ -25,7 +25,6 @@ import JFXGrid.events.JFXClock;
 import JFXGrid.events.TickListener;
 import JFXGrid.renderer.AxisRenderer;
 import JFXGrid.util.ResizableCanvas;
-import javafx.css.Styleable;
 import javafx.scene.layout.BorderPane;
 
 /**
@@ -73,13 +72,13 @@ public class Axis extends BorderPane implements TickListener {
     }
 
     /**
-     * Called at each update cycle.
+     * Called at each render cycle.
      *
      * @param clock the JFXClock calling the tick
      */
     @Override
     public void update(JFXClock clock) {
-
+        update();
     }
 
     public void setParent(JFXHeatmap grid) {
@@ -112,11 +111,11 @@ public class Axis extends BorderPane implements TickListener {
 
         setCenter(canvas);
         setPrefSize(canvas.getWidth(), canvas.getHeight());
-        renderer.forceRender();
+        renderer.setDirty(true);
     }
 
     public void forceUpdate() {
-        renderer.forceRender();
+        renderer.setDirty(true);
     }
 
     public void update() {

@@ -19,6 +19,7 @@
 //LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 //OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //SOFTWARE.
+
 package JFXGrid.events;
 
 import javafx.application.Platform;
@@ -76,7 +77,7 @@ public class JFXProcessManager implements TickListener {
     }
 
     /**
-     * Called at each update cycle.
+     * Called at each render cycle.
      *
      * @param clock the JFXClock calling the tick
      */

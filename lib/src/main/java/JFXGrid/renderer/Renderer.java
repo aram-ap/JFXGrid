@@ -17,4 +17,11 @@ public interface Renderer {
     default WritableImage joinAll(JFXHeatmap grid) {
         return null;
     }
+
+    /**
+     * The 'dirty' variable essentially denotes whether or not the renderer needs updating. We use this so we don't flood
+     * the JFXProcessManager with useless runnables.
+     * @param dirty
+     */
+    void setDirty(boolean dirty);
 }

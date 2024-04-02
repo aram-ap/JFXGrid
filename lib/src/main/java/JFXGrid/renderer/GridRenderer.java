@@ -22,11 +22,25 @@
 package JFXGrid.renderer;
 
 import JFXGrid.core.JFXHeatmap;
+import JFXGrid.events.JFXProcessManager;
+import JFXGrid.plugin.Plugin;
+import JFXGrid.util.ImageGenerator;
 import JFXGrid.util.ResizableCanvas;
+import javafx.application.Platform;
+import javafx.scene.image.WritableImage;
 
 
+/**
+ * The GridRenderer is responsible for drawing and displaying all visual elements of the heatmap. This includes
+ * grid lines, the heatmap itself, background, and borders.
+ *
+ * @author Aram Aprahamian
+ */
 public class GridRenderer implements Renderer {
     private final JFXHeatmap jfxGrid;
+
+    //This is utilized to prevent over processing, this class will only render if there was something that changed requiring an render.
+    protected boolean isDirty = true;
 
     public GridRenderer(final JFXHeatmap jfxGrid) {
         this.jfxGrid = jfxGrid;
@@ -36,6 +50,9 @@ public class GridRenderer implements Renderer {
         return jfxGrid.getCanvas();
     }
 
+    /**
+     * Draws horizontal grid lines
+     */
     protected void drawHorLines() {
         var canvas = getCanvas();
         var gc = canvas.getGraphicsContext2D();
@@ -48,6 +65,9 @@ public class GridRenderer implements Renderer {
         }
     }
 
+    /**
+     * Draws vertical grid lines
+     */
     protected void drawVerLines() {
         var canvas = getCanvas();
         var gc = canvas.getGraphicsContext2D();
@@ -61,23 +81,53 @@ public class GridRenderer implements Renderer {
         }
     }
 
-    public void drawImage() {
+    /**
+     * Draws the next image onto the heatmap canvas
+     */
+    protected void drawImage(WritableImage image) {
+        if(image == null) {
+            return;
+        }
+
         if (jfxGrid.getImageOptional().isEmpty()) return;
-        var image = jfxGrid.getImageOptional().get();
-        getCanvas().getGraphicsContext2D().setImageSmoothing(false);
-        getCanvas().getGraphicsContext2D().drawImage(image, 0, 0, getCanvas().getWidth(), getCanvas().getHeight());
+        JFXProcessManager.addFXTask(() -> {
+            getCanvas().getGraphicsContext2D().setImageSmoothing(false);
+            getCanvas().getGraphicsContext2D().drawImage(image, 0, 0, getCanvas().getWidth(), getCanvas().getHeight());
+        });
     }
 
+    /**
+     * Usually unseen, but draws a background rectangle
+     */
     protected void drawBackground() {
         var gc = getCanvas().getGraphicsContext2D();
         gc.fillRect(0, 0, getCanvas().getWidth(), getCanvas().getHeight());
         gc.strokeRect(0, 0, getCanvas().getWidth(), getCanvas().getHeight());
     }
 
-    public void forceRender() {
-        drawBackground();
-        drawImage();
-        drawHorLines();
-        drawVerLines();
+    /**
+     * The 'dirty' variable essentially denotes whether or not the renderer needs updating. We use this so we don't flood
+     * the JFXProcessManager with useless runnables.
+     * @param dirty
+     */
+    @Override
+    public void setDirty(boolean dirty) {
+        this.isDirty = dirty;
+    }
+
+    /**
+     * Forces a re-render of all visual components.
+     */
+    public void render() {
+        if(isDirty) {
+            JFXProcessManager.addFXTask(() -> {
+                WritableImage finalImage = jfxGrid.getImageOptional().get();
+                drawBackground();
+                drawImage(finalImage);
+                drawHorLines();
+                drawVerLines();
+            });
+            isDirty = false;
+        }
     }
 }

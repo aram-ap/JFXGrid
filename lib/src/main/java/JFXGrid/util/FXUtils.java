@@ -295,7 +295,7 @@ public final class FXUtils {
      * 3) CSS styling pass (styling etc. gets updated)
      * 4) layout pass (layoutChildren)
      * 5) post-layout hook
-     * 6) update bounds
+     * 6) render bounds
      * 7) copy dirty node changes to the rendering thread
      * <p>
      * Drawing inside layout children is problematic because

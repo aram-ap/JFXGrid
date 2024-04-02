@@ -28,7 +28,10 @@ import JFXGrid.plugin.Plugin;
 import JFXGrid.renderer.GridRenderer;
 import JFXGrid.util.GridStyler;
 import JFXGrid.util.ResizableCanvas;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.image.WritableImage;
+import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -56,6 +59,8 @@ public class JFXHeatmap extends GridFormatPane implements TickListener {
     private final GridStyler gridStyler;
     //The current dataset displayed on the grid
     private JFXDataset dataset;
+
+    private BooleanProperty isDirty = new SimpleBooleanProperty();
 
     /**
      * Default constructor for JFXHeatmap class.
@@ -155,12 +160,13 @@ public class JFXHeatmap extends GridFormatPane implements TickListener {
     }
 
     /**
-     * Called at each update cycle.
+     * Called at each render cycle.
      *
      * @param clock the JFXClock calling the tick
      */
     @Override
     public void update(JFXClock clock) {
 
+        gridRenderer.render();
     }
 }

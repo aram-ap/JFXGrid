@@ -29,6 +29,7 @@ import javafx.scene.text.TextAlignment;
 public class AxisRenderer implements Renderer{
     private final Axis axis;
     private static Colorizer colorTheme;
+    private boolean isDirty = true;
 
     public AxisRenderer(Axis axis) {
         this.axis = axis;
@@ -209,11 +210,22 @@ public class AxisRenderer implements Renderer{
         gc.strokeLine(x1, y1, x2, y2);
     }
 
-    public void update() {
-
-    }
-    public void forceRender() {
+    protected void render() {
         drawLine();
         drawTickMarks();
+    }
+
+    /**
+     * The 'dirty' variable essentially denotes whether or not the renderer needs updating. We use this so we don't flood
+     * the JFXProcessManager with useless runnables.
+     *
+     * @param dirty
+     */
+    @Override
+    public void setDirty(boolean dirty) {
+        if(isDirty) {
+            render();
+            isDirty = false;
+        }
     }
 }

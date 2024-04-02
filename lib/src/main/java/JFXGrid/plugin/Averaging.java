@@ -66,7 +66,7 @@ public class Averaging implements Plugin{
     }
 
     /**
-     * Called at each update cycle.
+     * Called at each render cycle.
      *
      * @param clock the JFXClock calling the tick
      */

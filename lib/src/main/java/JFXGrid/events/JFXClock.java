@@ -27,7 +27,7 @@ import JFXGrid.core.JFXHeatmap;
 
 /**
  * This class manages updates. It includes features like setting an FPS Cap, getting delta time in MS and Nano,
- * and will automatically update every JFX Grid given to it.
+ * and will automatically render every JFX Grid given to it.
  *
  * @author Aram Aprahamian
  */
@@ -46,7 +46,7 @@ public class JFXClock {
     //A more precise version of deltaTimeMS, using nanoseconds instead of milliseconds
     private static long lastTimeNano = System.nanoTime();
 
-    //This is used to keep fixed update calls working at the correct time
+    //This is used to keep fixed render calls working at the correct time
     private static double lastFixedTimeMS = System.currentTimeMillis();
 
     /**
@@ -172,6 +172,4 @@ public class JFXClock {
         Thread clockBackgroundThread = new Thread(clockRunnable);
         clockBackgroundThread.run();
     }
-
-
 }
