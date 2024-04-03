@@ -66,7 +66,7 @@ dependencies {
   - `MouseInput` is a plugin built into many plugins that allow mouse inputs to cause actions
   - `Accumulator` is an image processing tool which takes multiple frames and averages them into a single frame. Best used when you're dealing with sparse matrices.
 
-### Code Examples (still IN-DEV, so these are mostly non-functional (for now)):
+### Code Examples:
 The basics (32 x 32 grid): 
 ```
   JFXGrid grid = new JFXGrid(32, 32); //The central JFXGrid javafx node
