@@ -21,13 +21,9 @@
 //SOFTWARE.
 package JFXGrid.util;
 
-import org.apache.commons.lang3.ArrayUtils;
-import org.ojalgo.matrix.MatrixR032;
-
 import java.nio.IntBuffer;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Utility class for processing matrices into images
@@ -35,13 +31,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public abstract class ImageGenerator {
 
-    public static IntBuffer initImageGeneratorThread(final double width, final double height, MatrixR032 matrix, Colorizer colorizer) {
-        return null;
-    }
     /**
      * A threaded image processor for converting a matrix into an image
-     * @param width Width in pixels
-     * @param height Height in pixels
+     * @param rows number of rows
+     * @param cols number of columns
      * @param matrix Matrix to create image with
      * @param theme ColorTheme for parsing data to colors
      */
@@ -56,7 +49,7 @@ public abstract class ImageGenerator {
      * @param matrix Matrix to create image with
      * @param theme ColorTheme for parsing data to colors
      */
-    public static IntBuffer getBufferedARGB(final int rows, final int cols, double[] matrix, Colorizer theme) {
+    public static IntBuffer getBufferedARGB(final int rows, final int cols, final double[] matrix, Colorizer theme) {
         final IntBuffer buffer = IntBuffer.allocate(rows * cols);
         final int[] pixels = buffer.array();
 

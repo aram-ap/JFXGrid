@@ -21,8 +21,6 @@
 //SOFTWARE.
 package JFXGrid.data;
 
-import org.ojalgo.matrix.MatrixR032;
-
 /**
  * The DataNode is an encapsulating object for DataChunk to allow DataStructures like Deques and Binary Trees
  */

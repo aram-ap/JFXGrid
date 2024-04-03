@@ -21,8 +21,6 @@
 //SOFTWARE.
 package JFXGrid.data;
 
-import org.ojalgo.matrix.MatrixR032;
-
 /**
  * <h3>JFXDataDeque</h3>
  * <hr>

@@ -29,7 +29,6 @@ import javafx.scene.image.PixelBuffer;
 import javafx.scene.image.PixelFormat;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
-import org.ojalgo.matrix.MatrixR032;
 
 import java.nio.IntBuffer;
 

@@ -21,8 +21,6 @@
 //SOFTWARE.
 package JFXGrid.data;
 
-import org.ojalgo.matrix.MatrixR032;
-
 /**
  * The default Dataset implementation for JFXGrid. Once created, this data cannot change and is supposed to be for better memory management/utilization.
  *

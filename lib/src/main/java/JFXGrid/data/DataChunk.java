@@ -21,8 +21,6 @@
 //SOFTWARE.
 package JFXGrid.data;
 
-import org.ojalgo.matrix.MatrixR032;
-
 import java.util.Arrays;
 import java.util.Collection;
 

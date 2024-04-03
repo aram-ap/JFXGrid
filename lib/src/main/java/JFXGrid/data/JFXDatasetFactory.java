@@ -25,8 +25,6 @@ import org.ojalgo.matrix.MatrixR032;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Deque;
-import java.util.List;
 
 /**
  * The default dataset builder class for JFXGrid. It manages inputting data into the chunks and allows datasets to be immutable.
