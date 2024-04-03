@@ -38,9 +38,9 @@ public class App extends Application {
         //When adding plugins, its quite easy like this
         heatmap.addPlugin(player);
 
-        //When changing the look of the grid, use the .getGridStyler() method and whatever setting you want changed
-        heatmap.getGridStyler().setStyle(Style.DUOTONE);
-        heatmap.getGridStyler().setShowLines(false);
+        //When changing the look of the grid, use the .getStylizer() method and whatever setting you want changed
+        heatmap.getStylizer().setStyle(Style.DUOTONE);
+        heatmap.getStylizer().setShowLines(false);
         heatmap.setKeepAspect(false);
 
         //The grid is a subclass of the regular JavaFX Node, so you can do the same types of actions you would do with other nodes.

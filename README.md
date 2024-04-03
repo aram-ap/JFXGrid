@@ -121,6 +121,8 @@ Plugins - adding video playback functionality:
   for(int i = 0; i < 1000; i++) {
     videoFactory.add(MatrixR032.FACTORY.makeFilled(rows, cols, Uniform.standard())); 
   }
+  
+  //Note that the data factories need to be built with the .build() method before processing it as a dataset
   grid.setData(videoFactory.build());
   
   //Starts the video player.
