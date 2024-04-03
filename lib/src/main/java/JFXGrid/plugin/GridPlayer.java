@@ -99,7 +99,7 @@ public class GridPlayer implements Plugin{
      * Iterates through frames according to playback speed.
      */
     public void play() {
-
+        isPlaying = true;
     }
 
     /**
@@ -118,6 +118,7 @@ public class GridPlayer implements Plugin{
         }
 
         grid.getDataset().stepForward();
+        framenum = grid.getDataset().getFrameNum();
     }
 
     /**
@@ -129,6 +130,7 @@ public class GridPlayer implements Plugin{
         }
 
         grid.getDataset().stepBack();
+        framenum = grid.getDataset().getFrameNum();
     }
 
     /**
@@ -176,10 +178,12 @@ public class GridPlayer implements Plugin{
         if(dataset == null) {
             return;
         }
-        if(isPlaying) {
+    }
 
+    @Override
+    public void updateFixed(JFXClock clock) {
+        if(isPlaying) {
+            increment();
         }
-        dataset.stepForward();
-        framenum = dataset.getFrameNum();
     }
 }

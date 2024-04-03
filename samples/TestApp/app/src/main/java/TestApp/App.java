@@ -36,11 +36,13 @@ public class App extends Application {
         heatmap.setPrefHeight(300);
         heatmap.setPrefWidth(300);
 
-        JFXClock.get().addFixedTickListener(() -> {
-            var dataFactory = new JFXDatasetFactory(128, 128).add(MatrixR032.FACTORY.makeFilled(128, 128, Uniform.standard()));
-            heatmap.setDataset(dataFactory.build());
-            player.increment();
-        });
+        var dataFactory = new JFXDatasetFactory(32, 32).add(MatrixR032.FACTORY.makeFilled(256, 256, Uniform.standard()));
+        for(int i = 0; i < 100000; i++) {
+            dataFactory.add(MatrixR032.FACTORY.makeFilled(32, 32, Uniform.standard()));
+        }
+        heatmap.setDataset(dataFactory.build());
+
+        player.play();
 
         JFXClock.get().start();
         JFXClock.get().setFpsCap(100);
