@@ -33,9 +33,16 @@ repositories {
     mavenCentral()
 }
 
+ext {
+    junitVersion = '5.10.0'
+}
+
 dependencies {
     // Use JUnit Jupiter for testing.
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.7.2'
+    implementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
+    runtimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
     implementation 'org.ojalgo:ojalgo:53.0.0'
     implementation 'org.slf4j:slf4j-api:2.0.12'
     implementation 'org.apache.commons:commons-lang3:3.12.0'

@@ -51,7 +51,7 @@ public class DataNode implements Data {
      * @return
      */
     public MatrixR032 get() {
-        return val.getCurrentFrame();
+        return val.get();
     }
 
     public DataNode getNext() {
@@ -111,10 +111,21 @@ public class DataNode implements Data {
     }
 
     /**
+     * Goes to the inserted frame number
+     *
+     * @param frameNum The frame to go to. Note, values are [1, length]. Inclusive of 1.
+     * @return The matrix at the specific frame number. Null if out of bounds.
+     */
+    @Override
+    public MatrixR032 gotoFrame(int frameNum) {
+        return val.gotoFrame(frameNum);
+    }
+
+    /**
      * @return
      */
     @Override
-    public long getFrameNum() {
+    public int getFrameNum() {
         return val.getIndex();
     }
 }

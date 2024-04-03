@@ -1,4 +1,6 @@
 module JFXGrid {
+    requires org.junit.jupiter.api;
+    requires org.junit.platform.commons;
     requires transitive javafx.controls;
     requires transitive javafx.fxml;
     requires ojalgo;

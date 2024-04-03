@@ -23,6 +23,7 @@ package JFXGrid.data;
 
 import org.ojalgo.matrix.MatrixR032;
 
+import java.util.Arrays;
 import java.util.Collection;
 
 /**
@@ -31,7 +32,7 @@ import java.util.Collection;
  *
  * @author Aram Aprahamian
  */
-public class DataChunk {
+public class DataChunk implements Data {
     //The collection of frames held in the chunk
     private MatrixR032[] frames;
 
@@ -90,17 +91,6 @@ public class DataChunk {
     }
 
     /**
-     * @return the frame at the current position
-     */
-    public MatrixR032 getCurrentFrame() {
-        if(currentFrame < 0) {
-            currentFrame = 0;
-        }
-
-        return frames[currentFrame];
-    }
-
-    /**
      * @return iterates the current position by one. No action if current position is at the end;
      */
     public MatrixR032 stepForward() {
@@ -148,10 +138,33 @@ public class DataChunk {
     }
 
     /**
+     * Goes to the inserted frame number
+     *
+     * @param frameNum The frame to go to. Note, values are [1, length]. Inclusive of 1.
+     * @return The matrix at the specific frame number. Null if out of bounds.
+     */
+    @Override
+    public MatrixR032 gotoFrame(int frameNum) {
+        if(frameNum < 1 || frameNum > numItems) {
+            return null;
+        }
+        this.currentFrame = frameNum - 1;
+        return frames[currentFrame];
+    }
+
+    /**
+     * @return 
+     */
+    @Override
+    public int getFrameNum() {
+        return currentFrame + 1;
+    }
+
+    /**
      * @return returns true if no elements are in the chunk
      */
     public boolean isEmpty() {
-        return capacity == 0;
+        return capacity <= 0 || numItems <= 0;
     }
 
     /**
@@ -176,6 +189,19 @@ public class DataChunk {
     }
 
     /**
+     * Gets the current matrix
+     *
+     * @return MatrixR032, null if empty
+     */
+    @Override
+    public MatrixR032 get() {
+        if(isEmpty()) {
+            return null;
+        }
+        return frames[currentFrame];
+    }
+
+    /**
      * @return the amount of frames in the chunk
      */
     public int size() {
@@ -183,9 +209,58 @@ public class DataChunk {
     }
 
     /**
+     * Removes pointers to data held within and calls system to garbage collect
+     * Note. This is permanent. Values will have to be reinitialized if wanted again.
+     * Sets frames to null, number items to 0, and frame number to 0.
+     */
+    @Override
+    public void clearData() {
+        frames = null;
+        numItems = 0;
+        currentFrame = -1;
+    }
+
+    /**
      * @return The list of frames in this chunk
      */
     public MatrixR032[] toList() {
         return frames;
+    }
+
+    /**
+     * @return an array of 2d double arrays
+     */
+    public double[][][] toListPrimitive() {
+        double[][][] arr = new double[numItems][][];
+
+        for(int i = 0; i < numItems; i++) {
+            arr[i] = frames[i].toRawCopy2D();
+        }
+
+        return arr;
+    }
+
+    @Override
+    public String toString() {
+        return "DataChunk{" +
+                "frames=" + Arrays.toString(frames) +
+                ", currentFrame=" + currentFrame +
+                ", capacity=" + capacity +
+                ", numItems=" + numItems +
+                ", uid=" + uid +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if(o == this) {
+            return true;
+        }
+
+        if(o == null || !(o instanceof DataChunk chunk)) {
+            return false;
+        }
+
+        return numItems == chunk.numItems && Arrays.equals(this.toListPrimitive(), chunk.toListPrimitive());
     }
 }

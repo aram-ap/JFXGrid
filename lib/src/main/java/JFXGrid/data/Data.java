@@ -64,5 +64,12 @@ public interface Data {
 
     public MatrixR032 stepBack();
 
-    public long getFrameNum();
+    /**
+     * Goes to the inserted frame number
+     * @param frameNum The frame to go to. Note, values are [1, length]. Inclusive of 1.
+     * @return The matrix at the specific frame number. Null if out of bounds.
+     */
+    public MatrixR032 gotoFrame(int frameNum);
+
+    public int getFrameNum();
 }

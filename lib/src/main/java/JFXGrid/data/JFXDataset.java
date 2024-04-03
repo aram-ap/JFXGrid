@@ -112,7 +112,7 @@ public class JFXDataset implements Data {
             return null;
         }
 
-        return currentChunk.getCurrentFrame();
+        return currentChunk.get();
     }
 
     /**
@@ -128,7 +128,10 @@ public class JFXDataset implements Data {
      */
     @Override
     public void clearData() {
+        currentChunk.clearData();
         currentChunk = null;
+        numFrames = 0;
+
         System.gc();
     }
 
@@ -157,10 +160,28 @@ public class JFXDataset implements Data {
     }
 
     /**
+     * Goes to the inserted frame number
+     *
+     * @param frameNum The frame to go to. Note, values are [1, length]. Inclusive of 1.
+     * @return The matrix at the specific frame number. Null if out of bounds.
+     */
+    @Override
+    public MatrixR032 gotoFrame(int frameNum) {
+        if(frameNum < 1 || frameNum > numFrames) {
+            return null;
+        }
+
+        return currentChunk.gotoFrame(frameNum);
+    }
+
+    /**
      * @return
      */
     @Override
-    public long getFrameNum() {
-        return currentChunk.getIndex();
+    public int getFrameNum() {
+        if(currentChunk == null) {
+            return 0;
+        }
+        return currentChunk.getIndex()+1;
     }
 }

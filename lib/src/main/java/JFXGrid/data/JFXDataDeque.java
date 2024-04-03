@@ -277,7 +277,7 @@ public class JFXDataDeque extends JFXDataset implements Data{
         if(headNode == null) {
             return null;
         }
-        return currentNode.getChunk().getCurrentFrame();
+        return currentNode.getChunk().get();
     }
 
     /**
@@ -309,7 +309,7 @@ public class JFXDataDeque extends JFXDataset implements Data{
             currentChunk.setFrameFront();
         }
 
-        return currentChunk.getCurrentFrame();
+        return currentChunk.get();
     }
 
     /**
@@ -329,7 +329,7 @@ public class JFXDataDeque extends JFXDataset implements Data{
             stepNodeBackward();
             currentChunk.setFrameLast();
         }
-        return currentChunk.getCurrentFrame();
+        return currentChunk.get();
     }
 
     /**
@@ -337,7 +337,7 @@ public class JFXDataDeque extends JFXDataset implements Data{
      * @return
      */
     @Override
-    public long getFrameNum() {
+    public int getFrameNum() {
         return currentChunk.uid + currentChunk.getIndex();
     }
 }
