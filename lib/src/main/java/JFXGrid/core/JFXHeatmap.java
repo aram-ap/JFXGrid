@@ -181,6 +181,10 @@ public class JFXHeatmap extends GridFormatPane implements TickListener {
         return keepAspect;
     }
 
+    public float getRendererFPS() {
+        return gridRenderer.getFPS();
+    }
+
     private void arrange() {
         addNode(canvas, Axis.Align.Center);
         setDirty();

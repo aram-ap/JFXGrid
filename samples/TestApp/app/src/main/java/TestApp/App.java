@@ -7,6 +7,7 @@ import JFXGrid.core.JFXHeatmap;
 import JFXGrid.data.JFXDatasetFactory;
 import JFXGrid.events.JFXClock;
 import JFXGrid.plugin.GridPlayer;
+import JFXGrid.util.Style;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
@@ -32,21 +33,27 @@ public class App extends Application {
         var player = new GridPlayer();
 
         heatmap.addPlugin(player);
+        heatmap.getGridStyler().setStyle(Style.DUOTONE);
         heatmap.getGridStyler().setShowLines(false);
         heatmap.setPrefHeight(300);
         heatmap.setPrefWidth(300);
 
         var dataFactory = new JFXDatasetFactory(32, 32).add(MatrixR032.FACTORY.makeFilled(256, 256, Uniform.standard()));
-        for(int i = 0; i < 100000; i++) {
+        for(int i = 0; i < 1000; i++) {
             dataFactory.add(MatrixR032.FACTORY.makeFilled(32, 32, Uniform.standard()));
         }
         heatmap.setDataset(dataFactory.build());
 
+        JFXClock.get().setFpsCap(100);
+        JFXClock.get().addFixedTickListener(() -> {
+            if(heatmap.getDataset().getFrameNum()%7 == 0) {
+                System.out.println("FPS: " + heatmap.getRendererFPS());
+            }
+        });
+
         player.play();
 
         JFXClock.get().start();
-        JFXClock.get().setFpsCap(100);
-
         Scene scene = new Scene(heatmap);
 
         stage.setScene(scene);

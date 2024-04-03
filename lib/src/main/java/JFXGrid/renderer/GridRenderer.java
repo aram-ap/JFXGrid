@@ -52,6 +52,10 @@ public class GridRenderer implements Renderer {
     //This is utilized to prevent over processing, this class will only render if there was something that changed requiring an render.
     protected boolean isDirty = true;
 
+    private long lastFrameNano = System.nanoTime();
+    private long lastFrameDelta = 0;
+
+
     public GridRenderer(final JFXHeatmap jfxGrid) {
         this.jfxGrid = jfxGrid;
     }
@@ -118,6 +122,10 @@ public class GridRenderer implements Renderer {
 
         getCanvas().getGraphicsContext2D().setImageSmoothing(false);
         getCanvas().getGraphicsContext2D().drawImage(image, 0, 0, getCanvas().getWidth(), getCanvas().getHeight());
+
+        var timeNano = System.nanoTime();
+        lastFrameDelta = timeNano-lastFrameNano;
+        lastFrameNano = timeNano;
     }
 
     /**
@@ -130,6 +138,10 @@ public class GridRenderer implements Renderer {
         gc.setLineWidth(1);
         gc.fillRect(0, 0, getCanvas().getWidth(), getCanvas().getHeight());
         gc.strokeRect(0, 0, getCanvas().getWidth(), getCanvas().getHeight());
+    }
+
+    public float getFPS() {
+        return (float) 1_000_000_000 / lastFrameDelta;
     }
 
     /**
