@@ -47,7 +47,7 @@ public class App extends Application {
         heatmap.setPrefWidth(300);
 
         //Here we're using the JFXDatasetFactory to create some sample data.
-        int rows = 100, cols = 100;
+        int rows = 300, cols = 300;
         var dataFactory = new JFXDatasetFactory(rows, cols).add(MatrixR032.FACTORY.makeFilled(rows, cols, Uniform.standard()));
         for(int i = 0; i < 1000; i++) {
             dataFactory.add(MatrixR032.FACTORY.makeFilled(rows, cols, Uniform.standard()));

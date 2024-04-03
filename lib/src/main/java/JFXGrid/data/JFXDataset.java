@@ -95,9 +95,9 @@ public class JFXDataset implements Data {
      * Returns a list of MatrixR032
      * @return
      */
-    public MatrixR032[] getCache() {
+    public double[][][] getCache() {
         if(currentChunk == null) {
-            return new MatrixR032[0];
+            return new double[0][][];
         }
         return currentChunk.toList();
     }
@@ -107,7 +107,7 @@ public class JFXDataset implements Data {
      * @return MatrixR023
      */
     @Override
-    public MatrixR032 get() {
+    public double[][] get() {
         if(currentChunk == null) {
             return null;
         }
@@ -139,7 +139,7 @@ public class JFXDataset implements Data {
      * Steps data chunk by one frame
      */
     @Override
-    public MatrixR032 stepForward() {
+    public double[][] stepForward() {
         if(currentChunk == null) {
             return null;
         }
@@ -151,7 +151,7 @@ public class JFXDataset implements Data {
      * Steps data chunk back by one frame
      */
     @Override
-    public MatrixR032 stepBack() {
+    public double[][] stepBack() {
         if(currentChunk == null) {
             return null;
         }
@@ -166,7 +166,7 @@ public class JFXDataset implements Data {
      * @return The matrix at the specific frame number. Null if out of bounds.
      */
     @Override
-    public MatrixR032 gotoFrame(int frameNum) {
+    public double[][] gotoFrame(int frameNum) {
         if(frameNum < 1 || frameNum > numFrames) {
             return null;
         }

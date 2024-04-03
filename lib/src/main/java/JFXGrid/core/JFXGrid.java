@@ -223,11 +223,6 @@ public class JFXGrid extends GridFormatPane implements TickListener {
     private void checkForResize() {
         var newWidth = this.getWidth();
         var newHeight = this.getHeight();
-//        double axisLength;
-
-//        if(axes.get(0) != null) {V
-//            axisLength = Math.min(axes.get(0).getWidth());
-//        }
 
         if(this.getWidth() != canvas.getWidth() || this.getHeight() != canvas.getHeight()) {
             if(keepAspect) {

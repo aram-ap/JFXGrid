@@ -45,7 +45,7 @@ public abstract class ImageGenerator {
      * @param matrix Matrix to create image with
      * @param theme ColorTheme for parsing data to colors
      */
-    public static Future<IntBuffer> getBufferedARGBFuture(final double width, final double height, MatrixR032 matrix, Colorizer theme) {
+    public static Future<IntBuffer> getBufferedARGBFuture(final double width, final double height, double[][] matrix, Colorizer theme) {
         return CompletableFuture.supplyAsync(() -> getBufferedARGB(width, height, matrix, theme));
     }
 
@@ -56,18 +56,18 @@ public abstract class ImageGenerator {
      * @param matrix Matrix to create image with
      * @param theme ColorTheme for parsing data to colors
      */
-    public static IntBuffer getBufferedARGB(final double width, final double height, MatrixR032 matrix, Colorizer theme) {
+    public static IntBuffer getBufferedARGB(final double width, final double height, double[][] matrix, Colorizer theme) {
         final IntBuffer buffer = IntBuffer.allocate((int) (width * height));
         final int[] pixels = buffer.array();
 
-        final double numRows = matrix.getRowDim();
-        final double numCols = matrix.getColDim();
+        final double numRows = matrix.length;
+        final double numCols = matrix[0].length;
         for(int y = 0; y < height; y++) {
             int pointY = (int)(y / height * numRows);
 
             for(int x = 0; x < width; x++) {
                 int pointX = (int)(x / width * numCols);
-                double val = matrix.get(pointY, pointX);
+                double val = matrix[pointY][pointX];
                 pixels[(int) ((x % width) + (y * width))] = theme.getNearestARGBColor(val);
             }
         }

@@ -67,7 +67,7 @@ public class GridRenderer implements Renderer {
         if(dataset == null) {
             rows = 1;
         } else {
-            rows = dataset.get().getRowDim();
+            rows = (dataset.get()).length;
         }
 
         var canvas = getCanvas();
@@ -91,7 +91,7 @@ public class GridRenderer implements Renderer {
         if(dataset == null) {
             cols = 1;
         } else {
-            cols = dataset.get().getColDim();
+            cols = dataset.get()[0].length;
         }
 
         var canvas = getCanvas();
@@ -163,15 +163,20 @@ public class GridRenderer implements Renderer {
                 WritableImage finalImage = jfxGrid.getImageOptional().get();
                 drawImage(finalImage);
             } else {
-                MatrixR032 matrix;
+                double[][] matrix;
                 if(jfxGrid.getData() == null) {
-                    matrix = MatrixR032.FACTORY.make(32, 32);
+                    matrix = new double[0][0];
                 } else {
                     matrix = jfxGrid.getData().get();
                 }
-                IntBuffer buf = ImageGenerator.getBufferedARGB(matrix.getColDim(), matrix.getRowDim(), matrix, jfxGrid.getGridStyler().getColorizer());
+
+                if(matrix.length == 0) {
+                    return;
+                }
+
+                IntBuffer buf = ImageGenerator.getBufferedARGB(matrix[0].length, matrix.length, matrix, jfxGrid.getGridStyler().getColorizer());
                 PixelBuffer<IntBuffer> pixelBuffer = new PixelBuffer<>(
-                        (int) matrix.getColDim(), (int) matrix.getRowDim(), buf, PixelFormat.getIntArgbPreInstance()
+                        (int) matrix[0].length, (int) matrix.length, buf, PixelFormat.getIntArgbPreInstance()
                 );
                 final WritableImage image = new WritableImage(pixelBuffer);
                 drawImage(image);

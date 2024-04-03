@@ -39,7 +39,7 @@ public class JFXDatasetFactory extends JFXDataset {
     }
 
     private DataType type = DataType.Single_Chunk;
-    private final ArrayList<MatrixR032> frames = new ArrayList<>();
+    private final ArrayList<double[][]> frames = new ArrayList<>();
     private final ArrayList<DataChunk> chunks = new ArrayList<>();
 
     public JFXDatasetFactory(int rows, int cols) {
@@ -48,14 +48,27 @@ public class JFXDatasetFactory extends JFXDataset {
 
     public JFXDatasetFactory add(MatrixR032 matrix) {
         if(matrix != null) {
-            frames.add(matrix);
+            add(matrix.toRawCopy2D());
         }
         return this;
     }
 
     public JFXDatasetFactory add(double[][] matrix) {
         if(matrix != null) {
-            frames.add(MatrixR032.FACTORY.rows(matrix));
+            frames.add(matrix);
+        }
+
+        return this;
+    }
+
+    public JFXDatasetFactory addAll(double[][][] matrices) {
+        if(matrices == null || matrices.length == 0) {
+            return this;
+        }
+
+        int length = matrices.length;
+        for(int i = 0; i<length; i++) {
+            frames.add(matrices[i]);
         }
 
         return this;
@@ -66,11 +79,14 @@ public class JFXDatasetFactory extends JFXDataset {
             return this;
         }
 
-        frames.addAll(List.of(matrices));
+        for(var matrix :matrices) {
+            frames.add(matrix.toRawCopy2D());
+        }
+
         return this;
     }
 
-    public JFXDatasetFactory addAll(Collection<MatrixR032> matrices) {
+    public JFXDatasetFactory addAll(Collection<double[][]> matrices) {
         if(matrices == null) {
             return this;
         }
@@ -86,7 +102,7 @@ public class JFXDatasetFactory extends JFXDataset {
     public JFXDataset build() {
         JFXDataset dataset;
         if(chunks.isEmpty()) {
-            chunks.add(new DataChunk(frames.toArray(new MatrixR032[0]), 0));
+            chunks.add(new DataChunk(frames, 0));
         }
 
         if(type == DataType.Single_Chunk) {

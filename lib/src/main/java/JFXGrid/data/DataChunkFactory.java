@@ -35,7 +35,7 @@ public class DataChunkFactory extends DataChunk {
      * @return the processed DataChunk version
      */
     public DataChunk build() {
-        return new DataChunk(frames.toArray(new MatrixR032[0]), uid);
+        return new DataChunk(frames.toArray(new double[0][][]), uid);
     }
 
     /**

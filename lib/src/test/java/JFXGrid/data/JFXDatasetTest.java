@@ -31,7 +31,7 @@ class JFXDatasetTest {
         int numFrames = 1000, refFrameIndex = 8;
         JFXDataset data = fakeDataBuilder(32, 32, numFrames);
 
-        MatrixR032 refMatrix = data.gotoFrame(refFrameIndex);
+        double[][] refMatrix = data.gotoFrame(refFrameIndex);
         data.gotoFrame(1);
 
         int numStepsForward = 10;
@@ -60,7 +60,7 @@ class JFXDatasetTest {
         }
 
         assertEquals(numFrames, data.getNumFrames());
-        assertArrayEquals(refMatrix.toRawCopy2D(), data.gotoFrame(refFrameIndex).toRawCopy2D());
+        assertArrayEquals(refMatrix, data.gotoFrame(refFrameIndex));
     }
 
     public static JFXDataset fakeDataBuilder(int rows, int cols, int numFrames) {
