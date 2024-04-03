@@ -89,4 +89,12 @@ public class JFXProcessManager implements TickListener {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Clears all queued processes
+     */
+    public static void end() {
+        processQueue.clear();
+        workerThread.shutdown();
+    }
 }

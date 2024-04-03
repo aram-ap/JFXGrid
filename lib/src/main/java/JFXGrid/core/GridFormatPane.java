@@ -12,11 +12,6 @@ public abstract class GridFormatPane extends GridPane {
 
     protected GridFormatPane() {  }
 
-    protected void init(JFXGrid grid) {
-        if(grid == null)
-            return;
-    }
-
     public void addNode(Node node, Axis.Align alignment) {
         if(node == null) {
             return;
@@ -45,8 +40,8 @@ public abstract class GridFormatPane extends GridPane {
             case Center -> {
                 xPos = 1;
                 yPos = 1;
-                GridPane.setFillHeight(node, true);
-                GridPane.setFillWidth(node, true);
+//                GridPane.setFillHeight(node, true);
+//                GridPane.setFillWidth(node, true);
             }
             default -> { }
         }

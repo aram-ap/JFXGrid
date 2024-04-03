@@ -22,6 +22,8 @@
 package JFXGrid.renderer;
 
 import JFXGrid.core.Axis;
+import JFXGrid.events.JFXClock;
+import JFXGrid.events.JFXProcessManager;
 import JFXGrid.util.Colorizer;
 import javafx.geometry.VPos;
 import javafx.scene.text.TextAlignment;
@@ -212,8 +214,13 @@ public class AxisRenderer implements Renderer{
 
     @Override
     public void render() {
-        drawLine();
-        drawTickMarks();
+        if(isDirty) {
+            JFXProcessManager.addFXTask(() -> {
+                drawLine();
+                drawTickMarks();
+            });
+            isDirty = false;
+        }
     }
 
     /**

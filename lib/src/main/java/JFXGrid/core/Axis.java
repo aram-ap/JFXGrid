@@ -25,14 +25,16 @@ import JFXGrid.events.JFXClock;
 import JFXGrid.events.TickListener;
 import JFXGrid.renderer.AxisRenderer;
 import JFXGrid.util.ResizableCanvas;
-import javafx.scene.layout.BorderPane;
+import javafx.geometry.Insets;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 
 /**
  * The specific Axis class added to a JFXGrid. Contains alignment properties, max/min values, and other stylized properties.
  *
  * @author aram-ap
  */
-public class Axis extends BorderPane implements TickListener {
+public class Axis extends Pane implements TickListener {
 
     public enum Type {
         X_AXIS,
@@ -64,11 +66,18 @@ public class Axis extends BorderPane implements TickListener {
     public Axis(Align alignment) {
         getStyleClass().add("axis-bar");
         this.labelAlignment = alignment;
-        canvas = new ResizableCanvas();
         renderer = new AxisRenderer(this);
         canvas = new ResizableCanvas();
         canvas.getStyleClass().add("axis-canvas");
-        setCenter(canvas);
+
+//        switch(alignment) {
+//            case Up,Down -> setHeight(30);
+//            case Left, Right -> setWidth(30);
+//        }
+        setMinHeight(30);
+        setMinWidth(30);
+
+        getChildren().add(canvas);
     }
 
     /**
@@ -109,17 +118,12 @@ public class Axis extends BorderPane implements TickListener {
             canvas.getStyleClass().add("axis-canvas");
         }
 
-        setCenter(canvas);
         setPrefSize(canvas.getWidth(), canvas.getHeight());
         renderer.setDirty(true);
     }
 
-    public void forceUpdate() {
-        renderer.setDirty(true);
-    }
-
     public void update() {
-        forceUpdate();
+        renderer.render();
     }
 
     public double getMinVal() {
@@ -148,7 +152,7 @@ public class Axis extends BorderPane implements TickListener {
 
     public void setNumTicks(int numTicks) {
         this.numTicks = numTicks;
-        forceUpdate();
+        renderer.setDirty(true);
     }
 
     public double getTickLength() {
@@ -157,7 +161,7 @@ public class Axis extends BorderPane implements TickListener {
 
     public void setTickLength(double tickLength) {
         this.tickLength = tickLength;
-        forceUpdate();
+        renderer.setDirty(true);
     }
 
     public Align getLabelAlignment() {
@@ -166,7 +170,7 @@ public class Axis extends BorderPane implements TickListener {
 
     public void setLabelAlignment(Align labelAlignment) {
         this.labelAlignment = labelAlignment;
-        forceUpdate();
+        renderer.setDirty(true);
     }
 
     public double getAxisSize() {
@@ -176,7 +180,7 @@ public class Axis extends BorderPane implements TickListener {
     public void setAxisSize(double axisSize) {
         this.axisSize = axisSize;
 
-        forceUpdate();
+        renderer.setDirty(true);
     }
 
     public double getTickLabelDistance() {
@@ -185,7 +189,7 @@ public class Axis extends BorderPane implements TickListener {
 
     public void setTickLabelDistance(double tickLabelDistance) {
         this.tickLabelDistance = tickLabelDistance;
-        forceUpdate();
+        renderer.setDirty(true);
     }
 
     public boolean isSwitched() {

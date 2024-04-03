@@ -6,6 +6,7 @@ import JFXGrid.core.Axis;
 import JFXGrid.core.JFXGrid;
 import JFXGrid.data.JFXDatasetFactory;
 import JFXGrid.events.JFXClock;
+import JFXGrid.events.JFXProcessManager;
 import JFXGrid.plugin.VideoPlayer;
 import JFXGrid.util.Style;
 import javafx.application.Application;
@@ -23,38 +24,52 @@ public class App extends Application {
 
     public static void main(String[] args) {
         launch();
-
     }
 
     @Override
     public void start(Stage stage) throws Exception {
 
+        //Here we create the heatmap
         var heatmap = new JFXGrid();
+
+        //Here we initialize the video player plugin
         var player = new VideoPlayer();
 
+        //When adding plugins, its quite easy like this
         heatmap.addPlugin(player);
+
+        //When changing the look of the grid, use the .getGridStyler() method and whatever setting you want changed
         heatmap.getGridStyler().setStyle(Style.DUOTONE);
         heatmap.getGridStyler().setShowLines(false);
+
+        //The grid is a subclass of the regular JavaFX Node, so you can do the same types of actions you would do with other nodes.
         heatmap.setPrefHeight(300);
         heatmap.setPrefWidth(300);
 
-        var dataFactory = new JFXDatasetFactory(128, 128).add(MatrixR032.FACTORY.makeFilled(128, 128, Uniform.standard()));
+        //Here we're using the JFXDatasetFactory to create some sample data.
+        int rows = 100, cols = 100;
+        var dataFactory = new JFXDatasetFactory(rows, cols).add(MatrixR032.FACTORY.makeFilled(rows, cols, Uniform.standard()));
         for(int i = 0; i < 1000; i++) {
-            dataFactory.add(MatrixR032.FACTORY.makeFilled(128, 128, Uniform.standard()));
+            dataFactory.add(MatrixR032.FACTORY.makeFilled(rows, cols, Uniform.standard()));
         }
+
+        //Now we just add the data to the grid
         heatmap.setData(dataFactory.build());
 
-
+        //This is somewhat redundant as the default fps cap is 100, but this shows that you can set it to a value.
+        //This value directly dictates the tick rate of the fixedUpdate() calls
         JFXClock.get().setFpsCap(100);
+
+        //You can add other processes to fixed tick function like this
         JFXClock.get().addFixedTickListener(() -> {
             if(heatmap.getData().getFrameNum()%7 == 0) {
                 System.out.println("FPS: " + heatmap.getRendererFPS());
             }
         });
 
+        //Starts incrementing through the frames
         player.play();
 
-        JFXClock.get().start();
         Scene scene = new Scene(heatmap);
 
         stage.setScene(scene);
@@ -65,6 +80,7 @@ public class App extends Application {
 
     @Override
     public void stop() throws Exception {
-        JFXClock.get().setRunning(false);
+        //We call shutdown to end all running processes.
+        JFXGrid.shutdown();
     }
 }

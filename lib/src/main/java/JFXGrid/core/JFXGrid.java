@@ -23,6 +23,7 @@ package JFXGrid.core;
 
 import JFXGrid.data.JFXDataset;
 import JFXGrid.events.JFXClock;
+import JFXGrid.events.JFXProcessManager;
 import JFXGrid.events.TickListener;
 import JFXGrid.plugin.Plugin;
 import JFXGrid.renderer.GridRenderer;
@@ -33,6 +34,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.image.WritableImage;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -42,6 +44,8 @@ import java.util.Optional;
  * @author Aram Aprahamian (Github: @aram-ap)
  */
 public class JFXGrid extends GridFormatPane implements TickListener {
+    private static ArrayList<JFXGrid> gridInstances = new ArrayList<>();
+
     //The canvas for which the grid will be displayed on
     private final ResizableCanvas canvas;
 
@@ -78,7 +82,15 @@ public class JFXGrid extends GridFormatPane implements TickListener {
         gridRenderer = new GridRenderer(this);
         gridRenderer.render();
 
+        var xAxis = new Axis(Axis.Align.Up);
+        var yAxis = new Axis(Axis.Align.Left);
+        var zAxis = new JFXColorBar(this, Axis.Align.Right);
+
+        axes.addAll(List.of(xAxis, yAxis, zAxis));
+        gridInstances.add(this);
+
         arrange();
+        JFXClock.get().start();
     }
 
     /**
@@ -180,11 +192,17 @@ public class JFXGrid extends GridFormatPane implements TickListener {
 
     private void arrange() {
         addNode(canvas, Axis.Align.Center);
+        for(Axis axis : axes) {
+            addNode(axis, axis.getLabelAlignment());
+        }
         setDirty();
     }
 
     private void setDirty() {
         gridRenderer.setDirty(true);
+        for(Axis axis : axes) {
+            axis.getRenderer().setDirty(true);
+        }
     }
 
     /**
@@ -205,15 +223,25 @@ public class JFXGrid extends GridFormatPane implements TickListener {
     private void checkForResize() {
         var newWidth = this.getWidth();
         var newHeight = this.getHeight();
+//        double axisLength;
+
+//        if(axes.get(0) != null) {V
+//            axisLength = Math.min(axes.get(0).getWidth());
+//        }
 
         if(this.getWidth() != canvas.getWidth() || this.getHeight() != canvas.getHeight()) {
             if(keepAspect) {
-                var size = Math.min(newWidth, newHeight);
+                var size = Math.min(newWidth-30, newHeight-30);
                 canvas.resize(size, size);
             } else {
-                canvas.resize(newWidth, newHeight);
+                canvas.resize(newWidth-30, newHeight-30);
             }
             setDirty();
         }
+    }
+
+    public static void shutdown() {
+        JFXClock.get().setRunning(false);
+        JFXProcessManager.end();
     }
 }
