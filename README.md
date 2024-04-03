@@ -32,9 +32,13 @@ While developing an application for processing and visualizing LiDAR sensor info
 
 ### Installing: 
 #### Temporary installation process:
-First, go to the folder location of the library 
+First, download this github repo:
 ```
-    cd /path/to/jfxgrid
+    git clone https://www.github.com/aram-ap/JFXGrid
+```
+go to the folder location of the library 
+```
+    cd /path/to/repo/JFXGrid
 ```
 then run
 ```
