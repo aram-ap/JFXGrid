@@ -31,7 +31,7 @@ class JFXDatasetTest {
         int numFrames = 1000, refFrameIndex = 8;
         JFXDataset data = fakeDataBuilder(32, 32, numFrames);
 
-        double[][] refMatrix = data.gotoFrame(refFrameIndex);
+        double[] refMatrix = data.gotoFrame(refFrameIndex);
         data.gotoFrame(1);
 
         int numStepsForward = 10;

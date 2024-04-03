@@ -41,17 +41,33 @@ public class App extends Application {
         //When changing the look of the grid, use the .getGridStyler() method and whatever setting you want changed
         heatmap.getGridStyler().setStyle(Style.DUOTONE);
         heatmap.getGridStyler().setShowLines(false);
+        heatmap.setKeepAspect(false);
 
         //The grid is a subclass of the regular JavaFX Node, so you can do the same types of actions you would do with other nodes.
         heatmap.setPrefHeight(300);
         heatmap.setPrefWidth(300);
 
-        //Here we're using the JFXDatasetFactory to create some sample data.
-        int rows = 300, cols = 300;
+//        Here we're using the JFXDatasetFactory to create some sample data.
+        int rows = 100, cols = 100;
         var dataFactory = new JFXDatasetFactory(rows, cols).add(MatrixR032.FACTORY.makeFilled(rows, cols, Uniform.standard()));
         for(int i = 0; i < 1000; i++) {
             dataFactory.add(MatrixR032.FACTORY.makeFilled(rows, cols, Uniform.standard()));
         }
+
+        //Uncomment this for a smiley face
+        /*
+        var matrix = MatrixR032.FACTORY.makeDense(10, 10);
+        matrix.set(2, 4, 1);
+        matrix.set(2, 6, 1);
+
+        matrix.set(5, 3, 1);
+        matrix.set(6, 4, 1);
+        matrix.set(6, 5, 1);
+        matrix.set(6, 6, 1);
+        matrix.set(5,7,1);
+
+        var dataFactory = new JFXDatasetFactory(10, 10).add(matrix.toRawCopy1D());
+         */
 
         //Now we just add the data to the grid
         heatmap.setData(dataFactory.build());

@@ -50,7 +50,7 @@ public class DataNode implements Data {
      *
      * @return
      */
-    public double[][] get() {
+    public double[] get() {
         return val.get();
     }
 
@@ -91,7 +91,7 @@ public class DataNode implements Data {
      *
      */
     @Override
-    public double[][] stepForward() {
+    public double[] stepForward() {
         if(val == null)
             return null;
 
@@ -102,7 +102,7 @@ public class DataNode implements Data {
      *
      */
     @Override
-    public double[][] stepBack() {
+    public double[] stepBack() {
         if(val == null) {
             return null;
         }
@@ -117,7 +117,7 @@ public class DataNode implements Data {
      * @return The matrix at the specific frame number. Null if out of bounds.
      */
     @Override
-    public double[][] gotoFrame(int frameNum) {
+    public double[] gotoFrame(int frameNum) {
         return val.gotoFrame(frameNum);
     }
 

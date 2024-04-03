@@ -60,29 +60,6 @@ public class JFXDataset implements Data {
         return numFrames;
     }
 
-
-    /**
-     * Sets the number of rows
-     * @param rows
-     */
-    public final void setNumRows(int rows) {
-        if(rows < 0) {
-            throw new IllegalArgumentException("Rows cannot be less than 0!");
-        }
-        this.numRows = rows;
-    }
-
-    /**
-     * Sets the number of columns
-     * @param columns
-     */
-    public final void setNumColumns(int columns) {
-        if(columns < 0) {
-            throw new IllegalArgumentException("Columns cannot be less than 0!");
-        }
-        this.numColumns = columns;
-    }
-
     public final int getNumRows() {
         return numRows;
     }
@@ -95,9 +72,9 @@ public class JFXDataset implements Data {
      * Returns a list of MatrixR032
      * @return
      */
-    public double[][][] getCache() {
+    public double[][] getCache() {
         if(currentChunk == null) {
-            return new double[0][][];
+            return new double[0][];
         }
         return currentChunk.toList();
     }
@@ -107,7 +84,7 @@ public class JFXDataset implements Data {
      * @return MatrixR023
      */
     @Override
-    public double[][] get() {
+    public double[] get() {
         if(currentChunk == null) {
             return null;
         }
@@ -139,7 +116,7 @@ public class JFXDataset implements Data {
      * Steps data chunk by one frame
      */
     @Override
-    public double[][] stepForward() {
+    public double[] stepForward() {
         if(currentChunk == null) {
             return null;
         }
@@ -151,7 +128,7 @@ public class JFXDataset implements Data {
      * Steps data chunk back by one frame
      */
     @Override
-    public double[][] stepBack() {
+    public double[] stepBack() {
         if(currentChunk == null) {
             return null;
         }
@@ -166,7 +143,7 @@ public class JFXDataset implements Data {
      * @return The matrix at the specific frame number. Null if out of bounds.
      */
     @Override
-    public double[][] gotoFrame(int frameNum) {
+    public double[] gotoFrame(int frameNum) {
         if(frameNum < 1 || frameNum > numFrames) {
             return null;
         }

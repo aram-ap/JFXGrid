@@ -39,7 +39,7 @@ public class JFXDatasetFactory extends JFXDataset {
     }
 
     private DataType type = DataType.Single_Chunk;
-    private final ArrayList<double[][]> frames = new ArrayList<>();
+    private final ArrayList<double[]> frames = new ArrayList<>();
     private final ArrayList<DataChunk> chunks = new ArrayList<>();
 
     public JFXDatasetFactory(int rows, int cols) {
@@ -48,12 +48,12 @@ public class JFXDatasetFactory extends JFXDataset {
 
     public JFXDatasetFactory add(MatrixR032 matrix) {
         if(matrix != null) {
-            add(matrix.toRawCopy2D());
+            add(matrix.toRawCopy1D());
         }
         return this;
     }
 
-    public JFXDatasetFactory add(double[][] matrix) {
+    public JFXDatasetFactory add(double[] matrix) {
         if(matrix != null) {
             frames.add(matrix);
         }
@@ -61,7 +61,7 @@ public class JFXDatasetFactory extends JFXDataset {
         return this;
     }
 
-    public JFXDatasetFactory addAll(double[][][] matrices) {
+    public JFXDatasetFactory addAll(double[][] matrices) {
         if(matrices == null || matrices.length == 0) {
             return this;
         }
@@ -80,13 +80,13 @@ public class JFXDatasetFactory extends JFXDataset {
         }
 
         for(var matrix :matrices) {
-            frames.add(matrix.toRawCopy2D());
+            frames.add(matrix.toRawCopy1D());
         }
 
         return this;
     }
 
-    public JFXDatasetFactory addAll(Collection<double[][]> matrices) {
+    public JFXDatasetFactory addAll(Collection<double[]> matrices) {
         if(matrices == null) {
             return this;
         }

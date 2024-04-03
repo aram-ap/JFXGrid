@@ -67,7 +67,7 @@ public class GridRenderer implements Renderer {
         if(dataset == null) {
             rows = 1;
         } else {
-            rows = (dataset.get()).length;
+            rows = dataset.getNumRows();
         }
 
         var canvas = getCanvas();
@@ -91,7 +91,7 @@ public class GridRenderer implements Renderer {
         if(dataset == null) {
             cols = 1;
         } else {
-            cols = dataset.get()[0].length;
+            cols = dataset.getNumColumns();
         }
 
         var canvas = getCanvas();
@@ -159,27 +159,26 @@ public class GridRenderer implements Renderer {
     public void render() {
         Runnable renderRun = () -> {
             drawBackground();
-            if(jfxGrid.getImageOptional().isPresent()) {
-                WritableImage finalImage = jfxGrid.getImageOptional().get();
-                drawImage(finalImage);
-            } else {
-                double[][] matrix;
-                if(jfxGrid.getData() == null) {
-                    matrix = new double[0][0];
-                } else {
-                    matrix = jfxGrid.getData().get();
-                }
+
+            if(jfxGrid.getData() != null) {
+                int rows, cols;
+                double[] matrix = jfxGrid.getData().get();
+                rows = jfxGrid.getData().getNumRows();
+                cols = jfxGrid.getData().getNumColumns();
 
                 if(matrix.length == 0) {
                     return;
                 }
 
-                IntBuffer buf = ImageGenerator.getBufferedARGB(matrix[0].length, matrix.length, matrix, jfxGrid.getGridStyler().getColorizer());
+                IntBuffer buf = ImageGenerator.getBufferedARGB(rows, cols, matrix, jfxGrid.getGridStyler().getColorizer());
                 PixelBuffer<IntBuffer> pixelBuffer = new PixelBuffer<>(
-                        (int) matrix[0].length, (int) matrix.length, buf, PixelFormat.getIntArgbPreInstance()
+                        cols, rows, buf, PixelFormat.getIntArgbPreInstance()
                 );
+
                 final WritableImage image = new WritableImage(pixelBuffer);
+
                 drawImage(image);
+                pixelBuffer.updateBuffer((val) -> null);
             }
 
             if(jfxGrid.getGridStyler().showLinesEnabled()) {

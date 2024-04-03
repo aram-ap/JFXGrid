@@ -47,7 +47,7 @@ public interface Data {
      * Gets the current matrix
      * @return MatrixR032, null if empty
      */
-    public double[][] get();
+    public double[]get();
 
     /**
      * Gets the size of the data set
@@ -60,16 +60,16 @@ public interface Data {
      */
     public void clearData();
 
-    public double[][] stepForward();
+    public double[] stepForward();
 
-    public double[][] stepBack();
+    public double[] stepBack();
 
     /**
      * Goes to the inserted frame number
      * @param frameNum The frame to go to. Note, values are [1, length]. Inclusive of 1.
      * @return The matrix at the specific frame number. Null if out of bounds.
      */
-    public double[][] gotoFrame(int frameNum);
+    public double[] gotoFrame(int frameNum);
 
     public int getFrameNum();
 }

@@ -34,7 +34,7 @@ import java.util.Collection;
  */
 public class DataChunk implements Data {
     //The collection of frames held in the chunk
-    private double[][][] frames;
+    private double[][] frames;
 
     //The internal frame pointer that keeps track of the current matrix being shown
     private int currentFrame = -1;
@@ -58,14 +58,14 @@ public class DataChunk implements Data {
         }
 
         this.uid = uid;
-        this.frames = new double[capacity][][];
+        this.frames = new double[capacity][];
         this.capacity = capacity;
     }
     /**
      * Default constructor for DataChunk
      * @param frames the pre-determined frames to add into the chunk
      */
-    protected DataChunk(double[][][] frames, int uid) {
+    protected DataChunk(double[][] frames, int uid) {
         if(frames == null) {
             throw new IllegalArgumentException("Frames cannot be null!");
         }
@@ -80,12 +80,12 @@ public class DataChunk implements Data {
      * Default constructor for DataChunk
      * @param frames the pre-determined collection of frames to add into the chunk
      */
-    protected DataChunk(Collection<double[][]> frames, int uid) {
+    protected DataChunk(Collection<double[]> frames, int uid) {
         if(frames == null)
             throw new IllegalArgumentException("Frames cannot be null!");
 
         this.uid = uid;
-        this.frames = frames.toArray(new double[0][][]);
+        this.frames = frames.toArray(new double[0][]);
         this.capacity = this.frames.length;
         numItems = this.frames.length;
     }
@@ -93,7 +93,7 @@ public class DataChunk implements Data {
     /**
      * @return iterates the current position by one. No action if current position is at the end;
      */
-    public double[][] stepForward() {
+    public double[] stepForward() {
         if(currentFrame == capacity - 1) {
             return frames[currentFrame];
         }
@@ -105,7 +105,7 @@ public class DataChunk implements Data {
      * Sets the current frame # to 0
      * @return the first frame of the chunk
      */
-    public double[][] setFrameFront() {
+    public double[] setFrameFront() {
         currentFrame = 0;
         if(frames == null) {
             return null;
@@ -118,7 +118,7 @@ public class DataChunk implements Data {
      * Sets the current frame # to the last frame
      * @return the last frame of the chunk
      */
-    public double[][] setFrameLast() {
+    public double[] setFrameLast() {
         if(frames == null) {
             return null;
         }
@@ -129,7 +129,7 @@ public class DataChunk implements Data {
     /**
      * @return iterates the current position back by one. No action if current position is 0
      */
-    public double[][] stepBack() {
+    public double[] stepBack() {
         if(currentFrame <= 0) {
             return null;
         }
@@ -144,7 +144,7 @@ public class DataChunk implements Data {
      * @return The matrix at the specific frame number. Null if out of bounds.
      */
     @Override
-    public double[][] gotoFrame(int frameNum) {
+    public double[] gotoFrame(int frameNum) {
         if(frameNum < 1 || frameNum > numItems) {
             return null;
         }
@@ -194,7 +194,7 @@ public class DataChunk implements Data {
      * @return MatrixR032, null if empty
      */
     @Override
-    public double[][] get() {
+    public double[] get() {
         if(isEmpty()) {
             return null;
         }
@@ -223,21 +223,8 @@ public class DataChunk implements Data {
     /**
      * @return The list of frames in this chunk
      */
-    public double[][][] toList() {
+    public double[][] toList() {
         return frames;
-    }
-
-    /**
-     * @return an array of 2d double arrays
-     */
-    public double[][][] toListPrimitive() {
-        double[][][] arr = new double[numItems][][];
-
-        for(int i = 0; i < numItems; i++) {
-            arr[i] = frames[i];
-        }
-
-        return arr;
     }
 
     @Override
@@ -257,10 +244,10 @@ public class DataChunk implements Data {
             return true;
         }
 
-        if(o == null || !(o instanceof DataChunk chunk)) {
+        if(!( o instanceof DataChunk chunk )) {
             return false;
         }
 
-        return numItems == chunk.numItems && Arrays.equals(this.toListPrimitive(), chunk.toListPrimitive());
+        return numItems == chunk.numItems && Arrays.deepEquals(this.toList(), chunk.toList());
     }
 }

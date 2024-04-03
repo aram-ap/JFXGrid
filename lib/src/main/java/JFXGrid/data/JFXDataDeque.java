@@ -273,7 +273,7 @@ public class JFXDataDeque extends JFXDataset implements Data{
      * @return the current node's current frame.
      */
     @Override
-    public double[][] get() {
+    public double[] get() {
         if(headNode == null) {
             return null;
         }
@@ -297,7 +297,7 @@ public class JFXDataDeque extends JFXDataset implements Data{
      * @return the next frame
      */
     @Override
-    public double[][] stepForward() {
+    public double[] stepForward() {
         if(currentChunk == null) {
             return null;
         }
@@ -318,7 +318,7 @@ public class JFXDataDeque extends JFXDataset implements Data{
      * @return the previous frame
      */
     @Override
-    public double[][] stepBack() {
+    public double[] stepBack() {
         if(currentNode == null) {
             return null;
         }
