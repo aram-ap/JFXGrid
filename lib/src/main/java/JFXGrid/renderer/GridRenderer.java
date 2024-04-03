@@ -141,6 +141,10 @@ public class GridRenderer implements Renderer {
     }
 
     public float getFPS() {
+        if(lastFrameDelta == 0) {
+            return 0;
+        }
+
         return (float) 1_000_000_000 / lastFrameDelta;
     }
 

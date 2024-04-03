@@ -38,13 +38,13 @@ public class App extends Application {
         heatmap.setPrefHeight(300);
         heatmap.setPrefWidth(300);
 
-        var dataFactory = new JFXDatasetFactory(32, 32).add(MatrixR032.FACTORY.makeFilled(256, 256, Uniform.standard()));
+        var dataFactory = new JFXDatasetFactory(128, 128).add(MatrixR032.FACTORY.makeFilled(128, 128, Uniform.standard()));
         for(int i = 0; i < 1000; i++) {
-            dataFactory.add(MatrixR032.FACTORY.makeFilled(32, 32, Uniform.standard()));
+            dataFactory.add(MatrixR032.FACTORY.makeFilled(128, 128, Uniform.standard()));
         }
         heatmap.setDataset(dataFactory.build());
 
-        JFXClock.get().setFpsCap(100);
+        JFXClock.get().setFpsCap(600);
         JFXClock.get().addFixedTickListener(() -> {
             if(heatmap.getDataset().getFrameNum()%7 == 0) {
                 System.out.println("FPS: " + heatmap.getRendererFPS());
