@@ -31,7 +31,17 @@ While developing an application for processing and visualizing LiDAR sensor info
 ---
 
 ### Installing: 
-#### Gradle (won't work yet, still trying to figure out how to publish a maven central package):
+#### Temporary installation process:
+First, go to the folder location of the library 
+```
+    cd /path/to/jfxgrid
+```
+then run
+```
+    ./gradlew publishToMavenLocal
+```
+
+#### Gradle:
 In your build.gradle, add this:
 ```
 dependencies {
