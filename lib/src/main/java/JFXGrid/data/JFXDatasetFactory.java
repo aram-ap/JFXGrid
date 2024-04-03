@@ -44,6 +44,11 @@ public class JFXDatasetFactory extends JFXDataset {
         super(rows, cols);
     }
 
+    /**
+     * Adds an OjAlgo MatrixR032 into the dataset
+     * @param matrix
+     * @return
+     */
     public JFXDatasetFactory add(MatrixR032 matrix) {
         if(matrix != null) {
             add(matrix.toRawCopy1D());
@@ -51,6 +56,11 @@ public class JFXDatasetFactory extends JFXDataset {
         return this;
     }
 
+    /**
+     * Adds a 1D matrix into the dataset
+     * @param matrix
+     * @return
+     */
     public JFXDatasetFactory add(double[] matrix) {
         if(matrix != null) {
             frames.add(matrix);
@@ -59,6 +69,34 @@ public class JFXDatasetFactory extends JFXDataset {
         return this;
     }
 
+    /**
+     * Formats and adds a 2D double array in form -> arr[rows][columns] to the dataset.
+     * @param matrix2D 2D double array in form arr[rows][columns]
+     * @return
+     */
+    public JFXDatasetFactory add2D(double[][] matrix2D) {
+        if(matrix2D == null || matrix2D[0] == null) {
+            return this;
+        }
+
+        int rows = matrix2D.length;
+        int cols = matrix2D[0].length;
+        double[] frame1D = new double[rows * cols];
+
+        for(int y = 0; y < rows; y++) {
+            System.arraycopy(matrix2D[y], 0, frame1D, y * rows, cols);
+        }
+
+        frames.add(frame1D);
+
+        return this;
+    }
+
+    /**
+     * Adds an array of 1D matrices into the dataset
+     * @param matrices
+     * @return
+     */
     public JFXDatasetFactory addAll(double[][] matrices) {
         if(matrices == null || matrices.length == 0) {
             return this;

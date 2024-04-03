@@ -40,7 +40,7 @@ import java.nio.IntBuffer;
  * @author Aram Aprahamian
  */
 public class GridRenderer implements Renderer {
-    private final JFXGrid jfxGrid;
+    private JFXGrid jfxGrid;
 
     //This is utilized to prevent over processing, this class will only render if there was something that changed requiring an render.
     protected boolean isDirty = true;
@@ -133,6 +133,10 @@ public class GridRenderer implements Renderer {
         gc.strokeRect(0, 0, getCanvas().getWidth(), getCanvas().getHeight());
     }
 
+    /**
+     * Calculates the instantaneous framerate using the change of time between frames.
+     * @return FPS
+     */
     public float getFPS() {
         if(lastFrameDelta == 0) {
             return 0;
@@ -152,43 +156,49 @@ public class GridRenderer implements Renderer {
     }
 
     /**
+     * This is the contained runnable process that is given to the JavaFX thread upon a render call
+     */
+    private final Runnable renderRunnable = () -> {
+        drawBackground();
+
+        if(jfxGrid.getData() != null) {
+            int rows, cols;
+            double[] matrix = jfxGrid.getData().get();
+            rows = jfxGrid.getData().getNumRows();
+            cols = jfxGrid.getData().getNumColumns();
+
+            if(matrix.length == 0) {
+                return;
+            }
+
+            IntBuffer buf = ImageGenerator.getBufferedARGB(rows, cols, matrix, jfxGrid.getStylizer().getColorizer());
+            PixelBuffer<IntBuffer> pixelBuffer = new PixelBuffer<>(
+                    cols, rows, buf, PixelFormat.getIntArgbPreInstance()
+            );
+
+            final WritableImage image = new WritableImage(pixelBuffer);
+
+            drawImage(image);
+            pixelBuffer.updateBuffer((val) -> null);
+        }
+
+        if(jfxGrid.getStylizer().showLinesEnabled()) {
+            drawHorLines();
+            drawVerLines();
+        }
+    };
+
+    /**
      * Forces a re-render of all visual components.
      */
     @Override
     public void render() {
-        Runnable renderRun = () -> {
-            drawBackground();
-
-            if(jfxGrid.getData() != null) {
-                int rows, cols;
-                double[] matrix = jfxGrid.getData().get();
-                rows = jfxGrid.getData().getNumRows();
-                cols = jfxGrid.getData().getNumColumns();
-
-                if(matrix.length == 0) {
-                    return;
-                }
-
-                IntBuffer buf = ImageGenerator.getBufferedARGB(rows, cols, matrix, jfxGrid.getGridStyler().getColorizer());
-                PixelBuffer<IntBuffer> pixelBuffer = new PixelBuffer<>(
-                        cols, rows, buf, PixelFormat.getIntArgbPreInstance()
-                );
-
-                final WritableImage image = new WritableImage(pixelBuffer);
-
-                drawImage(image);
-                pixelBuffer.updateBuffer((val) -> null);
-            }
-
-            if(jfxGrid.getGridStyler().showLinesEnabled()) {
-                drawHorLines();
-                drawVerLines();
-            }
-        };
-
         if(isDirty) {
-            JFXProcessManager.addFXTask(renderRun);
+            //WritableImage is a JavaFX class and throws a fit when trying to make a writable image outside of the fx thread
+            //We add this whole rendering process as an JavaFX task
+            JFXProcessManager.addFXTask(renderRunnable);
             isDirty = false;
         }
     }
+
 }

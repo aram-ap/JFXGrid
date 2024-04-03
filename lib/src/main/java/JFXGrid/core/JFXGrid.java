@@ -60,9 +60,11 @@ public class JFXGrid extends GridFormatPane implements TickListener {
 
     //Responsible for specific style configurations like colors, default line sizes, chart sizes, tick marks, etc...
     private final GridStyler gridStyler;
+
     //The current dataset displayed on the grid
     private JFXDataset dataset;
 
+    //Marks whether or not the aspect ratio of the grid is free to change
     private boolean keepAspect = true;
 
     private BooleanProperty isDirty = new SimpleBooleanProperty();
@@ -73,7 +75,6 @@ public class JFXGrid extends GridFormatPane implements TickListener {
      */
     public JFXGrid() {
         //Calls the GridFormatPane class and initializes it with this as its center node
-//        init(this);
         TickListener.init(this);
 
         getStyleClass().add("jfx-grid");
@@ -82,6 +83,7 @@ public class JFXGrid extends GridFormatPane implements TickListener {
         gridRenderer = new GridRenderer(this);
         gridRenderer.render();
 
+        //For simplicity sake, we pre-initialize the axes
         var xAxis = new Axis(Axis.Align.Up);
         var yAxis = new Axis(Axis.Align.Left);
         var zAxis = new JFXColorBar(this, Axis.Align.Right);
@@ -90,6 +92,9 @@ public class JFXGrid extends GridFormatPane implements TickListener {
         gridInstances.add(this);
 
         arrange();
+
+        //We add this as insurance that the clock is turned on.
+        // JFXClock is a singleton, so it doesn't matter if multiple JFXGrid objects are created.
         JFXClock.get().start();
     }
 
@@ -101,6 +106,10 @@ public class JFXGrid extends GridFormatPane implements TickListener {
         this.dataset = newDataset;
     }
 
+    /**
+     * Returns the current Dataset being used
+     * @return
+     */
     public JFXDataset getData() {
         return dataset;
     }
@@ -168,28 +177,40 @@ public class JFXGrid extends GridFormatPane implements TickListener {
         return canvas;
     }
 
-    public GridStyler getGridStyler() {
+    /**
+     * Gets the GridStyler associated with this grid. Use this to access cosmetic changes.
+     * @return
+     */
+    public GridStyler getStylizer() {
         return gridStyler;
     }
 
-    public Optional<WritableImage> getImageOptional() {
-
-        return Optional.empty();
-    }
-
+    /**
+     * @param aspect True ensures the length:width ratio won't change. False enables free moving/stretching.
+     */
     public void setKeepAspect(boolean aspect) {
         this.keepAspect = true;
         setDirty();
     }
 
+    /**
+     * @return True if aspect ratio is locked, False if not.
+     */
     public boolean getKeepAspect() {
         return keepAspect;
     }
 
+    /**
+     * Gets the current FPS count located in the renderer.
+     * @return
+     */
     public float getRendererFPS() {
         return gridRenderer.getFPS();
     }
 
+    /**
+     * Arranges the axes and grid into their respective locations.
+     */
     private void arrange() {
         addNode(canvas, Axis.Align.Center);
         for(Axis axis : axes) {
@@ -198,6 +219,9 @@ public class JFXGrid extends GridFormatPane implements TickListener {
         setDirty();
     }
 
+    /**
+     * Queues the grid and axes for a new update
+     */
     private void setDirty() {
         gridRenderer.setDirty(true);
         for(Axis axis : axes) {
@@ -207,7 +231,6 @@ public class JFXGrid extends GridFormatPane implements TickListener {
 
     /**
      * Called at each render cycle.
-     *
      * @param clock the JFXClock calling the tick
      */
     @Override
@@ -215,11 +238,18 @@ public class JFXGrid extends GridFormatPane implements TickListener {
         gridRenderer.render();
     }
 
+    /**
+     * Called at a fixed rate given by the JFXClock. Defaults to 100 hz
+     * @param clock
+     */
     @Override
     public void updateFixed(JFXClock clock) {
         checkForResize();
     }
 
+    /**
+     * Used for resizing the grid and axes when the overall shape of the JFXGrid changes.
+     */
     private void checkForResize() {
         var newWidth = this.getWidth();
         var newHeight = this.getHeight();
@@ -235,6 +265,9 @@ public class JFXGrid extends GridFormatPane implements TickListener {
         }
     }
 
+    /**
+     * Shuts down all running background processes.
+     */
     public static void shutdown() {
         JFXClock.get().setRunning(false);
         JFXProcessManager.end();

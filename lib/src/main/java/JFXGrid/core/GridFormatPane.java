@@ -4,7 +4,7 @@ import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 
 /**
- * This class is utilized by the JFXGrid, it arranges the grid and axis accordingly.
+ * This class is utilized by the JFXGrid, it is a 3x3 grid and arranges the grid and axis accordingly.
  *
  * @author aram-ap
  */
@@ -12,6 +12,11 @@ public abstract class GridFormatPane extends GridPane {
 
     protected GridFormatPane() {  }
 
+    /**
+     * Adds a node to a specific grid location depending on the node's alignment
+     * @param node Node to be added to the grid
+     * @param alignment Alignment on the 3x3 grid
+     */
     public void addNode(Node node, Axis.Align alignment) {
         if(node == null) {
             return;

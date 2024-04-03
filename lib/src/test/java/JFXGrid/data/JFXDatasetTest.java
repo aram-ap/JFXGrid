@@ -4,10 +4,35 @@ import org.junit.jupiter.api.Test;
 import org.ojalgo.matrix.MatrixR032;
 import org.ojalgo.random.Uniform;
 
+import java.util.Random;
+
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class JFXDatasetTest {
+
+    @Test
+    void add2DMatrix() {
+        int rows = 32, cols = 32;
+        double[][] arr = new double[rows][cols];
+        double[] arr1D = new double[rows * cols];
+
+        JFXDatasetFactory dataset = new JFXDatasetFactory(rows, cols);
+        Random rand = new Random();
+
+        for(int y = 0; y < rows; y++) {
+            for(int x = 0; x < cols; x++) {
+                double randVal = rand.nextDouble();
+                arr[y][x] = randVal;
+                arr1D[y * rows + x] = randVal;
+            }
+        }
+
+
+        dataset.add2D(arr);
+        JFXDataset data = dataset.build();
+        assertArrayEquals(arr1D, data.get());
+    }
 
     @Test
     void size() {

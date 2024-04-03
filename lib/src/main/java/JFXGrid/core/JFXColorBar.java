@@ -42,7 +42,7 @@ public class JFXColorBar extends Axis {
     public void update() {
         super.update();
 
-        var stylizer = grid.getGridStyler();
+        var stylizer = grid.getStylizer();
         if(style != stylizer.getStyle()) {
             style = stylizer.getStyle();
             updateGradient();

@@ -29,8 +29,8 @@ package JFXGrid.data;
 public class JFXDataset implements Data {
     private DataChunk currentChunk;
     private int numFrames;
-    private int numRows;
-    private int numColumns;
+    private final int numRows;
+    private final int numColumns;
 
     /**
      * default constructor for JFXDataset

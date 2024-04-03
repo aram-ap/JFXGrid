@@ -196,6 +196,10 @@ public class DataChunk implements Data {
         if(isEmpty()) {
             return null;
         }
+
+        if(currentFrame < 0)
+            currentFrame = 0;
+
         return frames[currentFrame];
     }
 
