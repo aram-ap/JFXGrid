@@ -20,8 +20,7 @@ While developing an application for processing and visualizing LiDAR sensor info
 - Libraries like [ChartFX](https://github.com/fair-acc/chart-fx) are beautiful with many features. However, its heatmap implementation didn't offer what I needed for my use case.
 - Issues rendering with speeds > 30fps (it is designed for 25fps so totally within spec).
 - Issues visually, such as refusing to display pixels as squares (this was so frustrating I decided to make this).
-- After utilizing [OjAlgo](https://www.ojalgo.org), one of the fastest linear algebra/matrix operations library available on java, its speed and memory optimizations with matrices made it incredibly appealing, so I implemented it into this library with success.
-  - A caveat to this: 2D Double arrays only have partial support in this, will be gaining more in the future.
+- When doing matrix mathematics I typically utilize OjAlgo matrices, so I implemented features to use it with ease.
 
 >#### Note:
 >- [ChartFX](https://github.com/fair-acc/chart-fx/) is an amazing library with lots of functionality and performance, and I would recommend it over this in most other circumstances.
@@ -75,7 +74,7 @@ The basics (32 x 32 grid):
 ```
 Adding data (based on previous example):
 ```
-  //This library relies on the high speed performance of Oj-Algo, but has simple double[][] functionality as well.
+  //OjAlgo's matrices are used in this as an alternative to using double[][] arrays. Regular double[][] arrays are the standard though. 
   MatrixR032 testMatrix = MatrixR032.FACTORY.makeFilled(32, 32, Uniform.standard());
   
   //Here we initialize the factory which builds our datasets with 32 rows, 32 columns
