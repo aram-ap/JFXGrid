@@ -21,7 +21,7 @@
 //SOFTWARE.
 package JFXGrid.plugin;
 
-import JFXGrid.core.JFXHeatmap;
+import JFXGrid.core.JFXGrid;
 import JFXGrid.events.JFXClock;
 import JFXGrid.events.TickListener;
 
@@ -35,13 +35,13 @@ public class Zoomer implements Plugin{
 
     /**
      * This initializes all plugin internals and adds the plugin's grid parent object.
-     * The parent object is necessary when attaching a plugin to a JFXHeatmap, this is automatically called
-     * when adding a plugin into a JFXHeatmap object
+     * The parent object is necessary when attaching a plugin to a JFXGrid, this is automatically called
+     * when adding a plugin into a JFXGrid object
      *
      * @param grid Grid to attach plugin into
      */
     @Override
-    public void init(JFXHeatmap grid) {
+    public void init(JFXGrid grid) {
         TickListener.init(this);
     }
 

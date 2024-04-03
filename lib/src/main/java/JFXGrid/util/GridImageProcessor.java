@@ -21,16 +21,13 @@
 //SOFTWARE.
 package JFXGrid.util;
 
-import JFXGrid.core.JFXHeatmap;
+import JFXGrid.core.JFXGrid;
 import JFXGrid.events.JFXProcessManager;
-import JFXGrid.util.ImageGenerator;
 import javafx.scene.image.PixelBuffer;
 import javafx.scene.image.PixelFormat;
 import javafx.scene.image.WritableImage;
 
 import java.nio.IntBuffer;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 /**
@@ -40,10 +37,10 @@ import java.util.concurrent.Future;
  */
 public class GridImageProcessor {
     private WritableImage image;
-    private JFXHeatmap grid;
+    private JFXGrid grid;
     private double width, height;
 
-    public GridImageProcessor(JFXHeatmap grid, int width, int height) {
+    public GridImageProcessor(JFXGrid grid, int width, int height) {
         this.grid = grid;
         this.width = width;
         this.height = height;
@@ -62,7 +59,7 @@ public class GridImageProcessor {
      */
     public void getFutureImage() {
         final Future<IntBuffer> futureBuffer = ImageGenerator.getBufferedARGBFuture(
-                width, height, grid.getDataset().get(), grid.getGridStyler().getColorizer());
+                width, height, grid.getData().get(), grid.getGridStyler().getColorizer());
 
         try {
             IntBuffer buffer = futureBuffer.get();

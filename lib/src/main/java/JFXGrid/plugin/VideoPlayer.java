@@ -22,20 +22,20 @@
 package JFXGrid.plugin;
 
 import JFXGrid.events.JFXClock;
-import JFXGrid.core.JFXHeatmap;
+import JFXGrid.core.JFXGrid;
 import JFXGrid.events.TickListener;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * GridPlayer is an essential tool that provides video playback capabilities.
+ * VideoPlayer is an essential tool that provides video playback capabilities.
  * It manages updates, framerates, and data handling.
  * @author aram-ap
  */
-public class GridPlayer implements Plugin{
+public class VideoPlayer implements Plugin{
     private final Map<String, String> properties = new HashMap<>();
-    private JFXHeatmap grid;
+    private JFXGrid grid;
     private final JFXClock clock = new JFXClock();
     private boolean isPlaying = false;
     private long framenum;
@@ -48,17 +48,17 @@ public class GridPlayer implements Plugin{
 
     /**
      * This initializes all plugin internals and adds the plugin's grid parent object.
-     * The parent object is necessary when attaching a plugin to a JFXHeatmap, this is automatically called
-     * when adding a plugin into a JFXHeatmap object
+     * The parent object is necessary when attaching a plugin to a JFXGrid, this is automatically called
+     * when adding a plugin into a JFXGrid object
      *
      * @param grid Grid to attach plugin into
      */
     @Override
-    public void init(JFXHeatmap grid) {
+    public void init(JFXGrid grid) {
         this.grid = grid;
 
         TickListener.init(this);
-        properties.put("plugin", GridPlayer.class.getName());
+        properties.put("plugin", VideoPlayer.class.getName());
         updateProperties();
     }
 
@@ -99,6 +99,7 @@ public class GridPlayer implements Plugin{
      * Iterates through frames according to playback speed.
      */
     public void play() {
+        JFXClock.get(); //We use this to ensure that the clock is ticking while we play frames.
         isPlaying = true;
     }
 
@@ -113,24 +114,24 @@ public class GridPlayer implements Plugin{
      * Increases frame number by one
      */
     public void increment() {
-        if(grid == null || grid.getDataset() == null) {
+        if(grid == null || grid.getData() == null) {
             return;
         }
 
-        grid.getDataset().stepForward();
-        framenum = grid.getDataset().getFrameNum();
+        grid.getData().stepForward();
+        framenum = grid.getData().getFrameNum();
     }
 
     /**
      * Decreases frame number by one
      */
     public void decrement() {
-        if(grid == null || grid.getDataset() == null) {
+        if(grid == null || grid.getData() == null) {
             return;
         }
 
-        grid.getDataset().stepBack();
-        framenum = grid.getDataset().getFrameNum();
+        grid.getData().stepBack();
+        framenum = grid.getData().getFrameNum();
     }
 
     /**
@@ -174,7 +175,7 @@ public class GridPlayer implements Plugin{
             return;
         }
 
-        var dataset = grid.getDataset();
+        var dataset = grid.getData();
         if(dataset == null) {
             return;
         }

@@ -28,7 +28,7 @@ import JFXGrid.util.ResizableCanvas;
 import javafx.scene.layout.BorderPane;
 
 /**
- * The specific Axis class added to a JFXHeatmap. Contains alignment properties, max/min values, and other stylized properties.
+ * The specific Axis class added to a JFXGrid. Contains alignment properties, max/min values, and other stylized properties.
  *
  * @author aram-ap
  */
@@ -58,7 +58,7 @@ public class Axis extends BorderPane implements TickListener {
     private double tickLabelDistance = 20;
     private boolean isSwitched = false;
     private final AxisRenderer renderer;
-    private JFXHeatmap parent;
+    private JFXGrid parent;
     private ResizableCanvas canvas;
 
     public Axis(Align alignment) {
@@ -81,7 +81,7 @@ public class Axis extends BorderPane implements TickListener {
         update();
     }
 
-    public void setParent(JFXHeatmap grid) {
+    public void setParent(JFXGrid grid) {
         if(grid == null) {
             return;
         }

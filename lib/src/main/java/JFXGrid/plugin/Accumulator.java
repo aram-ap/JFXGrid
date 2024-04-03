@@ -21,29 +21,29 @@
 //SOFTWARE.
 package JFXGrid.plugin;
 
-import JFXGrid.core.JFXHeatmap;
+import JFXGrid.core.JFXGrid;
 import JFXGrid.events.JFXClock;
 import JFXGrid.events.TickListener;
 
 import java.util.Map;
 
 /**
- * This averaging plugin essentially obtains the average over (n) amount of frames,
+ * This accumulator plugin essentially obtains the average over (n) amount of frames,
  * which replaces the regular single frame view. Mostly used when trying to observe large
  * frame caches that are generally sparse in data.
  * @author aram-ap
  */
-public class Averaging implements Plugin{
+public class Accumulator implements Plugin{
 
     /**
      * This initializes all plugin internals and adds the plugin's grid parent object.
-     * The parent object is necessary when attaching a plugin to a JFXHeatmap, this is automatically called
-     * when adding a plugin into a JFXHeatmap object
+     * The parent object is necessary when attaching a plugin to a JFXGrid, this is automatically called
+     * when adding a plugin into a JFXGrid object
      *
      * @param grid Grid to attach plugin into
      */
     @Override
-    public void init(JFXHeatmap grid) {
+    public void init(JFXGrid grid) {
         TickListener.init(this);
     }
 

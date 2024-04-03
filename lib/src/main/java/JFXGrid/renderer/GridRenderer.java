@@ -21,20 +21,14 @@
 //SOFTWARE.
 package JFXGrid.renderer;
 
-import JFXGrid.core.JFXHeatmap;
-import JFXGrid.data.JFXDataset;
-import JFXGrid.data.JFXDatasetFactory;
+import JFXGrid.core.JFXGrid;
 import JFXGrid.events.JFXProcessManager;
-import JFXGrid.plugin.Plugin;
-import JFXGrid.util.Colorizer;
 import JFXGrid.util.ImageGenerator;
 import JFXGrid.util.ResizableCanvas;
-import javafx.application.Platform;
 import javafx.scene.image.PixelBuffer;
 import javafx.scene.image.PixelFormat;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
-import org.apache.commons.lang3.ArrayUtils;
 import org.ojalgo.matrix.MatrixR032;
 
 import java.nio.IntBuffer;
@@ -47,7 +41,7 @@ import java.nio.IntBuffer;
  * @author Aram Aprahamian
  */
 public class GridRenderer implements Renderer {
-    private final JFXHeatmap jfxGrid;
+    private final JFXGrid jfxGrid;
 
     //This is utilized to prevent over processing, this class will only render if there was something that changed requiring an render.
     protected boolean isDirty = true;
@@ -56,7 +50,7 @@ public class GridRenderer implements Renderer {
     private long lastFrameDelta = 0;
 
 
-    public GridRenderer(final JFXHeatmap jfxGrid) {
+    public GridRenderer(final JFXGrid jfxGrid) {
         this.jfxGrid = jfxGrid;
     }
 
@@ -69,7 +63,7 @@ public class GridRenderer implements Renderer {
      */
     protected void drawHorLines() {
         int rows;
-        var dataset = jfxGrid.getDataset();
+        var dataset = jfxGrid.getData();
         if(dataset == null) {
             rows = 1;
         } else {
@@ -93,7 +87,7 @@ public class GridRenderer implements Renderer {
      */
     protected void drawVerLines() {
         int cols;
-        var dataset = jfxGrid.getDataset();
+        var dataset = jfxGrid.getData();
         if(dataset == null) {
             cols = 1;
         } else {
@@ -170,10 +164,10 @@ public class GridRenderer implements Renderer {
                 drawImage(finalImage);
             } else {
                 MatrixR032 matrix;
-                if(jfxGrid.getDataset() == null) {
+                if(jfxGrid.getData() == null) {
                     matrix = MatrixR032.FACTORY.make(32, 32);
                 } else {
-                    matrix = jfxGrid.getDataset().get();
+                    matrix = jfxGrid.getData().get();
                 }
                 IntBuffer buf = ImageGenerator.getBufferedARGB(matrix.getColDim(), matrix.getRowDim(), matrix, jfxGrid.getGridStyler().getColorizer());
                 PixelBuffer<IntBuffer> pixelBuffer = new PixelBuffer<>(

@@ -24,8 +24,6 @@ package JFXGrid.events;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import JFXGrid.core.JFXHeatmap;
-
 /**
  * This class manages updates. It includes features like setting an FPS Cap, getting delta time in MS and Nano,
  * and will automatically render every JFX Grid given to it.

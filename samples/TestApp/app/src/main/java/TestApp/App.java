@@ -3,10 +3,10 @@
  */
 package TestApp;
 import JFXGrid.core.Axis;
-import JFXGrid.core.JFXHeatmap;
+import JFXGrid.core.JFXGrid;
 import JFXGrid.data.JFXDatasetFactory;
 import JFXGrid.events.JFXClock;
-import JFXGrid.plugin.GridPlayer;
+import JFXGrid.plugin.VideoPlayer;
 import JFXGrid.util.Style;
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -29,8 +29,8 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        var heatmap = new JFXHeatmap();
-        var player = new GridPlayer();
+        var heatmap = new JFXGrid();
+        var player = new VideoPlayer();
 
         heatmap.addPlugin(player);
         heatmap.getGridStyler().setStyle(Style.DUOTONE);
@@ -42,11 +42,12 @@ public class App extends Application {
         for(int i = 0; i < 1000; i++) {
             dataFactory.add(MatrixR032.FACTORY.makeFilled(128, 128, Uniform.standard()));
         }
-        heatmap.setDataset(dataFactory.build());
+        heatmap.setData(dataFactory.build());
 
-        JFXClock.get().setFpsCap(600);
+
+        JFXClock.get().setFpsCap(100);
         JFXClock.get().addFixedTickListener(() -> {
-            if(heatmap.getDataset().getFrameNum()%7 == 0) {
+            if(heatmap.getData().getFrameNum()%7 == 0) {
                 System.out.println("FPS: " + heatmap.getRendererFPS());
             }
         });

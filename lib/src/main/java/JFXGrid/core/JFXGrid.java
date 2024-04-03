@@ -27,28 +27,21 @@ import JFXGrid.events.TickListener;
 import JFXGrid.plugin.Plugin;
 import JFXGrid.renderer.GridRenderer;
 import JFXGrid.util.GridStyler;
-import JFXGrid.util.ImageGenerator;
 import JFXGrid.util.ResizableCanvas;
-import javafx.application.Application;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.image.WritableImage;
-import javafx.scene.layout.Pane;
 
-import java.lang.ref.Cleaner;
-import java.lang.ref.PhantomReference;
-import java.lang.ref.Reference;
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Optional;
 
 /**
- * The JFXHeatmap is the javafx-compatible chart/imaging object, designed for high-performance
+ * The JFXGrid is the javafx-compatible chart/imaging object, designed for high-performance
  * heatmap image viewing, primarily for video-playback purposes of raw sensor data output.
  *
  * @author Aram Aprahamian (Github: @aram-ap)
  */
-public class JFXHeatmap extends GridFormatPane implements TickListener {
+public class JFXGrid extends GridFormatPane implements TickListener {
     //The canvas for which the grid will be displayed on
     private final ResizableCanvas canvas;
 
@@ -71,10 +64,10 @@ public class JFXHeatmap extends GridFormatPane implements TickListener {
     private BooleanProperty isDirty = new SimpleBooleanProperty();
 
     /**
-     * Default constructor for JFXHeatmap class.
+     * Default constructor for JFXGrid class.
      * Adds the "jfx-grid" css style class.
      */
-    public JFXHeatmap() {
+    public JFXGrid() {
         //Calls the GridFormatPane class and initializes it with this as its center node
 //        init(this);
         TickListener.init(this);
@@ -92,11 +85,11 @@ public class JFXHeatmap extends GridFormatPane implements TickListener {
      * Sets the specific dataset used in this grid
      * @param newDataset The dataset, created by JFXDatasetFactory, to add to this grid
      */
-    public void setDataset(JFXDataset newDataset) {
+    public void setData(JFXDataset newDataset) {
         this.dataset = newDataset;
     }
 
-    public JFXDataset getDataset() {
+    public JFXDataset getData() {
         return dataset;
     }
 

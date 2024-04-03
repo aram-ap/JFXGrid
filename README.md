@@ -43,7 +43,7 @@ dependencies {
 
 ### How does it work?
 - **Primary:**
-  - `JFXHeatmap` is the default Node which contains X/Y axis, data label, mouse pointer tools, and the heatmap image itself.
+  - `JFXGrid` is the default Node which contains X/Y axis, data label, mouse pointer tools, and the heatmap image itself.
   - `Plugin` objects are plug-in utilities that enable other functionality such as exporting data, zooming in and out, getting mouse cursor location and associated values, averaging multiple frames together, and playing the frames in video playback.
   - `Renderer` handles drawing onto displayed elements. It is split up two primary renderers: AxisRenderer and GridRenderer.
   - `Style` is where we bring in the specific color gradients used in visualizations.
@@ -60,34 +60,56 @@ dependencies {
   - `TickListener` is an interface utilized by the JFXHeatmap and plugins for timing purposes. It keeps separate timer thread which calls at each frame cycle. It also contains a fixed update call that maintains constant timing which is especially helpful for data playback at a specific framerate.
   - `JFXProcessManager` is the background process manager which synchronizes all background worker thread runnables used in JFXGrid.
 - **Plugins:**
-  - `GridPlayer` is the primary plugin that allows for playing frames in video-format. It handles frame iteration, timing, pausing, and playing.
+  - `VideoPlayer` is the primary plugin that allows for playing frames in video-format. It handles frame iteration, timing, pausing, and playing.
   - `Zoomer` allows instantaneous resizing of the grid.
   - `Exporter` handles file output and screenshots
   - `Marquee` is a tool used for zooming into specific points and disabling specific elements
   - `MouseInput` is a plugin built into many plugins that allow mouse inputs to cause actions
-  - `Averaging` is an image processing tool which takes multiple frames and averages them into a single frame. Best used when you're dealing with sparse matrices.
+  - `Accumulator` is an image processing tool which takes multiple frames and averages them into a single frame. Best used when you're dealing with sparse matrices.
 
 ### Code Examples (still IN-DEV, so these are mostly non-functional (for now)):
 The basics (32 x 32 grid): 
 ```
-  Pane root = new Pane();
   JFXGrid grid = new JFXGrid(32, 32); //The central JFXGrid javafx node
-  root.getChildren().add(grid);
+  Pane root = new Pane(grid);
 ```
 Adding data (based on previous example):
 ```
   //This library relies on the high speed performance of Oj-Algo, but has simple double[][] functionality as well.
-  MatrixR032 testMatrix = MatrixR032.FACTORY.makeFilled(32, 32, RANDOM);
-  DataChunk chunk = new DataChunk();
-  chunk.add(testMatrix);
-
-  //We add the 0 as the dataset placeholder for its unique id.
-  //This is primarily used when utilizing the JFXDataDeque with many other datasets for sorting purposes.
-  JFXDataset data = new JFXDatasetFactory(0).add(chunk);
+  MatrixR032 testMatrix = MatrixR032.FACTORY.makeFilled(32, 32, Uniform.standard());
+  
+  //Here we initialize the factory which builds our datasets with 32 rows, 32 columns
+  JFXDatasetFactory dataFactory = new JFXDatasetFactory(32, 32); 
+  dataFactory.add(testMatrix);
+  
+  //Call the .build() method after you have added all the data you want.
+  grid.setData(dataFactory.build()); 
 ```
 
 Stylizer - turning the grid black and white (based on previous examples):
 ```
   GridStylizer style = grid.getStylizer();
-  style.setStyle(Style.MONOCHROME);
+  style.setStyle(Style.DUOTONE);
+```
+Plugins - adding video playback functionality:
+```
+  //Here we initialize the video player plugin
+  int rows = 32, cols = 32;
+  VideoPlayer player = new VideoPlayer();
+  
+  //All you have to do is add the plugin into the JFXGrid. Simple :)
+  grid.addPlugin(player); 
+  
+  //The clock automatically defaults to 100 FPS, but setting this here allows you to change video playback to whatever frame rate you want.
+  JFXClock.get().setFpsCap(100);
+  
+  //Here we make 1000 matrix frames all randomized. 
+  JFXDatasetFactory videoFactory = new JFXDatasetFactory(rows, cols);
+  for(int i = 0; i < 1000; i++) {
+    videoFactory.add(MatrixR032.FACTORY.makeFilled(rows, cols, Uniform.standard())); 
+  }
+  grid.setData(videoFactory.build());
+  
+  //Starts the video player.
+  player.play();
 ```
