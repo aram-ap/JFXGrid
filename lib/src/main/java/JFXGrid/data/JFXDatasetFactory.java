@@ -24,6 +24,7 @@ package JFXGrid.data;
 import org.ojalgo.matrix.MatrixR032;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 
 /**
@@ -53,6 +54,7 @@ public class JFXDatasetFactory extends JFXDataset {
         if(matrix != null) {
             add(matrix.toRawCopy1D());
         }
+
         return this;
     }
 
@@ -102,10 +104,7 @@ public class JFXDatasetFactory extends JFXDataset {
             return this;
         }
 
-        int length = matrices.length;
-        for(int i = 0; i<length; i++) {
-            frames.add(matrices[i]);
-        }
+        frames.addAll(Arrays.asList(matrices));
 
         return this;
     }
@@ -115,7 +114,7 @@ public class JFXDatasetFactory extends JFXDataset {
             return this;
         }
 
-        for(var matrix :matrices) {
+        for(var matrix : matrices) {
             frames.add(matrix.toRawCopy1D());
         }
 

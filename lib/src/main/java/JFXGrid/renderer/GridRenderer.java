@@ -116,9 +116,6 @@ public class GridRenderer implements Renderer {
         getCanvas().getGraphicsContext2D().setImageSmoothing(false);
         getCanvas().getGraphicsContext2D().drawImage(image, 0, 0, getCanvas().getWidth(), getCanvas().getHeight());
 
-        var timeNano = System.nanoTime();
-        lastFrameDelta = timeNano-lastFrameNano;
-        lastFrameNano = timeNano;
     }
 
     /**
@@ -179,13 +176,17 @@ public class GridRenderer implements Renderer {
             final WritableImage image = new WritableImage(pixelBuffer);
 
             drawImage(image);
-            pixelBuffer.updateBuffer((val) -> null);
+//            pixelBuffer.updateBuffer((val) -> null);
         }
 
         if(jfxGrid.getStylizer().showLinesEnabled()) {
             drawHorLines();
             drawVerLines();
         }
+
+        var timeNano = System.nanoTime();
+        lastFrameDelta = timeNano-lastFrameNano;
+        lastFrameNano = timeNano;
     };
 
     /**

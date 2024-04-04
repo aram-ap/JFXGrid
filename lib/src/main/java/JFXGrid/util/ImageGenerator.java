@@ -53,9 +53,9 @@ public abstract class ImageGenerator {
         final IntBuffer buffer = IntBuffer.allocate(rows * cols);
         final int[] pixels = buffer.array();
 
-        for(int y=0; y<rows; y++) {
-            for(int x=0; x<cols; x++) {
-                double val = matrix[x * (rows) + y];
+        for(int y = 0; y < rows; y++) {
+            for(int x = 0; x < cols; x++) {
+                double val = matrix[x * rows + y];
                 pixels[(y * cols) + (x % cols)] = theme.getNearestARGBColor(val);
             }
         }

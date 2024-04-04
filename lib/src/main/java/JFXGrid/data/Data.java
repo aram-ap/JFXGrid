@@ -47,7 +47,7 @@ public interface Data {
      * Gets the current matrix
      * @return MatrixR032, null if empty
      */
-    public double[]get();
+    public double[] get();
 
     /**
      * Gets the size of the data set
