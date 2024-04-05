@@ -24,8 +24,8 @@ While developing an application for processing and visualizing LiDAR sensor info
 
 >#### Note:
 >- [ChartFX](https://github.com/fair-acc/chart-fx/) is an amazing library with lots of functionality and performance, and I would recommend it over this in most other circumstances.
->- There are some similarities with this library and ChartFX. I took inspiration for general structures and design patterns like separate data classes, data factories, and renderers. However, nearly all the code within this library is self-written.
->- This is currently in development while I port the code over from the application I originally made.
+>- There are some similarities with this library and ChartFX. I took inspiration for some software architecture and design patterns like data factories, usage plugins, and renderers. However, nearly all the code within this library is self-written.
+>- This is currently in development while I port the code over from the private application I originally made.
 >- Going through this code, you're going to find areas where I haven't commented, likely some bugs, and some messy areas. I'm continuously growing this, so if you have any suggestions or have any questions, feel free to contact me or add a pull request!
 
 ---
